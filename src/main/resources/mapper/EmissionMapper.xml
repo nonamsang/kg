@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fintecho.littleforest.mapper.EmissionMapper">
+
+  <!-- 연도별 월 합계 -->
+	<select id="getMonthlyEmissions" resultType="com.fintecho.littleforest.vo.EmissionMonthlyVO">
+	  SELECT
+	    EXTRACT(MONTH FROM emission_date) AS month,
+	    SUM(emission) AS kg
+	  FROM emission_table
+	  WHERE user_id = #{user_Id}
+	    AND EXTRACT(YEAR FROM emission_date) = #{year}
+	  GROUP BY EXTRACT(MONTH FROM emission_date)
+	  ORDER BY month
+	</select>
+
+  <!-- 특정 연/월 총합 -->
+	<select id="getMonthlyTotal" resultType="int">
+	  SELECT NVL(SUM(emission), 0)
+	  FROM emission_table
+	  WHERE user_id = #{user_Id}
+	    AND EXTRACT(YEAR FROM emission_date)  = #{year}
+	    AND EXTRACT(MONTH FROM emission_date) = #{month}
+	</select>
+
+</mapper>

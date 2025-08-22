@@ -1,0 +1,66 @@
+@charset "UTF-8";
+
+.wrap {
+  max-width: 960px;
+  margin: 24px auto;
+}
+
+.card {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #eee;
+  padding: 8px;
+  text-align: left;
+}
+
+.muted {
+  color: #777;
+  font-size: 0.9rem;
+}
+
+.error {
+  color: #c00;
+  font-weight: 600;
+}
+
+.ok {
+  color: #0a7;
+  font-weight: 600;
+}
+
+input[type=text],
+input[type=password],
+select {
+  width: 100%;
+  padding: 8px;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.btn {
+  padding: 10px 16px;
+  border: 1px solid #333;
+  background: #fafafa;
+  cursor: pointer;
+  border-radius: 8px;
+}

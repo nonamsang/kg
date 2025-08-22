@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fintecho.littleforest.mapper.UserMapper">
+
+<select id="getinfrom" resultType="com.fintecho.littleforest.vo.UserVO">
+select * from user_table where id=#{user_Id}
+</select>
+
+<update id="updatepoint" parameterType="com.fintecho.littleforest.vo.UserVO">
+update user_table set point=point - #{totalprice} where id=#{user_Id}
+</update>
+<update id="update_100" parameterType="UserVO">
+update user_table set point=point-100 where id=#{user_Id}
+</update>
+
+
+
+<!-- 로그인 -->
+<!-- <select id="login" resultType="com.fintecho.littleforest.user.UserVO">
+select nickname, password
+from user_table
+where nickname = #{nickname}
+and password = #{password}
+</select> -->
+
+<select id="findByOauthID" resultType="com.fintecho.littleforest.vo.UserVO" parameterType="string">
+  SELECT * FROM user_table WHERE oauth_id = #{oauth_id}
+</select>
+
+
+  <!-- 회원가입 -->
+<insert id="insertUser" parameterType="com.fintecho.littleforest.vo.UserVO">
+  INSERT INTO user_table (
+    id, oauth_id, password, name, phone, birth, role, badge, created_at,
+    address, nickname, point, profile_photo, email
+  ) VALUES (
+    user_seq.NEXTVAL,
+    #{oauth_Id},
+    #{password},
+    #{name},
+    #{phone},
+    #{birth},
+    #{role},
+    #{badge,jdbcType=VARCHAR},
+    SYSDATE,
+    #{address},
+    #{nickname},
+    #{point},
+    #{profile_Photo,jdbcType=VARCHAR},
+    #{email}
+  )
+</insert>
+
+<select id="checkOauthIdDupl" parameterType="string" resultType="int">
+  SELECT COUNT(*)
+  FROM user_table
+  WHERE oauth_id = #{oauth_id}
+</select>
+
+<select id="checkEmailDupl" parameterType="string" resultType="int">
+	SELECT COUNT(*) 
+    FROM user_table
+    WHERE email = #{email}
+</select>
+
+
+
+
+<select id="getInfo" resultType="com.fintecho.littleforest.vo.UserVO">
+    SELECT *
+    FROM user_table 
+    WHERE id = #{id}
+  </select>
+        
+   <!-- 동시성제어 - 포인트 현재값 (잠금) -->
+  <select id="selectPointForUpdate" resultType="int">
+    SELECT point
+    FROM user_table
+    WHERE id = #{id}
+    FOR UPDATE
+    <!-- DB가 MySQL이라도 InnoDB + 트랜잭션이면 FOR UPDATE 가능.
+        트랜잭션 종료(커밋/롤백) 때까지 다른 트랜잭션의 수정/잠금을 막아줍니다. -->
+  </select>
+
+  <!-- 원자성 보장 - 조건부 차감
+  포인트를 차감하되, 현재 point가 amount 이상일 때만 차감 -->
+  <update id="deductPoint">
+    UPDATE user_table
+       SET point = point - #{amount}
+     WHERE id = #{id}
+       AND point >= #{amount}
+  </update>
+  
+<!--   증가(addPoint) 충전/이벤트/선물 -->
+  <update id="addPoint">
+  UPDATE user_table
+     SET point = point + #{amount}
+   WHERE id = #{id}
+</update>
+
+</mapper>

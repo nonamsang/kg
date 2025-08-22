@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Little Forest</title>
+	<meta name="google-signin-client_id"
+		content="500391187336-3qurkv759q281l37us952apo9tu7vhim.apps.googleusercontent.com">
+	<link rel="stylesheet" href="/css/loginpagestyle.css">
+</head>
+
+<body>
+	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+	<script src="../js/login.js">
+
+	</script>
+
+	<!-- //c2a49ae7428eee2fc07b7fb509ae845a -->
+	<div class="login-container">
+		<h2>LOGIN</h2>
+		<p class="subtitle">기존 계정으로 간단하게 로그인하세요 !</p>
+		<form action="/login" method="post">
+			<input type="text" name="oauth_id" placeholder="아이디을 입력하세요" required />
+			<input type="password" name="password" placeholder="비밀번호" required />
+			<div th:if="${errorMsg}" th:text="${errorMsg}" class="error-message"></div>
+			<button type="submit">로그인</button>
+		</form>
+
+		<!-- 구분선 -->
+		<div style="margin: 25px 0; border-top: 1px solid #ccc;"></div>
+
+
+		<a href="javascript:kakaoLogin();" class="btn kakao" style="margin-top: 12px;"> <img src="/image/kakaotalk.png"
+				alt="카카오 로그인" style="width: 20px; height: 20px;"> 카카오로 로그인
+		</a>
+		<!-- 		<a class="btn kakao" href="/oauth2/authorization/kakao" style="margin-top: 12px;">
+					<img src="/image/kakaotalk.png" alt="카카오 로그인" style="width:20px;height:20px;">
+					카카오로 로그인
+				</a> -->
+
+
+		<!-- 홈으로 가기 -->
+		<a href="/" class="btn home" style="color: white;">
+			<img src="/image/home.png" alt="홈" style="width: 20px; height: 20px;">
+			홈으로 가기
+		</a>
+
+		<!-- 회원가입 -->
+		<div class="signup-section">
+			<div class="signup-divider">
+				<span>아직 회원이 아니신가요?</span>
+			</div>
+			<a href="/join" class="signup-button">회원가입 하러 가기</a>
+		</div>
+	</div>
+</body>
+
+</html>

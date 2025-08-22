@@ -1,0 +1,140 @@
+@charset "UTF-8";
+	
+/* 전체 배경 설정 */
+/* body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-image: url('/image/forest5.jpg'); 배경 이미지 경로
+  background-size: cover; 화면에 꽉 차게
+  background-position: center; 가운데 정렬
+  background-repeat: no-repeat; 반복 없음
+ */   /* display: flex; */
+/*   justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;  */
+/* } */
+	
+	.mypage-container {
+	  width: 100%;
+	  max-width: 500px;
+	  margin: 0 auto;
+	  background: #fff;
+	  border: 1px solid #ccc;
+	  padding: 1rem;
+	  font-family: 'Arial';
+	}
+	
+	.profile-box {
+	  display: flex;
+	  align-items: center;
+	  border-bottom: 1px solid #ddd;
+	  padding-bottom: 1rem;
+	}
+	
+	.profile-img {
+	  width: 60px;
+	  height: 60px;
+	  border-radius: 50%;
+	  margin-right: 1rem;
+	}
+	
+	.profile-info strong {
+	  font-size: 1.2rem;
+	}
+	
+	.sub {
+	  font-size: 0.9rem;
+	  color: gray;
+	}
+	
+	.status-box {
+	  display: flex;
+	  justify-content: space-around;
+	  padding: 1rem 0;
+	  border-bottom: 1px solid #ddd;
+	}
+	
+	.status-box div {
+	  text-align: center;
+	}
+	
+	.status-box i {
+	  display: block;
+	  font-size: 1.5rem;
+	  color: green;
+	  margin-bottom: 0.5rem;
+	}
+	
+	.banner img {
+	  width: 100%;
+	  margin: 1rem 0;
+	}
+	
+	.menu {
+	  list-style: none;
+	  padding: 0;
+	}
+	
+	.menu li {
+	  border-top: 1px solid #eee;
+	}
+	
+	.menu li a {
+	  display: flex;
+	  justify-content: space-between;
+	  padding: 1rem 0;
+	  text-decoration: none;
+	  color: black;
+	}
+	
+	
+/* 	반딧불 효과 */
+body,
+html {
+  margin: 0px;
+  padding: 0px;
+  /* position: fixed; */ /* 스크롤막힘 원인 */
+  /* background-image: url('https://external-preview.redd.it/Tf2MC-orVRAI8OL5tjyF4k4H2Q6QLHTWllekGfqdt3c.png?width=960&crop=smart&auto=webp&s=be4ab9a2fa3ca2f7011799377f118a8dbc64aacb');
+ */  
+ background-image:
+    linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),  /* 어둡게: 0.25~0.5 사이로 조절 */
+    url('/image/forest5.jpg');
+ background-size: cover;
+ /* 추가 */
+ background-position: center;
+ background-repeat: no-repeat;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0; 
+/*   min-height: 100vh; */
+}
+canvas{
+  filter: blur(1px);
+}
+
+#canvas {
+  position: fixed;
+  inset: 0;           /* top:0; right:0; bottom:0; left:0 */
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;         /* 맨 뒤 */
+  pointer-events: none; /* 클릭 이벤트 통과 */
+  filter: blur(1px);
+}
+
+.mypage-container {
+  position: relative;
+  z-index: 1;         /* 캔버스 위 */
+  width: 100%;
+  max-width: 400px;
+  margin: 24px auto;
+  background: rgba(255,255,255,0.9); /* 배경 살짝 불투명 */
+  border: 1px solid #ccc;
+  padding: 1rem;
+  font-family: Arial, sans-serif;
+}
+
+/* 헤더가 있으면 필요시 */
+header, .header, .site-header { position: relative; z-index: 2; }
+

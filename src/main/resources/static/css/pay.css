@@ -1,0 +1,730 @@
+@charset "UTF-8";
+
+/* 레이아웃 */
+.pay-page {
+	max-width: 1000px;
+	margin: 32px auto 80px;
+	padding: 0 16px;
+}
+
+.pay-tabs {
+	display: flex;
+	gap: 24px;
+	border-bottom: 1px solid #eee;
+	margin-bottom: 16px;
+}
+
+.pay-tabs a {
+	padding: 10px 2px;
+	color: #666;
+	font-weight: 700;
+	text-decoration: none;
+	position: relative;
+}
+
+.pay-tabs a.active {
+	color: #2e7d32;
+}
+
+.pay-tabs a.active::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: -1px;
+	height: 3px;
+	background: #2e7d32;
+}
+
+.pay-grid {
+	display: grid;
+	grid-template-columns: 1fr 360px;
+	gap: 24px;
+}
+
+/* 본문 공통 */
+.section-title {
+	font-size: 22px;
+	margin: 6px 0 12px;
+}
+
+.section-sub {
+	font-size: 16px;
+	color: #555;
+	margin: 18px 0 8px;
+}
+
+.empty {
+	padding: 24px;
+	color: #777;
+	border: 1px dashed #ddd;
+	border-radius: 10px;
+}
+
+/* 결제내역 카드 */
+.history-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.history-card {
+	display: flex;
+	justify-content: space-between;
+	gap: 16px;
+	border: 1px solid #eee;
+	border-radius: 10px;
+	padding: 14px 16px;
+	background: #fff;
+}
+
+.hc-title {
+	font-weight: 800;
+}
+
+.hc-meta {
+	color: #777;
+	font-size: 13px;
+	margin-top: 6px;
+}
+
+.hc-amount {
+	font-weight: 900;
+}
+
+/* 포인트 상단 카드 */
+.easy-cards {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 12px;
+}
+
+.easy-card {
+	border: 1px solid #eee;
+	border-radius: 10px;
+	padding: 14px;
+	background: #fff;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.ec-badge {
+	font-size: 12px;
+	color: #2e7d32;
+	font-weight: 800;
+}
+
+.ec-title {
+	font-weight: 800;
+}
+
+.ec-amount {
+	color: #222;
+	font-size: 18px;
+	font-weight: 900;
+}
+
+.btn-outline {
+	border: 1px solid #dcdcdc;
+	background: #fff;
+	border-radius: 6px;
+	padding: 8px 10px;
+	cursor: pointer;
+}
+
+/* 이벤트 리스트 */
+.event-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.event-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	border: 1px solid #eee;
+	border-radius: 10px;
+	padding: 12px 14px;
+	background: #fff;
+}
+
+.ev-title {
+	font-weight: 800;
+}
+
+.ev-meta {
+	color: #2e7d32;
+	font-weight: 700;
+}
+
+/* 오른쪽 사이드 */
+.user-card {
+	border: 1px solid #e9e9e9;
+	border-radius: 12px;
+	background: #fff;
+	padding: 16px;
+	position: sticky;
+	top: 20px;
+	width: 280px;
+}
+
+.uc-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.uc-name {
+	font-weight: 900;
+}
+
+.uc-settings {
+	font-size: 13px;
+	color: #666;
+	text-decoration: none;
+}
+
+.balance-cards {
+	margin-top: 12px;
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.balance-card {
+	background: #e8f5e9;
+	border: 1px solid #cfe6d1;
+	border-radius: 12px;
+	padding: 14px;
+}
+
+.bc-title {
+	font-size: 13px;
+	color: #2e7d32;
+	font-weight: 700;
+}
+
+.bc-amount {
+	font-size: 24px;
+	font-weight: 900;
+	margin: 6px 0 10px;
+}
+
+.bc-actions {
+	display: flex;
+	gap: 8px;
+}
+
+.btn-light {
+	border: 1px solid #dcdcdc;
+	background: #fff;
+	border-radius: 6px;
+	padding: 8px 10px;
+	cursor: pointer;
+}
+
+.btn-green {
+	border: 0;
+	background: #35a845;
+	color: #fff;
+	border-radius: 8px;
+	padding: 10px 14px;
+	font-weight: 800;
+	cursor: pointer;
+}
+
+/* 모달 */
+.modal {
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, .45);
+	display: none;
+	align-items: center;
+	justify-content: center;
+	z-index: 1000;
+}
+
+.modal.show {
+	display: flex;
+}
+
+.modal-dialog {
+	width: min(420px, 92vw);
+	background: #fff;
+	border-radius: 12px;
+	overflow: hidden;
+}
+
+.modal-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 12px 16px;
+	border-bottom: 1px solid #eee;
+}
+
+.modal-close {
+	width: 32px;
+	height: 32px;
+	border: 0;
+	background: #f0f0f0;
+	border-radius: 50%;
+	cursor: pointer;
+}
+
+.modal-body {
+	padding: 16px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.form-row {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.form-row input {
+	height: 42px;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	padding: 0 12px;
+}
+
+/* 반응형 */
+@media ( max-width : 980px) {
+	.pay-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* =========================
+   공통: 모달 오버레이/다이얼로그
+   ========================= */
+.donate-modal, .modal {
+	position: fixed;
+	inset: 0;
+	display: none; /* 기본은 숨김 */
+	align-items: center;
+	justify-content: center;
+	background: rgba(0, 0, 0, .45); /* 어두운 배경 */
+	z-index: 10000;
+}
+
+/* JS에서 .show 클래스를 쓰거나, aria-hidden="false" 를 쓰면 노출 */
+.donate-modal.show, .modal.show, .donate-modal[aria-hidden="false"],
+	.modal[aria-hidden="false"] {
+	display: flex;
+}
+
+.donate-dialog, .modal-dialog {
+	width: min(880px, 92vw);
+	max-height: 86vh;
+	overflow: auto;
+	background: #fff;
+	border-radius: 16px;
+	box-shadow: 0 20px 50px rgba(0, 0, 0, .25);
+}
+
+/* =========================
+   상단 영역(헤더/탭/닫기)
+   ========================= */
+.donate-header, .modal-header {
+	position: sticky;
+	top: 0;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	padding: 16px 20px;
+	border-bottom: 1px solid #eef1f3;
+	background: #fff;
+	z-index: 1;
+}
+
+.donate-tabs {
+	display: flex;
+	gap: 8px;
+}
+
+.donate-tab {
+	font-size: 14px;
+	padding: 8px 12px;
+	border-radius: 999px;
+	border: 1px solid #d8e2dc;
+	background: #f7faf9;
+	color: #455a64;
+	cursor: default;
+}
+
+.donate-tab.active {
+	background: #e8f5e9;
+	border-color: #a5d6a7;
+	color: #1b5e20;
+}
+
+.donate-close, .modal-close {
+	font-size: 28px;
+	line-height: 1;
+	border: 0;
+	background: transparent;
+	color: #607d8b;
+	cursor: pointer;
+}
+
+.donate-close:hover, .modal-close:hover {
+	color: #263238;
+}
+
+/* =========================
+   본문 레이아웃/타이포
+   ========================= */
+.donate-body, .modal-body {
+	padding: 24px 28px;
+}
+
+.donate-quote {
+	font-size: 22px;
+	line-height: 1.35;
+	font-weight: 800;
+	text-align: center;
+	margin: 8px 0 4px;
+}
+
+.donate-sub {
+	text-align: center;
+	color: #6b7280;
+	margin-bottom: 20px;
+}
+
+.donate-grid {
+	display: grid;
+	grid-template-columns: 1fr 320px;
+	gap: 24px;
+	align-items: start;
+}
+
+@media ( max-width : 900px) {
+	.donate-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* =========================
+   금액 입력/퀵버튼/결제수단
+   ========================= */
+.amount-row label {
+	font-weight: 700;
+	font-size: 16px;
+	color: #111827;
+	display: block;
+	margin-bottom: 8px;
+}
+
+.amount-input-wrap {
+	position: relative;
+}
+
+.amount-input-wrap input {
+	width: 100%;
+	padding: 18px 54px 18px 16px;
+	border: 2px solid #e5e7eb;
+	border-radius: 12px;
+	font-size: 20px;
+	font-weight: 800;
+	outline: none;
+}
+
+.amount-input-wrap input:focus {
+	border-color: #10b981;
+	box-shadow: 0 0 0 4px rgba(16, 185, 129, .1);
+}
+
+.amount-input-wrap .unit {
+	position: absolute;
+	right: 14px;
+	top: 50%;
+	transform: translateY(-50%);
+	color: #6b7280;
+	font-weight: 700;
+}
+
+.help {
+	font-size: 12px;
+	color: #6b7280;
+	margin-top: 8px;
+}
+
+.quick-buttons {
+	margin-top: 12px;
+	display: flex;
+	gap: 8px;
+	flex-wrap: wrap;
+}
+
+.quick-buttons button {
+	padding: 8px 12px;
+	border-radius: 10px;
+	border: 1px solid #d1d5db;
+	background: #fff;
+	cursor: pointer;
+}
+
+.quick-buttons button:hover {
+	border-color: #10b981;
+	color: #059669;
+}
+
+.method-row {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-top: 16px;
+}
+
+.method-label {
+	font-size: 14px;
+	color: #6b7280;
+}
+
+#chargeModal .method-pill {
+	background: #FEE500; /* 카카오 옐로우 */
+	color: #191919; /* 가독성 좋은 진회색 */
+	border: 1px solid #e1c900; /* 살짝 어두운 테두리로 또렷하게 */
+	padding: 6px 12px;
+	border-radius: 999px;
+	font-weight: 700;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, .05); /* 아주 얕은 입체감 */
+}
+
+.point-balance {
+	margin-left: auto;
+	font-weight: 700;
+	color: #111827;
+}
+
+/* =========================
+   우측 안내/동의/버튼
+   ========================= */
+.donate-right .notice-box {
+	padding: 14px;
+	border: 1px dashed #cbd5e1;
+	border-radius: 12px;
+	background: #f8fafc;
+}
+
+.donate-right .notice-box .title {
+	font-weight: 800;
+	margin-bottom: 6px;
+}
+
+.donate-right .notice-box .desc {
+	font-size: 14px;
+	color: #4b5563;
+}
+
+.org-box {
+	margin-top: 12px;
+}
+
+.checkbox {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	margin-bottom: 8px;
+	font-size: 14px;
+	color: #374151;
+}
+
+.checkbox input {
+	width: 18px;
+	height: 18px;
+}
+
+/* =========================
+   버튼(물결 효과 포함)
+   ========================= */
+.donate-btn {
+	position: relative;
+	width: 100%;
+	margin-top: 12px;
+	padding: 14px 16px;
+	border-radius: 12px;
+	border: 0;
+	background: #22c55e; /* 초록 */
+	color: #fff;
+	font-weight: 800;
+	font-size: 18px;
+	cursor: pointer;
+}
+
+.donate-btn:hover {
+	filter: brightness(0.95);
+}
+
+.donate-btn:disabled {
+	background: #9ca3af;
+	cursor: not-allowed;
+}
+
+.donate-btn--wave .wave {
+	position: absolute;
+	inset: 0;
+	border-radius: inherit;
+	overflow: hidden;
+	pointer-events: none;
+}
+
+.donate-btn--wave .wave::after {
+	content: '';
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%) scale(0);
+	width: 120%;
+	height: 120%;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, .25);
+	animation: wave .6s ease-out forwards;
+	opacity: 0;
+}
+
+keyframes wave {to { transform:translate(-50%, -50%)scale(1);
+	opacity: 1;
+}
+
+}
+
+/* =========================
+   선물 모달(간단 폼)
+   ========================= */
+.form-row {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	margin-bottom: 12px;
+}
+
+.form-row input {
+	padding: 10px 12px;
+	border-radius: 10px;
+	border: 1px solid #d1d5db;
+}
+
+/* ====== [충전 모달 전용 튜닝] ====== */
+
+/* 스크립트가 style="display:block"로 여는 경우에도 중앙 정렬되도록 강제 */
+.donate-modal[style*="display: block"] {
+	display: flex !important; /* overlay 자체를 flex로 만들어 중앙정렬 */
+	align-items: center;
+	justify-content: center;
+	padding: 32px 16px; /* 작은 화면에서 가장자리 여백 */
+}
+
+/* 가로보다 세로가 더 긴 비율 + 정확히 화면 중앙 배치 */
+#chargeModal .donate-dialog {
+	width: 450px; /* 360px를 기본으로, 화면이 작으면 92vw까지 줄어듦 */
+	min-height: 72vh; /* 세로가 더 길게 */
+	max-height: 86vh; /* 화면 넘치면 내부 스크롤 */
+	display: flex;
+	flex-direction: column;
+}
+
+/* 헤더 아래 영역은 자동으로 스크롤 가능 */
+#chargeModal .donate-body {
+	overflow: auto;
+}
+
+/* 충전 모달은 한 열 레이아웃(왼/오른쪽 스택) → 세로 길이 확보 */
+#chargeModal .donate-grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 22px;
+}
+
+/* 입력창*/
+#chargeModal .amount-input-wrap {
+	max-width: 300px; /* 필요하면 300~360 사이로 조절 */
+}
+
+#chargeModal .amount-row {
+	display: grid;
+	justify-items: start; /* 라벨/입력 좌측 정렬 */
+	row-gap: 8px;
+}
+
+#chargeModal .quick-buttons {
+	max-width: 340px;
+}
+
+/* 결제수단 pill과 도움말 간격 정리 */
+#chargeModal .method-row {
+	margin-top: 10px;
+}
+
+/* 모달의 제목/부제도 폭에 맞춰 줄바꿈 여유 */
+#chargeModal .donate-quote {
+	font-size: 20px;
+	margin-top: 6px;
+}
+
+#chargeModal .donate-sub {
+	margin-bottom: 10px;
+}
+
+/* ====== 3D 충전 버튼 ====== */
+#chargeModal .donate-btn {
+	/* 단색(원하시면 색만 바꾸세요) */
+	background: #22c55e;
+	border: 0;
+	border-radius: 14px;
+	width: 100%;
+	padding: 16px 18px;
+	color: #fff;
+	font-size: 18px;
+	font-weight: 900;
+	position: relative;
+	cursor: pointer;
+	/* 3D 효과 */
+	box-shadow: 0 10px 0 #15834a, /* 아래 엣지(진한 초록) */
+    0 18px 24px rgba(0, 0, 0, .18); /* 외곽 그림자 */
+	transform: translateY(0);
+	transition: transform .06s ease, box-shadow .06s ease;
+}
+
+/* hover: 살짝 떠오르는 느낌 */
+#chargeModal .donate-btn:hover {
+	transform: translateY(-1px);
+	box-shadow: 0 11px 0 #15834a, 0 22px 28px rgba(0, 0, 0, .20);
+}
+
+/* active: 눌렸을 때 아래로 내려가며 엣지 축소 */
+#chargeModal .donate-btn:active {
+	transform: translateY(6px);
+	box-shadow: 0 4px 0 #15834a, 0 12px 16px rgba(0, 0, 0, .16);
+}
+
+/* 물결 이펙트가 버튼 위에 잘 보이도록 */
+#chargeModal .donate-btn .wave {
+	z-index: 0;
+}
+
+#chargeModal .donate-btn .label {
+	position: relative;
+	z-index: 1;
+}
+
+/* ====== 기타: 모달 자체 중앙고정 보강 ====== */
+.donate-modal, .modal {
+	align-items: center; /* 혹시 기본 규칙이 덮였을 경우 대비 */
+	justify-content: center;
+}

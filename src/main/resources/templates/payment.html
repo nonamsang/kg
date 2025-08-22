@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Little Forest</title>
+  	<link rel="stylesheet" href="/css/payment.css">
+  	<link rel="stylesheet" href="/css/style.css"> <!-- 공통 header/footer용 -->
+	<link rel="stylesheet" href="/css/wallet.css"> <!-- wallet.css -->
+  
+</head>
+<body class="page-payment">
+
+<!-- 공통 header 삽입 -->
+  <div th:replace="fragments/header :: header"></div>
+  
+  
+  <div class="receipt">
+    <div class="receipt-header">
+      <div class="receipt-logo-box">
+        <img src="/image/logo.png" alt="로고" class="receipt-logo">        
+        <span class="receipt-brand">LITTLE FOREST</span>
+      </div>
+      <div class="user-nickname" th:text="'[' + ${userInfo.nickname} + ']'">[NICKNAME]</div>
+     <div class="date-time">
+	  <span
+	    th:with="
+	      now=${T(java.time.ZonedDateTime).now(T(java.time.ZoneId).of('Asia/Seoul'))},
+	      fmt=${T(java.time.format.DateTimeFormatter)
+	              .ofPattern('EEE yyyy-MM-dd hh:mma')
+	              .withLocale(T(java.util.Locale).ENGLISH)}
+	    "
+	    th:text="${#strings.toUpperCase(now.format(fmt))}">
+	  </span>
+	</div>
+</div>
+
+    <div class="receipt-body">
+      <table>
+        <thead>
+          <tr>
+            <th>날짜</th>
+            <th>구분</th>
+            <th>금액</th>
+            <th>내역</th>
+            <th>은행</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="p : ${paymentList}">
+            <td th:text="${#dates.format(p.tran_At, 'yyyy-MM-dd')}"></td>
+            <td th:text="${p.type == 'withdrawal' ? '지출' : '수입'}"></td>
+            <td th:text="${#numbers.formatInteger(p.amount, 1, 'COMMA')}"></td>
+            <td th:text="${p.description}"></td>
+            <td th:text="${p.bank_Name}"></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="summary">
+        <p class="total">TOTAL : <span th:text="${#numbers.formatInteger(totalBalance, 1, 'COMMA')}">1,146,000,000</span></p>
+        <p class="green-point">GREEN POINT <span>50,000</span></p>
+      </div>
+    </div>
+  </div>
+  
+      
+<!-- 공통 footer 삽입 -->
+  <div th:replace="fragments/footer :: footer"></div>
+  
+  
+</body>
+</html>

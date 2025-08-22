@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>결제내역 / 포인트</title>
+  
+  <link rel="stylesheet" href="/css/style.css"><!-- 공통 --> 
+  <link rel="stylesheet" href="/css/donate-cta.css">  <!-- 버튼 스타일 -->
+  <link rel="stylesheet" href="/css/pay.css"><!-- 이 페이지 전용 -->
+ <link rel="stylesheet" href="/css/donate.css">      <!-- 기부 모달 스타일 -->
+ 
+  <!-- 포트원(Iamport) JS 카카오페이 결제창 호출용 -->
+  <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+</head>
+<body>
+
+<!-- ⬇️ confetti 라이브러리 로드 -->
+  <script src="/js/confetti.min.js"></script>
+
+<!-- 공통 header -->
+<div th:replace="fragments/header :: header"></div>
+
+<div class="pay-page">
+  <!-- 탭 -->
+  <div class="pay-tabs">
+    <a th:classappend="${tab}=='history' ? ' active'" th:href="@{/pay(tab='pointlist')}">포인트내역</a>
+    <a th:classappend="${tab}=='points' ? ' active'"  th:href="@{/pay(tab='points')}">이벤트</a>
+  </div>
+
+  <div class="pay-grid">
+    <!-- 왼쪽 -->
+    <main class="pay-main">
+      <!-- ============ 포인트내역 탭 ============ -->
+      <section th:if="${tab}=='pointlist'">
+        <h2 class="section-title">포인트내역</h2>
+
+        <!-- 데이터 없을 때 -->
+        <div class="empty" th:if="${#lists.isEmpty(pointList)}">결제 내역이 없어요.</div>
+
+        <!-- 포인트 리스트 -->
+        <ul class="history-list" th:if="${!#lists.isEmpty(pointList)}">
+          <li class="history-card" th:each="point : ${pointList}">
+            <div class="hc-left">
+             <div class="hc-title" th:text="${point.memo}">메모/코드</div>
+              <div class="hc-meta">
+                <span th:text="${point.type}">deposit</span>
+                <span>·</span>
+                <span th:text="${#dates.format(point.created_At, 'yyyy.MM.dd')}">2025.01.01</span>
+              </div>
+            </div>
+           <div class="hc-right">
+	        <!-- 금액: + / - 표기 -->
+	        <div class="hc-amount"
+	             th:text="${(point.amount >= 0 ? '+' : '-') 
+	                      + #numbers.formatInteger(T(java.lang.Math).abs(point.amount), 3, 'COMMA')} + '포인트'">
+	          +1,000포인트
+	          </div>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- ============ 포인트 탭 ============ -->
+      <section th:if="${tab}=='points'">
+        <h2 class="section-title">포인트 쉽게 받기</h2>
+
+        <!-- 상단 카드 3개 (버튼만 동작. 광고 연동은 추후) -->
+        <div class="easy-cards">
+          <div class="easy-card">
+            <div class="ec-badge">이벤트</div>
+            <div class="ec-title">자동차보험 확인하면</div>
+            <div class="ec-amount">7천원</div>
+            <button type="button" class="btn-outline" disabled>혜택보기</button>
+          </div>
+
+          <div class="easy-card">
+            <div class="ec-badge">이벤트</div>
+            <div class="ec-title">전고객 최소 2만원 쿠폰</div>
+            <div class="ec-amount">2만원+</div>
+            <button type="button" class="btn-outline" disabled>혜택보기</button>
+          </div>
+
+          <div class="easy-card">
+            <div class="ec-badge">이벤트</div>
+            <div class="ec-title">무료 지원 이벤트</div>
+            <div class="ec-amount">33P</div>
+            <button type="button" class="btn-outline" disabled>혜택보기</button>
+          </div>
+        </div>
+
+		<!-- 오늘의 생활실천팁 -->
+        <h3 class="section-sub"> 클릭하면 바로 적립</h3>
+        <ul class="event-list">
+          <!-- 클릭 즉시 포인트 적립: 서버에 POST -->
+          <li class="event-row">
+            <div>
+              <div class="ev-title">오늘의 생활실천팁 보고</div>
+              <div class="ev-meta">15P 받기</div>
+            </div>
+            <button type="button" class="btn-green" onclick="openTipModal()">포인트 받기</button>
+			</li>		
+		<!-- 그린커뮤니티 방문 -->
+          <li class="event-row">
+            <div>
+              <div class="ev-title">그린커뮤니티 방문하고</div>
+              <div class="ev-meta">5P 받기</div>
+            </div>
+             <!-- code 라는 이름으로 보냄 -->
+		    <button type="button" class="btn-green"
+		            onclick="claimAndGo('COMMUNITY', 5, '커뮤니티 방문', '/community')">
+		      포인트 받기
+		    </button>         
+    		 </li>
+    		 <!-- 현장결제 추가 적립 -->
+          <li class="event-row">
+            <div>
+              <div class="ev-title">현장결제하고</div>
+              <div class="ev-meta">추가 포인트 받기</div>
+            </div>
+		    <button type="button" class="btn-green"
+		            onclick="claimDaily('OFFLINE_BONUS', 30, '현장결제 추가적립')">
+		      포인트 받기
+		    </button>
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <!-- 오른쪽 사이드: 유저 카드(항상 동일) -->
+    <aside class="pay-side">
+      <div class="user-card">
+        <div class="uc-header">
+          <div class="uc-name" th:text="${userInfo.name}">이름</div>
+          <a href="/mypage" class="uc-settings">마이페이지</a>
+        </div>
+
+        <div class="balance-cards">        		
+          <div class="balance-card">
+            <div class="bc-title">LF 포인트</div>
+            <div class="bc-amount" id="pointBalance"
+                 th:text="${#numbers.formatInteger(userInfo.point, 3, 'COMMA')} + '포인트'">0포인트</div>
+            <div class="bc-actions">
+              <button type="button" class="btn-light" id="btnCharge">충전</button>
+              <button type="button" class="btn-light" id="btnGiftOpen">포인트 선물</button>
+              <button type="button" class="btn-light" disabled>송금</button>
+            </div>
+          </div>
+        </div>
+        	<!-- =======기부하기 버튼 ======= -->
+		 <div class="donate-cta-wrap">
+		  <button type="button" id="openDonateModalPay" class="donate-cta btn-jittery"
+		          aria-label="기부 모달 열기">기부하기</button>
+		 </div>		 
+      </div>
+    </aside>
+  </div>
+</div>
+
+<!-- 충전 모달 -->
+<div id="chargeModal" class="donate-modal" aria-hidden="true" style="display:none">
+  <div class="donate-dialog" role="dialog" aria-modal="true" aria-labelledby="chargeTitle">
+    <div class="donate-header">
+      <div class="donate-tabs">
+        <button class="donate-tab active">카카오페이 충전</button>
+      </div>
+      <button type="button" class="donate-close" id="closeChargeModal" aria-label="닫기">×</button>
+    </div>
+
+    <div class="donate-body">
+       <h2 id="chargeTitle" class="donate-quote">
+        “포인트 충전, 더 많은 혜택이 시작됩니다.” 
+      </h2>
+      <p class="donate-sub">결제 성공 시 포인트가 즉시 적립됩니다.</p>
+
+      <div class="donate-grid">
+        <!-- 금액 입력 영역 -->
+        <div class="donate-left">
+          <div class="amount-row">
+            <label for="chargeAmount">충전할 금액</label>
+            <div class="amount-input-wrap">
+              <input id="chargeAmount" type="number" inputmode="numeric" min="1000" step="100"
+                     placeholder="금액을 입력하세요(원)" aria-describedby="chargeAmountHelp">
+              <span class="unit">원</span>
+            </div>
+            <div id="chargeAmountHelp" class="help">＊금액을 입력한 후 <b>충전하기</b>를 눌러주세요.</div>
+
+            <div class="quick-buttons">
+              <!-- 필요에 따라 금액 수정(예: 5천/1만/2만/3만) -->
+              <button type="button" data-amt="5000">5천원</button>
+              <button type="button" data-amt="10000">1만원</button>
+              <button type="button" data-amt="20000">2만원</button>
+              <button type="button" data-amt="30000">3만원</button>
+            </div>
+          </div>
+
+          <div class="method-row">
+            <span class="method-label">결제 수단</span>
+            <div class="method-pill">카카오페이</div>
+          </div>
+        </div>
+
+        <!-- 안내/확인 + 제출 -->
+        <aside class="donate-right">
+
+          <div class="org-box">
+            <label class="checkbox">
+              <input type="checkbox" id="agreeCharge" checked>
+              <span>결제조건 확인 및 개인정보 제공에 동의합니다.</span>
+            </label>
+          </div>
+
+          <button type="button" id="btnChargeConfirm" class="donate-btn donate-btn--wave">
+            <span class="wave" aria-hidden="true"></span>
+            <span class="label">충전하기</span>
+          </button>
+        </aside>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 선물 모달 -->
+<div id="giftModal" class="modal" aria-hidden="true">
+  <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="giftTitle">
+    <div class="modal-header">
+      <h3 id="giftTitle">포인트 선물하기</h3>
+      <button type="button" class="modal-close" id="giftClose">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <label>받는 사람 아이디</label>
+        <input type="number" id="giftTo" min=1 placeholder="예) 2">
+      </div>
+      <div class="form-row">
+        <label>보낼 포인트(원)</label>
+        <input type="number" id="giftAmount" min="500" step="100" placeholder="500">
+      </div>
+      <div class="form-row">
+        <label>메모(선택)</label>
+        <input type="text" id="giftMemo" maxlength="50">
+      </div>
+      <button type="button" class="btn-green" id="btnGiftSubmit">보내기</button>
+    </div>
+  </div>
+</div>
+
+	<!-- 오늘의 생활실천팁 모달 -->
+	<div id="tipModal" class="modal" aria-hidden="true">
+	  <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="tipTitle">
+	    <div class="modal-header">
+	      <h3 id="tipTitle">오늘의 생활실천팁</h3>
+	      <button type="button" class="modal-close" id="tipClose">×</button>
+	    </div>
+	    <div class="modal-body">
+	      <p id="tipText" style="line-height:1.6; margin-bottom:16px;">
+	        <!-- 자바스크립트로 오늘의 팁이 들어옵니다 -->
+	      </p>
+	      <button type="button" class="btn-green" id="btnTipGet">이 팁으로 15P 받기</button>
+	    </div>
+	  </div>
+	</div>
+
+<!-- <div th:replace="fragments/donateModal :: donateModal"></div> -->
+<div th:replace="~{fragments/donateModal :: donateModal(pointBalance=${userInfo.point})}"></div>
+
+<!-- 공통 footer -->
+<div th:replace="fragments/footer :: footer"></div>
+
+<script th:inline="javascript">
+
+const MERCHANT_CODE = /*[[${merchantCode}]]*/ '';
+const LOGIN_USER_ID  = /*[[${userInfo.id}]]*/ null;
+/*
+  const MERCHANT_CODE = '[[${merchantCode}]]'; // application.yml에서 주입
+  const LOGIN_USER_ID = [[${userInfo.id}]];    // 현재 로그인(임시 testUserId) 
+*/
+
+/* 포트원 초기화 + 포인트 적립/선물/충전 모달 제어 */
+
+// 오늘의 팁 목록 (원하는 만큼 추가 가능)
+const DAILY_TIPS = [
+  '플라스틱 빨대 대신 텀블러 뚜껑을 사용해요.',
+  '세탁은 모아서 “냉수·절전 코스”로 돌려요.',
+  '엘리베이터 한 번 대신 계단 한 층 오르기!',
+  '양치할 때 컵 사용으로 물 절약하기.',
+  '장 보러 갈 땐 장바구니 필수!',
+  '대중교통/도보로 이동 거리를 한 번 바꿔보기.',
+  '콘센트 대기전력 멀티탭으로 한번에 OFF.',
+  '샤워 시간을 1분만 줄여도 큰 절약!',
+  '전자영수증 설정으로 종이 영수증 줄이기.',
+  '배달 일회용품 “수저·젓가락 받지 않기” 체크.',
+  '불필요한 이메일 구독 해지(서버 전력↓).',
+  '쓰레기 분리수거, 라벨/이물질 제거까지!',
+  '재활용 가능한 유리·캔은 꼭 분리 배출.',
+  '냉장고 문 여닫는 횟수 줄이기.',
+  '충전 100% 후 충전기 뽑아 대기전력 줄이기.',
+  '종이 대신 메모 앱/클라우드 사용해보기.',
+  '가까운 거리는 자전거! 건강도 UP.',
+  '택배 박스는 테이프 제거 후 접어서 배출.',
+  '의류 기부/리사이클 수거함 활용하기.',
+  '버리는 음식 줄이기: 소분·밀프rep 시도!'
+];
+// ============================이벤트관련=======================================
+//오늘 날짜로 팁 선택
+function pickDailyTip() {
+  const now = new Date();
+  const start = new Date(now.getFullYear(), 0, 0);
+  const dayOfYear = Math.floor((now - start) / 86400000);
+  return DAILY_TIPS[dayOfYear % DAILY_TIPS.length];
+}
+
+// 모달 열기/닫기
+const tipModal  = document.getElementById('tipModal');
+const tipClose  = document.getElementById('tipClose');
+const tipTextEl = document.getElementById('tipText');
+const btnTipGet = document.getElementById('btnTipGet');
+
+function openTipModal() {
+  tipTextEl.textContent = pickDailyTip();
+  tipModal.classList.add('show');
+}
+
+tipClose?.addEventListener('click', () => tipModal.classList.remove('show'));
+tipModal?.addEventListener('click', (e) => { if (e.target === tipModal) tipModal.classList.remove('show'); });
+
+// “이 팁으로 15P 받기” (하루 1회 제한)
+ btnTipGet?.addEventListener('click', async () => {
+  await claimDaily('DAILY_TIP', 15, '오늘의 생활실천팁');
+  tipModal.classList.remove('show');
+});
+
+(function () {
+  // ================================== 선물 모달 =====================================
+  const modal = document.getElementById('giftModal');
+  const openBtn = document.getElementById('btnGiftOpen');
+  const closeBtn = document.getElementById('giftClose');
+  const submitBtn = document.getElementById('btnGiftSubmit');
+
+  openBtn?.addEventListener('click', () => modal.classList.add('show'));
+  closeBtn?.addEventListener('click', () => modal.classList.remove('show'));
+  modal?.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('show'); });
+
+  submitBtn?.addEventListener('click', async () => {
+    const to = Number(document.getElementById('giftTo').value || 0);
+    const amount = Number(document.getElementById('giftAmount').value || 0);
+    const memo = document.getElementById('giftMemo').value || '';
+
+    if (!to || amount < 1) { alert('user_id와 보낼 금액을 확인해 주세요.'); return; }
+
+    try {
+      const res = await fetch('/points/gift', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ to_user_id: to, amount, memo })
+      });
+      const text = await res.text();
+      if (!res.ok) throw new Error(text || '선물 실패');
+
+      // 성공 시 내 포인트 표시 갱신
+      const cur = document.getElementById('pointBalance');
+      const newVal = Number(text); // 서버에서 새 잔액을 숫자로 반환
+      cur.textContent = newVal.toLocaleString() + '포인트';
+      alert('포인트를 선물했습니다!');
+      modal.classList.remove('show');
+    } catch (e) {
+      alert(e.message);
+    }
+  });
+
+//=========================== 즉시 적립(이벤트) ==========================
+  // 하루 1회 적립 호출 (서버 409 또는 문자열 응답 모두 처리)
+async function claimDaily(code, amount, memo) {
+  try {
+    const res  = await fetch('/points/event/daily', {
+      method: 'POST',
+      headers: {'Content-Type':'application/x-www-form-urlencoded'},
+      body: new URLSearchParams({
+        code,                          // 파라미터 이름은 code
+        ...(amount ? { amount } : {}), // 서버가 기본값 주면 생략 가능
+        memo: memo || ''
+      })
+    });
+
+    const text = await res.text();
+
+    // 이미 수령한 경우: 409 (권장) 또는 문자열 응답도 대비
+    if (res.status === 409 || text === 'ALREADY_CLAIMED' || text === 'ALREADY_TODAY') {
+      alert('오늘은 이미 받았습니다!');
+      return;
+    }
+    if (!res.ok) {
+      alert(text || '적립 실패');
+      return;
+    }
+
+    const newBal = Number(text);
+    const el = document.getElementById('pointBalance');
+    if (el) el.textContent = newBal.toLocaleString() + '포인트';
+
+    try { confetti && confetti(); } catch(_) {}
+    alert('적립 완료!');
+  } catch (e) {
+    alert(e.message || '적립 실패');
+  }
+}
+
+// 방문하면서 적립(하루 1회) + 이동
+function claimAndGo(code, amount, memo, url) {
+  const params = new URLSearchParams({
+    code,
+    ...(amount ? { amount } : {}),
+    memo: memo || ''
+  });
+
+  if (navigator.sendBeacon) {
+    const blob = new Blob([params], { type: 'application/x-www-form-urlencoded;charset=UTF-8' });
+    navigator.sendBeacon('/points/event/daily', blob);
+    window.location.href = url;
+  } else {
+    fetch('/points/event/daily', {
+      method: 'POST',
+      headers: {'Content-Type':'application/x-www-form-urlencoded'},
+      body: params,
+      keepalive: true
+    }).finally(() => window.location.href = url);
+  }
+}
+
+// 전역 노출 (onclick에서 쓸 수 있게)
+window.claimDaily  = claimDaily;
+window.claimAndGo  = claimAndGo;
+
+
+// ============ 포트원(카카오페이) 충전 ============
+  // 서버에서 Thymeleaf로 MERCHANT_CODE 넘겨줌
+  (function () {
+	  const MIN_CHARGE = 1000; // 필요 시 5000으로 변경
+
+	  // 모달 엘리먼트
+	  const modal = document.getElementById('chargeModal');
+	  const openBtn = document.getElementById('btnCharge');          // 우측 카드의 "충전" 버튼
+	  const closeBtn = document.getElementById('closeChargeModal');
+	  const confirmBtn = document.getElementById('btnChargeConfirm');
+	  const amountInput = document.getElementById('chargeAmount');
+
+	  // 열기/닫기
+	  openBtn?.addEventListener('click', () => {
+	    modal.style.display = 'block';
+	    modal.setAttribute('aria-hidden', 'false');
+	    amountInput.focus();
+	  });
+	  const closeModal = () => {
+	    modal.style.display = 'none';
+	    modal.setAttribute('aria-hidden', 'true');
+	    amountInput.value = '';
+	  };
+	  closeBtn?.addEventListener('click', closeModal);
+	  modal?.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+	  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.style.display === 'block') closeModal(); });
+
+	  // 빠른 금액 버튼
+	  document.querySelectorAll('#chargeModal .quick-buttons button').forEach(b => {
+	    b.addEventListener('click', () => amountInput.value = b.dataset.amt);
+	  });
+
+	  // 충전하기 → 카카오페이 결제창
+	  confirmBtn?.addEventListener('click', async () => {
+	    const amount = parseInt(amountInput.value || '0', 10);
+	    if (Number.isNaN(amount) || amount < MIN_CHARGE) {
+	      alert(`${MIN_CHARGE.toLocaleString()}포인트 이상부터 충전할 수 있습니다.`);
+	      amountInput.focus();
+	      return;
+	    }
+	    if (!document.getElementById('agreeCharge').checked) {
+	      alert('결제에 동의해 주세요.');
+	      return;
+	    }
+
+	    const merchantUid = 'point_charge_' + Date.now();
+
+	    // 카카오페이 결제창 호출
+	    const IMP = window.IMP;
+	    try { IMP?.init?.(MERCHANT_CODE); } catch(_) {}
+	    IMP.request_pay({
+	      pg: 'kakaopay',
+	      pay_method: 'card',
+	      merchant_uid: merchantUid,
+	      name: '포인트 충전',
+	      amount: amount
+	    }, async (rsp) => {
+	      if (!rsp.success) {
+	        alert('결제가 취소되었거나 실패했습니다.\n' + (rsp.error_msg || ''));
+	        return;
+	      }
+
+	      try {
+	        // 서버 검증 + DB 적립
+	        const res = await fetch('/points/charge/complete', {
+	          method: 'POST',
+	          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+	          body: new URLSearchParams({
+	            imp_uid: rsp.imp_uid,
+	            merchant_uid: rsp.merchant_uid,
+	            amount: String(amount)
+	          })
+	        });
+
+	        const text = await res.text();
+	        if (!res.ok) throw new Error(text || '충전 실패');
+
+	        // 잔액 갱신
+	        const newBalance = Number(text);
+	        const balEl = document.getElementById('pointBalance');
+	        if (balEl) balEl.textContent = newBalance.toLocaleString() + '원';
+
+	        closeModal();
+	        alert('충전이 완료되었습니다!');
+	      } catch (e) {
+	        alert(e.message);
+	      }
+	    });
+	  });
+	})();
+})();
+
+/* 
+IMP.request_pay 로 카카오페이 결제창을 띄움 → 성공 시 서버(/points/charge/complete)로 imp_uid 등 전달 
+→ 서버가 포트원 REST API로 결제검증 후 user_table.point 증가.
+“포인트 선물”은 간단 모달로 받는 사람 user_id와 금액만 받고 서버(/points/gift)에서 보내는 사람 차감 
++ 받는 사람 증가를 트랜잭션으로 처리.
+“포인트 받기(이벤트)”는 API /points/event로 POST → 포인트 추가.
+ */
+
+ 
+	</script>
+  </body>
+</html>

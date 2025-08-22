@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>나무 역사</title>
+</head>
+<body>
+<table border="1">
+	<tr>
+	<td>아이디</td>
+	<td>유저아이디</td>
+	<td>나무아이디</td>
+	<td>나무 완료일</td>
+	<td>마지막</td>
+	</tr>
+	<tr th:each="tree :${tree}">
+	<td th:text="${tree.id}"></td>
+	<td th:text="${tree.user_Id}"></td>
+	<td th:text="${tree.growing_Tree_Id}"></td>
+	<td th:text="${tree.complete_Tree}"></td>
+	<td th:text="${tree.ident_Tree}"></td></tr>
+	</table>
+	<a href="/">나무 다시 키우러 가기</a>
+</body>
+</html>
