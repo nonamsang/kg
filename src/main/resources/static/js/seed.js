@@ -1,4 +1,4 @@
-const seedmodal = document.getElementById("popupseed");
+/*const seedmodal = document.getElementById("popupseed");
 const seed = document.getElementById("seed"); // 씨앗 심기 버튼
 const wantseed = document.getElementById("wantseed"); // 씨앗을 심어주세요 화면
 const closebtn2 = document.querySelector("#popupseed .close");
@@ -46,3 +46,52 @@ treenamebtn.onclick = () => {
 		});
 	
 };
+*/
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+	const seedmodal = document.getElementById("popupseed");
+	const seedBtn = document.getElementById("seed");          // 씨앗 심기 버튼 (없을 수 있음)
+	const closebtn2 = document.querySelector("#popupseed .close");
+	const treenamebtn = document.getElementById("treenaming");     // 이름 확정 버튼 (없을 수 있음)
+
+	if (seedBtn && seedmodal) {
+		seedBtn.onclick = () => {
+			seedmodal.style.display = "block";
+		};
+	}
+
+	if (closebtn2 && seedmodal) {
+		closebtn2.onclick = () => {
+			seedmodal.style.display = "none";
+		};
+	}
+
+	if (treenamebtn) {
+		treenamebtn.onclick = () => {
+			let treeName = (document.getElementById("treeName")?.value || "").trim();
+			if (treeName.length < 1 || treeName.length > 5) {
+				alert("나무 이름은 1 ~ 5 자 사이로 입력해주세요.");
+				return;
+			}
+			if (!treeName.includes("나무")) treeName += "나무";
+
+			fetch('/plant', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+				body: JSON.stringify({ treeName })
+			})
+				.then(r => r.text())
+				.then(() => {
+					alert("등록 성공했습니다.");
+					if (seedmodal) seedmodal.style.display = "none";
+					location.reload();
+				})
+				.catch(err => {
+					console.error(err);
+					alert("등록 중 오류가 발생했습니다.");
+				});
+		};
+	}
+});

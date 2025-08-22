@@ -39,7 +39,7 @@ public class StockController {
     @PostMapping("/give")
     public ResponseEntity<String> give(@RequestBody GiveRequest request) {
         try {
-            int user_Id = 4; //임시
+            int user_Id = 5; //임시
             growingTreeService.updatews(user_Id);
 
             return ResponseEntity.ok("성공");
@@ -51,7 +51,7 @@ public class StockController {
 	 @PostMapping("/biyro")
 	 public ResponseEntity<String> biyro(@RequestBody BiyroRequest request){
 		 try {
-		int user_Id=4;
+		int user_Id=5;
 		growingTreeService.updatebiyro(request.getBiyro_Stock(),user_Id);
 		return ResponseEntity.ok("성공");
 		 } catch(Exception e) {

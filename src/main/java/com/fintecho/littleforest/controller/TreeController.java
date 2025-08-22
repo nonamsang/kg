@@ -109,7 +109,7 @@ public class TreeController {
 
 	@PostMapping("/plant")
 	public ResponseEntity<String> plant(Model model, HttpSession session, @RequestBody InsertRequest request) {
-		int user_Id = 4;
+		int user_Id = 5;
 		GrowingTreeVO treevo = new GrowingTreeVO();
 		treevo.setTree_Name(request.tree_Name);
 		treevo.setUser_Id(user_Id);
@@ -127,7 +127,7 @@ public class TreeController {
 
 	@PostMapping("/happen")
 	public ResponseEntity<String> happening(HttpSession session) {
-		int user_Id = 4;
+		int user_Id = 5;
 		UserVO user = userService.getinform(user_Id);
 		user.setId(user_Id);
 		int point = user.getPoint();
@@ -148,6 +148,8 @@ public class TreeController {
 	@ResponseBody
 	public ResponseEntity<List<String>> getAttendanceDates(@RequestParam("user_Id") int user_id) {
 		List<String> list = attendanceService.getAttendanceDates(user_id);
+		System.out.println("요청 들어온 user_Id = " + user_id);
+
 		return ResponseEntity.ok().header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
 				.header("Pragma", "no-cache").header("Expires", "0").body(list);
 	}

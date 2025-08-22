@@ -25,7 +25,7 @@ public class GrownTreeController {
 	
 	@GetMapping("/grown")
 	public String growntree(ArrayList<GrownTreeVO> vo,Model model, HttpSession session) {
-		int user_Id=4;
+		int user_Id=5;
 		//int userId = (Integer) session.getAttribute("userId");
 		vo=grownTreeService.grownSelect(user_Id);
 		model.addAttribute("tree", vo);

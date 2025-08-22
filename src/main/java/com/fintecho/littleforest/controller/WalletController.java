@@ -36,7 +36,7 @@ public class WalletController {
     @RequestMapping("/wallet")
     public String walletlist(HttpSession session, Model model) {
     	
-    		int testUserId =1; //db 테스트용 유저 번호 
+    		int testUserId =5; //db 테스트용 유저 번호 
     		//로그인한 사용자의 user_seq 기준으로 사용자 정보 조회
     		// int user_Id = loginUser.getUser_id();
 
@@ -84,7 +84,7 @@ public class WalletController {
 
     @RequestMapping("/payment")
     public String paymentlist(HttpSession session, Model model) {
-        int testUserId = 1;
+        int testUserId = 5;
 
         // 유저 정보
         UserVO userInfo = userService.getInfo(testUserId);

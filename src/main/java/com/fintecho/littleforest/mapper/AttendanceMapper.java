@@ -16,14 +16,14 @@ public interface AttendanceMapper {
 
 	void insertAttendance(AttendanceVO attendance);
 
-	List<String> getAttendanceDates(@Param("user_id") int user_id); 
+	List<String> getAttendanceDates(@Param("user_Id") int user_id); 
 
 	int countTodayAttendance(AttendanceVO vo);
 
-	int getTotalAttendanceCount(@Param("user_id") int user_id); 
+	int getTotalAttendanceCount(@Param("user_Id") int user_id); 
 
-	int addAttendanceRewardToInventory(@Param("user_id") int user_id, @Param("water") int water,
+	int addAttendanceRewardToInventory(@Param("user_Id") int user_id, @Param("water") int water,
 			@Param("biyro") int biyro);
 
-	Map<String, Object> selectCurrentStocks(@Param("user_id") int user_id);
+	Map<String, Object> selectCurrentStocks(@Param("user_Id") int user_id);
 }

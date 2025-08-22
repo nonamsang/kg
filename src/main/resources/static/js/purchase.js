@@ -10,7 +10,11 @@ const minus = document.getElementById("minus"); //개수 감소 버튼
 const plus = document.getElementById("plus"); //개수 증가 버튼
 const price = document.getElementById("price"); // 가격(구매가격)
 const levelif = document.getElementById("tree_Level")
-const levelint=parseInt(levelif.textContent)
+const levelint = parseInt(levelif.textContent)
+// 클릭 핸들러 내부에서
+const levelEl = document.getElementById('tree_Level') || document.getElementById('treeLevel');
+const levelInt = levelEl ? parseInt(levelEl.textContent) : 0;
+
 console.log(levelint)
 
 let sales = 500;

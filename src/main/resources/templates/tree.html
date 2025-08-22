@@ -42,7 +42,7 @@
 
 		</div>
 
-		 물 주기 애니메이션
+		물 주기 애니메이션
 		<p>레벨 <span id=tree_Level th:text="${stock.tree_Level}">0</span>
 		<div class="bamboo-bar" id="bambooBar">경험치</div>
 		</p>
@@ -72,7 +72,7 @@
 			<img src="/image/임시물.jpg" width=10px height=10px />
 		</button>
 	</div>
-	 팝업창 
+	팝업창
 	<div id="popupModal" class="modal" th:if="${iftree}">
 		<div class="modal-content">
 			<span class=close>&times;</span>
@@ -97,8 +97,9 @@
 		</div>
 	</div>
 	<div id="tree_popup" class="tree_modal">
-	<img th:src="@{${treeimage}}"></div>	
-	 나무심기 팝업창 
+		<img th:src="@{${treeimage}}">
+	</div>
+	나무심기 팝업창
 	<div id="popupseed" class="modalseed" th:unless="${iftree}">
 		<div class="modal-content">
 			<span class="close">&times;</span>
@@ -107,7 +108,7 @@
 			<button class="button" id="treenaming">이름 등록</button>
 		</div>
 	</div>
-	 레벨7달성시 뜨는 팝업창 
+	레벨7달성시 뜨는 팝업창
 	<div id="congrulationpopup" class="modal2">
 		<div class="modal-content">
 			<span class="close">&times;</span>
@@ -115,11 +116,14 @@
 			<p>나무를 다시 키우시겠습니까?</p>
 			<button class="button" id="morebtn">다시 키우기</button>
 			<button class="button" id="nobtn">거절</button>
-			<div id="popupident" style="display:none"><input type=text name=identTree id="identTree" required maxlength="5">
-		<button class="button" id="identbtn">식별자 등록</button></div></div>
+			<div id="popupident" style="display:none"><input type=text name=identTree id="identTree" required
+					maxlength="5">
+				<button class="button" id="identbtn">식별자 등록</button>
+			</div>
 		</div>
 	</div>
-	 랜덤이벤트 팝업창 
+	</div>
+	랜덤이벤트 팝업창
 	<div id="randomeventpopup" class="modal">
 		<div class="modal-content">
 			<span class="close">&times;</span>
@@ -133,7 +137,7 @@
 		</div>
 	</div>
 
-	 스크립트 
+	스크립트
 	<script src="/js/seed.js"></script>
 	<script src="/js/treesize.js"></script>
 	<script src="/js/time.js"></script>
@@ -142,17 +146,18 @@
 	<script src="/js/purchase.js"></script>
 	<script src="/js/biyrousedat.js"></script>
 	<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-		 anime.js CDN 
+	anime.js CDN
 	<script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
 	<script src="js/biyrojs.js"></script>
-	 나무 역사 
+	나무 역사
 	<script src="js/grownhistory.js"></script>
 	<script src="js/randomevent.js"></script>
-	 만렙시 축하 폭죽(팝업때문에 안뜨긴함) 
+	만렙시 축하 폭죽(팝업때문에 안뜨긴함)
 	<script src="https://cdn.jsdelivr.net/npm/party-js@latest/dist/party.min.js"></script>
 </body>
+-->
 
-</html>-->
+</html>
 
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
@@ -163,9 +168,19 @@
 	<link rel="stylesheet" th:href="@{/css/tree.css}" />
 	<link rel="stylesheet" th:href="@{/css/levelbar.css}" />
 	<link rel="stylesheet" th:href="@{/css/mainpagestyle.css}" />
+	<link rel="stylesheet" th:href="@{/css/attendance.css}">
+
+	<!-- FullCalendar (attendance 전용) -->
+	<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet" />
+	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/locales-all.global.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 </head>
 
 <body class="tree-page">
+
+	<input type="hidden" id="id" name="id" th:value="${users.id}" />
 
 	<!-- 페이지 상단 제목 -->
 	<h1 class="page-title">
@@ -182,11 +197,11 @@
 	<main class="tree-content">
 
 		<div class="side-buttons">
-			<button class="button">
+			<button class="button" onclick="openAttendanceModal()">
 				<img src="/image/check.png" alt="출석 아이콘" class="btn-icon"> 출석 체크
 			</button>
 
-			<button class="button">
+			<button class="button" onclick="openInfoModal()">
 				<img src="/image/notice.png" alt="안내사항 아이콘" class="btn-icon"> 이용 안내
 			</button>
 			<button class="button" id="community">
@@ -227,13 +242,13 @@
 
 					<div id="soil-container"
 						style="position:absolute; width:100px; height:400px; bottom:30%; overflow:hidden; pointer-events:none; background:transparent; display:none;">
-						<img class="soil" src="/image/비료.png">
+						<img class="soil" src="/image/biryo.png">
 					</div>
 				</div>
 
 				<div class="tree-details">
 					<p>
-						레벨 <span id="treeLevel" th:text="${stock.tree_Level}">0</span>
+						레벨 <span id="tree_Level" th:text="${stock.tree_Level}">0</span>
 					</p>
 					<div class="bamboo-bar" id="bambooBar">경험치</div>
 				</div>
@@ -263,7 +278,7 @@
 			<button class="button" id="waterbtn">
 				<img src="/image/givewater.png" alt="물 아이콘" class="btn-icon">
 				<div class="btn-text">
-					보유 물: <span id="waterStock" th:text="${stock.water_Stock}">0</span><br> 물 주기
+					보유 물: <span id="water_Stock" th:text="${stock.water_Stock}">0</span><br> 물 주기
 				</div>
 			</button>
 		</div>
@@ -280,7 +295,7 @@
 					보유포인트 : <span id="point" th:text="${users.point}">0</span>
 				</p>
 				<div class="modal-content2">
-					<p><img src="/image/비료.png" width="80px" height="100px"></p>
+					<p><img src="/image/biryo.png" width="80px" height="100px"></p>
 					가격 :<span id="price">500</span>p<br>
 					<div class="counter">
 						<button id="minus" class="counter-btn">−</button>
@@ -313,7 +328,22 @@
 			</div>
 		</div>
 
+		<!-- 이용안내 모달 -->
+		<div id="infoModal" class="modal">
+			<div class="modal-content">
+				<span class="close" onclick="closeInfoModal()">&times;</span>
+				<h3>이용 안내</h3>
+				<p>- 출석 체크 시 평일: 물 1개, 주말: 물 2개 지급</p>
+				<p>- 10/20/30일 출석마다 비료 1개 지급</p>
+				<p>- 물 → 성장률 증가, 비료 → 물 줄 때 성장률 2배</p>
+			</div>
+		</div>
+
+		<div th:replace="~{fragments/attendance :: modal(user=${users})}"></div>
+
 		<!-- 스크립트 -->
+		<script th:src="@{/js/attendance.js}"></script>
+		<script src="/js/info.js"></script>
 		<script src="/js/seed.js"></script>
 		<!--<script src="/js/treesize.js"></script>-->
 		<script src="/js/time.js"></script>

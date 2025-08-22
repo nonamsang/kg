@@ -22,7 +22,7 @@ public class WaterController {
 	GrowingTreeService growingTreeService;
 	    @GetMapping("/water")
 	    public ResponseEntity<String> water0(){
-	    	int user_Id=4;
+	    	int user_Id=5;
 	    	GrowingTreeVO treevo=growingTreeService.getAllStock(user_Id);
 	    	int stock=treevo.getWater_Stock();
 	    	if(stock==0) {
@@ -34,7 +34,7 @@ public class WaterController {
 	    public ResponseEntity<Map<String,Object>> water(@RequestBody WaterRequest request,HttpSession session){
 	    	//int user_seq=(int) session.getAttribute("user_seq"); 
 	    	try {
-	    	int user_Id=4;//임시 하드코딩
+	    	int user_Id=5;//임시 하드코딩
 	    	GrowingTreeVO treevo=growingTreeService.getAllStock(user_Id);
 	    	int count=treevo.getWater_Count();
 	    	int tree_Level=treevo.getTree_Level();

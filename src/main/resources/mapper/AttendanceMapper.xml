@@ -5,13 +5,13 @@
 
 	<insert id="insertAttendance">
 		INSERT INTO attendance_table (user_id, attend_date)
-		VALUES (#{user_id}, TRUNC(SYSDATE))
+		VALUES (#{user_Id}, TRUNC(SYSDATE))
   </insert>
   
 	<select id="getAttendanceDates" resultType="string">
 		SELECT DISTINCT TO_CHAR(TRUNC(attend_date), 'YYYY-MM-DD') AS ymd
 		FROM attendance_table
-		WHERE user_id = #{user_id}
+		WHERE user_id = #{user_Id}
 		ORDER BY TO_DATE(TO_CHAR(TRUNC(attend_date), 'YYYY-MM-DD'),
 		'YYYY-MM-DD') 
 	</select>
@@ -19,7 +19,7 @@
 	<select id="countTodayAttendance" resultType="int">
     SELECT COUNT(*)
     FROM attendance_table
-    WHERE user_id = #{user_id}
+    WHERE user_id = #{user_Id}
       AND TRUNC(attend_date) = TRUNC(SYSDATE)
   </select>
 	
@@ -28,7 +28,7 @@
     FROM (
       SELECT TRUNC(attend_date) AS d
       FROM attendance_table
-      WHERE user_id = #{user_id}
+      WHERE user_id = #{user_Id}
       GROUP BY TRUNC(attend_date)
     )
   </select>
@@ -58,7 +58,7 @@
     water_stock = NVL(water_stock, 0) + #{water},
     biyro_stock = NVL(biyro_stock, 0) + #{biyro},
     last_updated = SYSDATE
-  	WHERE user_id = #{user_id}
+  	WHERE user_id = #{user_Id}
 	</update>
 
 	
@@ -66,7 +66,7 @@
     SELECT NVL(water_stock,0) AS WATER_STOCK,
            NVL(biyro_stock,0) AS BIYRO_STOCK
     FROM growing_tree_table
-    WHERE user_id = #{user_id}
+    WHERE user_id = #{user_Id}
   </select>
 
 

@@ -50,11 +50,18 @@ public class MainController {
 	}
 
 	// 마이페이지
+
 	/*
 	 * @GetMapping("/mypage") public String mypage(HttpSession session) { if
-	 * (session.getAttribute("user") == null) { return "redirect:/login"; } return
-	 * "mypage"; }
+	 * (session.getAttribute("loginuser") == null) { return "redirect:/login"; }
+	 * return "mypage"; }
 	 */
+
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/";
+	}
 
 	// 탄소 배출량 페이지
 	@GetMapping("/emission1")
