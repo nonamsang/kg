@@ -8,11 +8,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.fintecho.littleforest.dto.ChatOtherUserDTO;
 import com.fintecho.littleforest.dto.ChatRoomDTO;
 import com.fintecho.littleforest.mapper.UserMapper;
 import com.fintecho.littleforest.mapper.admin.AdminChatMapper;
 import com.fintecho.littleforest.mapper.admin.AdminChatMessageMapper;
-import com.fintecho.littleforest.vo.UserVO;
 import com.fintecho.littleforest.vo.admin.ChatMessageVO;
 
 import jakarta.servlet.http.HttpSession;
@@ -40,11 +40,10 @@ public class ChatPageController {
 		
 		ArrayList<ChatRoomDTO> chatroomdto = new ArrayList<>();
 		ArrayList<ChatMessageVO> chatmessagevo = new ArrayList<>();
-		UserVO otheruservo = new UserVO();
+		ChatOtherUserDTO otheruser = new ChatOtherUserDTO();
 		
 		chatroomdto = adminchatmapper.getChatRoomDTO(id);
-		System.out.println("asd");
-		System.out.println(chatroomdto.get(0).getId());
+
 		if(roomId == 0) {
 			chatmessagevo = adminchatmessagemapper.getAllChatMessage(chatroomdto.get(0).getId());
 		}
@@ -52,10 +51,11 @@ public class ChatPageController {
 			chatmessagevo = adminchatmessagemapper.getAllChatMessage(roomId);
 		}
 		
+		otheruser = adminchatmapper.getOtherUserInfoById(roomId, id);
 		
-		model.addAttribute("profile_Path", "/img/" + otheruservo.getProfile_Photo());
 		model.addAttribute("chatroom", chatroomdto);
 		model.addAttribute("chat", chatmessagevo);
+		model.addAttribute("otheruser", otheruser);
 		
 		model.addAttribute("title", "관리자 채팅");
 		model.addAttribute("page", "chat"); // 사이드바 active에 쓰면 좋음

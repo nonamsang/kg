@@ -30,14 +30,30 @@
 
 		<!-- 우측 채팅영역 -->
 		<div class="chat_area">
-			<div class="chat_container">
-				<div class="chat_each_container" th:each="chat : ${chat}">
-					<div class="msg">
-						<img th:src="@{${profile_Path}}" alt="profile" class="msg-profile">
-						<div class="msg-bubble" th:text="${chat.content}"></div>
-					</div>
-				</div>
-			</div>
+  <div class="chat_container">
+
+    <!-- ✅ 단일 리스트 컨테이너 -->
+    <div id="msgs" class="chat_each_container">
+      <!-- 과거 메시지 렌더링 -->
+      <div class="msg"
+           th:each="chat : ${chat}"
+           th:with="isMe=${session.user_Id} == ${chat.sender}"
+           th:classappend="${isMe} ? ' me' : null">
+
+        <img th:if="${!isMe}"
+             th:src="@{'/image/profile/' + ${otheruser.other_User_Profile}}"
+             alt="profile" class="msg-profile">
+
+        <div class="msg-body">
+          <div class="meta" th:if="${!isMe}"
+               th:text="${otheruser.other_User_Name}"></div>
+          <div class="msg-bubble" th:text="${chat.content}"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+		
 
 			<!-- 입력창 -->
 			<div class="chat-input">
@@ -50,9 +66,15 @@
 		<script th:inline="javascript">
 			let stomp, sub;
 			let currentRoomId = 1;   // 지금 보고 있는 방 ID를 여기로.
-			let myId = [[${session.user_Id}]]; //빨간줄 무시
+			
 			let reconnecting = false;
+			// 내 유저 ID (숫자형으로 주입)
+			const myId = /*[[${session.user_Id}]]*/ 0;
 
+			// 현재 방의 상대 유저 프로필/닉네임 (이 방은 1:1이라고 가정)
+			const otherName = /*[[${#strings.escapeJavaScript(otheruser.other_User_Name)}]]*/ '';
+			const otherProfileUrl = /*[[@{'/image/profile/' + ${otheruser.other_User_Profile}}]]*/ '';
+			document.querySelector('.chat_each_container')
 			function connect() {
 				const sock = new SockJS('/ws-chat');
 				stomp = Stomp.over(sock);
@@ -117,30 +139,54 @@
 			}
 
 			function appendMessage(m) {
-				const wrap = document.querySelector('.chat_container');
-				if (!wrap) {
-					console.warn('chat_container 없음');
-					return;
+				  const list = document.querySelector('.chat_each_container'); // ✅ 여기!
+				  if (!list) return console.warn('chat_each_container 없음');
+
+				  const isMe = Number(m.sender) === Number(myId);
+
+				  const row = document.createElement('div');
+				  row.className = 'msg' + (isMe ? ' me' : '');
+
+				  // 상대 메시지면 프로필 이미지 추가
+				  if (!isMe) {
+				    const img = document.createElement('img');
+				    img.className = 'msg-profile';
+				    img.alt = 'profile';
+				    img.src = otherProfileUrl;
+				    row.appendChild(img);
+				  }
+
+				  // 텍스트 영역 (닉네임 + 버블)
+				  const body = document.createElement('div');
+				  body.className = 'msg-body';
+
+				  // 상대 메시지면 닉네임(회색 작은 글씨)
+				  if (!isMe) {
+				    const meta = document.createElement('div');
+				    meta.className = 'meta';
+				    meta.textContent = otherName;
+				    body.appendChild(meta);
+				  }
+
+				  // 실제 메시지 버블
+				  const bubble = document.createElement('div');
+				  bubble.className = 'msg-bubble';
+				  bubble.textContent = m.content ?? '';
+				  body.appendChild(bubble);
+
+				  row.appendChild(body);
+				  list.appendChild(row);
+
+				  // 스크롤 하단 고정
+				  list.scrollTop = list.scrollHeight;
 				}
-				const msgDiv = document.createElement('div');
-				msgDiv.className = 'msg';
-				if (String(m.sender) === String(myId)) msgDiv.classList.add('me'); // 타입 캐스팅 안전하게
-
-				const bubble = document.createElement('div');
-				bubble.className = 'msg-bubble';
-				bubble.textContent = m.content ?? ''; // textContent로 XSS 안전
-
-				msgDiv.appendChild(bubble);
-				wrap.appendChild(msgDiv);
-
-				// 스크롤 다운
-				wrap.scrollTop = wrap.scrollHeight;
-			}
 		</script>
+		
 		<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-		<!-- 그 다음 STOMP -->
+		
 		<script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
-		<!-- 마지막에 당신의 chat.js (connect(), send() 정의된 파일) -->
+		
+		<th:block id="page-scripts"></th:block>
 	</section>
 </body>
 
