@@ -2,13 +2,16 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Little Forest</title>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-	<!-- 폰트어썸 아이콘 불러오는 코드 -->
-	<link rel="stylesheet" href="/css/mainpagestyle.css">
-	<link rel="stylesheet" href="https://jhammann.github.io/sakura/dist/sakura.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Little Forest</title>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<!-- 폰트어썸 아이콘 불러오는 코드 -->
+<link rel="stylesheet" href="/css/mainpagestyle.css">
+<link rel="stylesheet" href="/css/userchat.css">
+<link rel="stylesheet"
+	href="https://jhammann.github.io/sakura/dist/sakura.css">
 </head>
 
 <body>
@@ -17,50 +20,312 @@
 
 	<div class="sakura-container" id="sakura-petals">
 
-		<!-- 메인 배너 -->
-		<section class="hero">
-			<div class="hero-content">
-				<h1>내 손안의 작은 숲, LittleForest</h1>
-				<p>탄소배출량 측정,<br>지속가능한 소비 분석,<br>당신을 위한 환경 데이터 플랫폼</p>
-			</div>
-		</section>
+		<a href="#" data-id="1" class="set-user">아이디1로</a>
+		<a href="#" data-id="2" class="set-user">아이디2로</a> 
+		<a href="#" data-id="3" class="set-user">아이디3로</a> 
+		<a href="#" data-id="4" class="set-user">아이디4로</a>
+		<a href="#" data-id="5" class="set-user">아이디5로</a>
 
-		<!-- 컨텐트 모음 -->
+		<div id="chat-root" th:attr="data-userid=${session.user_Id}"></div>
 
-		<section class="scroll-section">
-			<p class="scroll-text">SCROLL DOWN</p>
-			<div class="scroll-line"></div>
-			<h1>
-				<span class="highlight">Litte Forest</span>를 경험해 보세요 !
-			</h1>
-		</section>
+		<!-- 고정된 + 버튼 -->
+		<div id="open-chat" aria-label="채팅 열기" role="button">+</div>
 
-		<!-- 하단 버튼 -->
-		<div class="service-title-wrapper">
-			<h2 class="service-title">
-				< Little Forest가 제공하는 서비스>
-			</h2>
-		</div>
-
-		<div class="green-box">
-			<div class="content">
-				<div class="content-box">
-					<img src="/image/maintree.png" alt="tree" /> <a th:href="@{/growtree}"><button>나무키우러가기</button></a>
-				</div>
-				<div class="content-box">
-					<img src="/image/paypal.png" alt="wallet" /> <a th:href="@{/wallet}"><button>지갑으로가기</button></a>
-				</div>
-				<div class="content-box">
-					<img src="/image/qrcode.png" alt="pay" /> <a th:href="@{/#}"><button>결제하러가기</button></a>
-				</div>
-				<div class="content-box">
-					<img src="/image/co2-car.png" alt="emission" /> <a
-						th:href="@{/emission}"><button>탄소소비확인</button></a>
+		<!-- 채팅 패널: 처음엔 숨김 + floating 모드 -->
+		<div class="chat_area floating hide">
+			<!-- 처음엔 숨김 -->
+			<div class="chat_container">
+				<div id="msgs" class="chat_each_container">
+					<!-- 기존 타임리프 렌더/JS 렌더 영역 -->
 				</div>
 			</div>
+
+			<div class="chat-input">
+				<input id="msg" type="text" placeholder="메시지를 입력하세요" />
+				<button onclick="send()">보내기</button>
+			</div>
+
+			<div id="chat-newchat" class="hide">관리자와 채팅 연결</div>
 		</div>
 
-		<script>
+
+
+	</div>
+
+	<script th:inline="javascript">
+		
+	//set-user
+		document.querySelectorAll('.set-user').forEach(link => { //forEach 돔에 있는 모든 set-user에 관해 이 명령을 수행
+			link.addEventListener('click', function (e) { 
+				e.preventDefault(); //페이지 맨 위로 점프, 혹은 링크로 이동하려는걸 막고 js 문법을 완전 비동기로 실행함
+				const userId = this.dataset.id; // 위에 내가 인자로 설정해둔 dataset.id 가져옴
+				
+				console.log(/*[[${session.user_Id}]]*/); //session 값 변경 후에는 새로고침 해야 적용됨
+				
+				const headers = {'Content-Type': 'application/x-www-form-urlencoded'}; 
+				//id=5와 같은 형식으로 보낼거라는 예고문, headers
+	
+				
+				fetch('/set-user', {
+					method: 'POST',
+					headers, //id = 5 같은 형식으로 보낸다?
+					body: `id=${userId}` //id = 5 같은 형식으로 보냄
+				})
+				.then(res => res.json()) //json으로 파싱
+				.then(data => { //파싱한 값을 data에 넣음
+					console.log(`세션 변경 완료: ${data.status}, user id: ${data.user_Id}`); 
+				});
+			});
+		}); //set-user끝
+		
+		document.addEventListener('DOMContentLoaded', () => {
+	    const chatArea  = document.querySelector('.chat_area');
+	    const newChatEl = document.getElementById('chat-newchat');
+	    const openBtn   = document.getElementById('open-chat');
+	
+		openBtn.addEventListener('click', onOpenChat);
+
+	    async function onOpenChat() {
+	      try {
+	        // 1) 내 채팅방 개수 확인
+	        const res = await fetch('/chat/user/chatroomcount');
+	
+	        // 숫자 응답을 JSON 혹은 text 둘 다 대응
+	        let count;
+	       	count = await res.text();         // application/json 이면 숫자
+	       	console.log("count="+count);
+	
+	        if (Number(count) >= 1) {
+	       		const panel   = document.querySelector('.chat_area.floating');
+	       		const willOpen = panel.classList.contains('hide');
+	       	    panel.classList.toggle('hide', !willOpen);
+	       	    panel.classList.toggle('open', willOpen);
+	
+	          loadRoom().catch(console.error);
+	          
+	          
+	        } else {
+	        	
+	          // 채팅방 없음 → 새 연결 안내 UI 노출
+	          const res = await fetch('/newchat', {
+		          method: 'POST'
+		        });
+	        }
+	      } catch (err) {
+	        console.error(err);
+	        alert('채팅 정보를 불러오지 못했어요.');
+	      }
+	    }
+	  });
+	</script>
+	<script th:inline="javascript">
+  // 전역 상태 (상대 정보 & 내 아이디)
+  let roomId;
+  let MY_ID   = /*[[${session.user_Id}]]*/ 0; // 페이지 최초 진입 시 세션값
+  let OTHER_NAME = '상대';
+  let OTHER_PROFILE_URL = '/image/profile/default.png';
+
+  const chatArea = document.querySelector('.chat_area');
+  const msgs = document.getElementById('msgs');
+
+  // 1) 방 열기: 서버에서 JSON 가져오고 그리기
+  async function loadRoom() {
+	const getRoomId = await fetch(`/getchatroomid`)
+	
+	roomId = await getRoomId.text();
+	
+	connect();
+	
+    const res = await fetch(`/admin/chat/data?roomId=${roomId}`, {
+      headers: { 'Accept': 'application/json' }
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+
+    const data = await res.json();
+
+    MY_ID = data.myId;
+    
+    renderChat(data);
+  }
+
+  // 2) 리스트 전체 렌더 (기존 지우고 다시 그림)
+  function renderChat(data) {
+    OTHER_NAME = data?.otheruser?.other_User_Name || '상대';
+    OTHER_PROFILE_URL = data?.otheruser?.other_User_Profile
+      ? `/image/profile/${data.otheruser.other_User_Profile}`
+      : '/image/profile/default.png';
+
+    // 기존 메시지 삭제 (서버 렌더와 겹치게 싫으면 이 줄 주석처리)
+    msgs.innerHTML = '';
+
+    (data.chat || []).forEach(m => appendMessage(m, MY_ID));
+    
+   
+
+    // 맨 아래로 스크롤
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  // 3) 한 줄 추가 (과거 메시지/웹소켓 수신 공용)
+  function appendMessage(m, myIdFromData = MY_ID) {
+    const isMe = Number(m.sender) === Number(myIdFromData);
+
+    const row = document.createElement('div');
+    row.className = 'msg' + (isMe ? ' me' : '');
+
+    if (!isMe) {
+      const img = document.createElement('img');
+      img.className = 'msg-profile';
+      img.alt = 'profile';
+      img.src = OTHER_PROFILE_URL;
+      row.appendChild(img);
+    }
+
+    const body = document.createElement('div');
+    body.className = 'msg-body';
+
+    if (!isMe) {
+      const meta = document.createElement('div');
+      meta.className = 'meta';
+      meta.textContent = OTHER_NAME;
+      body.appendChild(meta);
+    }
+
+    const bubble = document.createElement('div');
+    bubble.className = 'msg-bubble';
+    bubble.textContent = m.content ?? '';
+    body.appendChild(bubble);
+
+    row.appendChild(body);
+    msgs.appendChild(row);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+ 
+</script>
+
+	<script>
+
+let stomp, sub;
+let reconnecting = false;
+
+function connect() {
+	console.log("룸은 :" +roomId);
+	const sock = new SockJS('/ws-chat');
+	stomp = Stomp.over(sock);
+
+	// ① STOMP 디버그 출력: SEND/SUBSCRIBE/MESSAGE 프레임을 콘솔에 다 보여줌
+	stomp.debug = (str) => console.log('[STOMP]', str);
+
+	stomp.connect({}, () => {
+		console.log('✅ STOMP connected?', stomp.connected);
+
+		// ② 구독 설정 (서버가 convertAndSend("/topic/rooms/"+roomId) 로 보내는지 꼭 확인!)
+		
+		
+		const dest = `/topic/rooms/${roomId}`;
+		console.log('🔔 SUBSCRIBE to', dest);
+		if (sub) sub.unsubscribe();
+		sub = stomp.subscribe(dest, (frame) => {
+			console.log('📥 RECEIVED FRAME', frame);            // 헤더/바디 다 보임
+			try {
+				const m = JSON.parse(frame.body);
+				console.log('📩 PARSED MSG', m);
+				appendMessage(m);                                 // 화면에 추가
+			} catch (e) {
+				console.error('JSON parse error', e, frame.body);
+			}
+		});
+
+	}, (err) => {
+		console.error('❌ STOMP connect error', err);
+	});
+
+	sock.onclose = scheduleReconnect;
+}
+
+function scheduleReconnect() {
+	if (reconnecting) return;
+	reconnecting = true;
+	console.log('reconnect 시도중');
+	setTimeout(() => {reconnecting = false; connect();}, 3000);
+}
+
+function send() {
+	const input = document.getElementById('msg');
+	const text = input.value.trim();
+	if (!text) return;
+
+	if (!stomp || !stomp.connected) {
+		return console.warn('⚠️ 아직 연결 안됨. connect() 먼저 실행하세요.');
+	}
+
+	const payload = {
+		type: 'SEND',
+		chat_Room_Id: roomId,   // 서버 VO 필드명과 100% 동일해야 함
+		sender: MY_ID,                  
+		content: text
+	};
+
+	console.log('➡️ SEND payload', payload);
+	stomp.send('/app/chat.send', {}, JSON.stringify(payload));
+	input.value = '';
+}
+</script>
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+	<!-- 메인 배너 -->
+	<section class="hero">
+
+
+		<div class="hero-content">
+			<h1>내 손안의 작은 숲, LittleForest</h1>
+			<p>
+				탄소배출량 측정,<br>지속가능한 소비 분석,<br>당신을 위한 환경 데이터 플랫폼
+			</p>
+		</div>
+	</section>
+
+	<!-- 컨텐트 모음 -->
+
+	<section class="scroll-section">
+		<p class="scroll-text">SCROLL DOWN</p>
+		<div class="scroll-line"></div>
+		<h1>
+			<span class="highlight">Litte Forest</span>를 경험해 보세요 !
+		</h1>
+	</section>
+
+	<!-- 하단 버튼 -->
+	<div class="service-title-wrapper">
+		<h2 class="service-title">< Little Forest가 제공하는 서비스 ></h2>
+	</div>
+
+	<div class="green-box">
+		<div class="content">
+			<div class="content-box">
+				<img src="/image/maintree.png" alt="tree" /> <a
+					th:href="@{/growtree}"><button>나무키우러가기</button></a>
+			</div>
+			<div class="content-box">
+				<img src="/image/paypal.png" alt="wallet" /> <a
+					th:href="@{/wallet}"><button>지갑으로가기</button></a>
+			</div>
+			<div class="content-box">
+				<img src="/image/qrcode.png" alt="pay" /> <a th:href="@{/#}"><button>결제하러가기</button></a>
+			</div>
+			<div class="content-box">
+				<img src="/image/co2-car.png" alt="emission" /> <a
+					th:href="@{/emission}"><button>탄소소비확인</button></a>
+			</div>
+		</div>
+	</div>
+
+	<script>
 			document.addEventListener("DOMContentLoaded", () => {
 				const sections = document.querySelectorAll(".scroll-section2");
 
@@ -89,75 +354,78 @@
 		</script>
 
 
-		<!-- 구분선 -->
-		<div style="margin: 25px 0; border-top: 1px solid #ccc;"></div>
+	<!-- 구분선 -->
+	<div style="margin: 25px 0; border-top: 1px solid #ccc;"></div>
 
-		<section class="scroll-section2">
-			<p class="scroll-text">SCROLL DOWN</p>
-			<div class="scroll-line"></div>
-			<h1>
-				하루하루 자라나는 <span class="highlight">나만의 나무</span>를 길러보세요 !
-			</h1>
-			<div class="qrpay-wrapper">
-				<img src="/image/growtree2.png" alt="growtree" />
-				<p class="qrpay-desc">작은 씨앗에서 시작해 물과 비료를 주며 <br>하루하루 나무가 자라는 모습을
-					지켜보세요!!! <br>물을 모으고 비료로 성장 속도를 높일 수 있습니다 !!<br> 나무를 모두 키우면, 게임 속 나무가 실제
-					지구에 심어져 환경 보호에 기여 할 수 있습니다 !</p>
-				<a href="/growtree" class="qrpay-btn">바로가기</a>
-			</div>
-		</section>
+	<section class="scroll-section2">
+		<p class="scroll-text">SCROLL DOWN</p>
+		<div class="scroll-line"></div>
+		<h1>
+			하루하루 자라나는 <span class="highlight">나만의 나무</span>를 길러보세요 !
+		</h1>
+		<div class="qrpay-wrapper">
+			<img src="/image/growtree2.png" alt="growtree" />
+			<p class="qrpay-desc">
+				작은 씨앗에서 시작해 물과 비료를 주며 <br>하루하루 나무가 자라는 모습을 지켜보세요!!! <br>물을
+				모으고 비료로 성장 속도를 높일 수 있습니다 !!<br> 나무를 모두 키우면, 게임 속 나무가 실제 지구에 심어져
+				환경 보호에 기여 할 수 있습니다 !
+			</p>
+			<a href="/growtree" class="qrpay-btn">바로가기</a>
+		</div>
+	</section>
 
-		<section class="scroll-section2">
-			<div class="scroll-line"></div>
-			<h1>
-				쓰고 적립하고 <span class="highlight"> 환경을 지켜보세요 !</span>
-			</h1>
-			<div class="qrpay-wrapper">
-				<img src="/image/greenwallet.png" alt="greenwallet" />
-				<p class="qrpay-desc">내 지갑이 지구를 웃게 합니다.<br> 소비 습관을 확인하고, 절약한 만큼 환경에
-					기부하세요 ! <br> LittleForest 지갑과 함께라면, <br>나만의 작은 숲을 가꿀 수 있습니다 작은 행동이 큰 변화를 !
-					만듭니다.</p>
-				<a href="/wallet" class="qrpay-btn">바로가기</a>
-			</div>
-		</section>
+	<section class="scroll-section2">
+		<div class="scroll-line"></div>
+		<h1>
+			쓰고 적립하고 <span class="highlight"> 환경을 지켜보세요 !</span>
+		</h1>
+		<div class="qrpay-wrapper">
+			<img src="/image/greenwallet.png" alt="greenwallet" />
+			<p class="qrpay-desc">
+				내 지갑이 지구를 웃게 합니다.<br> 소비 습관을 확인하고, 절약한 만큼 환경에 기부하세요 ! <br>
+				LittleForest 지갑과 함께라면, <br>나만의 작은 숲을 가꿀 수 있습니다 작은 행동이 큰 변화를 !
+				만듭니다.
+			</p>
+			<a href="/wallet" class="qrpay-btn">바로가기</a>
+		</div>
+	</section>
 
-		<section class="scroll-section2">
-			<div class="scroll-line"></div>
-			<h1>
-				LittleForest 만의 <span class="highlight"> GreenPay</span>를 사용해보세요 !
-			</h1>
-			<div class="qrpay-wrapper">
-				<img src="/image/qrpay.jpg" alt="qrpay" />
-				<p class="qrpay-desc">
-					Little Forest 매장을 QR로 연결합니다!<br> 결제 시 탄소 발자국 계산에 따른 포인트를 획들 할 수 있어요 !<br>
-					행운의 네잎클로버 QR로 탄소 절약 소비를 이행해 보아요! +ㅁ+
-				</p>
-				<a href="#" class="qrpay-btn">바로가기</a>
-			</div>
-		</section>
+	<section class="scroll-section2">
+		<div class="scroll-line"></div>
+		<h1>
+			LittleForest 만의 <span class="highlight"> GreenPay</span>를 사용해보세요 !
+		</h1>
+		<div class="qrpay-wrapper">
+			<img src="/image/qrpay.jpg" alt="qrpay" />
+			<p class="qrpay-desc">
+				Little Forest 매장을 QR로 연결합니다!<br> 결제 시 탄소 발자국 계산에 따른 포인트를 획들 할 수
+				있어요 !<br> 행운의 네잎클로버 QR로 탄소 절약 소비를 이행해 보아요! +ㅁ+
+			</p>
+			<a href="#" class="qrpay-btn">바로가기</a>
+		</div>
+	</section>
 
-		<section class="scroll-section2">
-			<div class="scroll-line"></div>
-			<h1>
-				LittleForest 만의 <span class="highlight"> GreenPay</span>를 사용해보세요 !
-			</h1>
-			<div class="qrpay-wrapper">
-				<img src="/image/grape.png" alt="emission1" />
-				<p class="qrpay-desc">
-					스스로 사용한 탄소량을 한눈에 간단하게 확인해 보세요 !<br>
-					사용한 탄소량을 통계로 확인하여 지구를 지켜 보세요 !<br>
-					한 달 동안 사용한 탄소량, 일 년 동안 확인한 탄소량을 쉽게 확인해 보세요 !
-				</p>
-				<a href="/emission1" class="qrpay-btn">바로가기</a>
-			</div>
-		</section>
+	<section class="scroll-section2">
+		<div class="scroll-line"></div>
+		<h1>
+			LittleForest 만의 <span class="highlight"> GreenPay</span>를 사용해보세요 !
+		</h1>
+		<div class="qrpay-wrapper">
+			<img src="/image/grape.png" alt="emission1" />
+			<p class="qrpay-desc">
+				스스로 사용한 탄소량을 한눈에 간단하게 확인해 보세요 !<br> 사용한 탄소량을 통계로 확인하여 지구를 지켜
+				보세요 !<br> 한 달 동안 사용한 탄소량, 일 년 동안 확인한 탄소량을 쉽게 확인해 보세요 !
+			</p>
+			<a href="/emission1" class="qrpay-btn">바로가기</a>
+		</div>
+	</section>
 
-		<!-- 푸터 삽입 -->
-		<div th:replace="fragments/footer :: footer"></div>
+	<!-- 푸터 삽입 -->
+	<div th:replace="fragments/footer :: footer"></div>
 
 
-		<script src="https://jhammann.github.io/sakura/dist/sakura.js"></script>
-		<script>
+	<script src="https://jhammann.github.io/sakura/dist/sakura.js"></script>
+	<script>
 			var sakura = new Sakura('#sakura-petals', {
 				fallSpeed: 5,
 				maxSize: 23,

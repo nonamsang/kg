@@ -1,0 +1,51 @@
+package com.fintecho.littleforest.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.fintecho.littleforest.mapper.MerchantMapper;
+import com.fintecho.littleforest.mapper.ProductMapper;
+import com.fintecho.littleforest.mapper.WalletMapper;
+import com.fintecho.littleforest.vo.ProductVO;
+import com.fintecho.littleforest.vo.WalletVO;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Controller
+public class ProductController {
+	
+	@Autowired
+	ProductMapper productmapper;
+	@Autowired
+	MerchantMapper merchantmapper;
+	@Autowired
+	WalletMapper walletmapper;
+	
+	@GetMapping("/product")
+	public String product(@RequestParam int product_Id, Model model) {
+		
+		ProductVO product = productmapper.getProductByProductId(product_Id);
+		String merchant_Name = merchantmapper.getMerchantNameByMerchantId(product.getMerchants_Id());
+		List<WalletVO> wallet = walletmapper.findByUserId(2);
+		int total_Balance = 0;
+		
+		for (WalletVO w : wallet) {
+		    total_Balance += w.getAccount_Balance();
+		    
+		}
+		
+		model.addAttribute("product",product);
+		model.addAttribute("merchant_Name", merchant_Name);
+		model.addAttribute("point", product.getPrice() * (product.getCarbon_Effect() / 100));
+		model.addAttribute("total_Balance", total_Balance);
+		model.addAttribute("wallet", wallet);
+		
+		return "product/product_view";
+	}
+}

@@ -1,5 +1,7 @@
 package com.fintecho.littleforest.controller.admin;
 
+import java.util.Map;
+
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -41,10 +43,10 @@ public class ChatController {
   
   @PostMapping("/set-user")
   @ResponseBody
-  public String setUserId(@RequestParam("id") int id, HttpSession session) {
+  public Map<String, Object> setUserId(@RequestParam("id") int id, HttpSession session) {
       session.setAttribute("user_Id", id);
       
-      return "ok";
+      return Map.of("status", "ok", "user_Id", id);
   }
 
   // 최근 N개 메시지 요청(옵션: REST)
