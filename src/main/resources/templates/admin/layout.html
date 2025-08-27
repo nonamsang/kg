@@ -62,7 +62,7 @@
 		<nav class="nav">
 			<a th:href="@{/admin/members}" th:classappend="${page=='members'} ? ' active'">회원관리</a>
 			<a th:href="@{/admin/posts}" th:classappend="${page=='posts'}   ? ' active'">게시판관리</a>
-			<a th:href="@{/admin/chat}" th:classappend="${page=='chat'}    ? ' active'">채팅</a>
+			<a th:href="@{/admin/chat?roomId=1}" th:classappend="${page=='chat'}    ? ' active'">채팅</a>
 			<a th:href="@{/admin/stats}" th:classappend="${page=='stats'}   ? ' active'">통계</a>
 
 			<!-- 개발/테스트용: 세션 전환 메뉴 -->
@@ -71,17 +71,16 @@
 			<a href="#" data-id="2" class="set-user">아이디2로</a>
 			<a href="#" data-id="3" class="set-user">아이디3로</a>
 			<a href="#" data-id="4" class="set-user">아이디4로</a>
+			<a href="#" data-id="5" class="set-user">아이디5로</a>
 		</nav>
 	</aside>
 
-	<main class="content">
-		<div class="container">
+	<main class="content"> 
+		<div class="container"> 
 			<th:block th:insert="${content}"></th:block>
-		</div>
-	</main>
-
+		</div> 
+	</main> 
 	<th:block th:insert="${scripts}"></th:block>
-
 	<!-- set-user JS -->
 	<script>
 

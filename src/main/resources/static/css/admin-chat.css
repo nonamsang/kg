@@ -92,9 +92,14 @@ section {
 }
 .msg { margin: 8px 0; display: flex; gap: 10px; }
 .msg-bubble {
-  max-width: 70%; background: #fff; border: 1px solid #e5e7eb; border-radius: 12px;
+  max-width: 100%; background: #fff; border: 1px solid #e5e7eb; border-radius: 12px;
   padding: 8px 10px; box-shadow: 0 1px 2px rgba(0,0,0,.04);
 }
+/* ✅ 내 메시지 컨테이너는 오른쪽 정렬 */
+.msg.me { justify-content: flex-end; }
+
+/* ✅ 버블 박스 자체가 오른쪽으로 붙도록 */
+.msg.me .msg-bubble { margin-left: auto; }
 .msg-profile {
   width: 38px;
   height: 38px;
@@ -128,6 +133,7 @@ section {
 .chatroom_container::-webkit-scrollbar-track,
 .chat_container::-webkit-scrollbar-track,
 .chat-msgs::-webkit-scrollbar-track { background: transparent; }
+.msg-body { display: flex; flex-direction: column; }  /* 세로로 쌓기 */
 
 /* 반응형(좁은 화면에서 위아래로 스택) */
 @media (max-width: 900px) {

@@ -66,4 +66,20 @@
 		ORDER BY lm.timestamp DESC NULLS LAST
 	</select>
 	
+	
+	<select id="getOtherUserInfoById" resultType="com.fintecho.littleforest.dto.ChatOtherUserDTO">
+		SELECT
+		  u.profile_photo AS other_User_Profile,
+		  u.nickname      AS other_User_Name
+		FROM (
+		  SELECT DISTINCT sender
+		  FROM chat_message_table
+		  WHERE sender &lt;&gt; #{user_Id}
+		  AND chat_room_id = #{room_Id}
+		) t
+		JOIN user_table u
+		  ON u.id = t.sender
+
+	</select>
+	
 </mapper>
