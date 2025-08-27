@@ -46,10 +46,17 @@ public class TreeController {
 
 	@GetMapping("/growtree")
 	public String tree(Model model, HttpSession session) {
-		int user_Id = 4;
+		// int user_Id = 4;
+		UserVO loginUser = (UserVO) session.getAttribute("loginUser");
+		if (loginUser == null) {
+			return "redirect:/login";
+		}
+		int user_Id = loginUser.getId();
+
 		GrowingTreeVO vo = growingTreeService.getAllStock(user_Id);
 		// int user_seq=(int) session.getAttribute("user_seq");
 		boolean iftree = growingTreeService.ifTree(user_Id);
+
 		if (!iftree) {
 			model.addAttribute("iftree", false);
 			return "tree";
@@ -109,7 +116,13 @@ public class TreeController {
 
 	@PostMapping("/plant")
 	public ResponseEntity<String> plant(Model model, HttpSession session, @RequestBody InsertRequest request) {
-		int user_Id = 5;
+		// int user_Id = 5;
+		UserVO loginUser = (UserVO) session.getAttribute("loginUser");
+		if (loginUser == null) {
+			return ResponseEntity.status(401).body("로그인이 필요합니다.");
+		}
+		int user_Id = loginUser.getId();
+
 		GrowingTreeVO treevo = new GrowingTreeVO();
 		treevo.setTree_Name(request.tree_Name);
 		treevo.setUser_Id(user_Id);
@@ -117,17 +130,18 @@ public class TreeController {
 
 		int result = growingTreeService.insertTree(treevo);
 
-		if (result > 0) {
-			return ResponseEntity.ok("success");
-		} else {
-			return ResponseEntity.status(500).body("fail");
-
-		}
+		return (result > 0) ? ResponseEntity.ok("success") : ResponseEntity.status(500).body("fail");
 	}
 
 	@PostMapping("/happen")
 	public ResponseEntity<String> happening(HttpSession session) {
-		int user_Id = 5;
+		// int user_Id = 5;
+		UserVO loginUser = (UserVO) session.getAttribute("loginUser");
+		if (loginUser == null) {
+			return ResponseEntity.status(401).body("로그인이 필요합니다.");
+		}
+		int user_Id = loginUser.getId();
+
 		UserVO user = userService.getinform(user_Id);
 		user.setId(user_Id);
 		int point = user.getPoint();

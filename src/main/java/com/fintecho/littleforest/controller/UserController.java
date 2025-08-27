@@ -27,8 +27,15 @@ public class UserController {
 	@GetMapping("/mypage")
 	public String mypage(HttpSession session, Model model) {
 
-		int User_Id = 1;
-		UserVO userInfo = userService.getInfo(User_Id);
+		// int User_Id = 1;
+		UserVO loginUser = (UserVO) session.getAttribute("loginUser");
+		if (loginUser == null) {
+			return "redirect:/login"; // 로그인 안 했으면 로그인 페이지로
+		}
+
+		int user_Id = loginUser.getId();
+
+		UserVO userInfo = userService.getInfo(user_Id);
 
 		// (프로필 사진) 가공된 경로 직접 설정
 		String profilePath = (userInfo.getProfile_Photo() == null || userInfo.getProfile_Photo().isBlank())

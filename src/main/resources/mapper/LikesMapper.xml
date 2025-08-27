@@ -17,6 +17,7 @@ delete from likes_table where table_type=#{table_Type} and table_id=#{table_Id}
 select count(*) from likes_table where table_id=#{table_Id} and user_id=#{user_Id}
 </select>
 <select id="checklikes" parameterType="int">
-select table_id from likes_table where user_id=#{user_Id}
+		select community_id, comment_id from likes_table where
+		user_id=#{user_Id}
 </select>
 </mapper>

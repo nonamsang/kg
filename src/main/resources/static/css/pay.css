@@ -301,7 +301,7 @@
 }
 
 /* 반응형 */
-@media ( max-width : 980px) {
+@media (max-width : 980px) {
 	.pay-grid {
 		grid-template-columns: 1fr;
 	}
@@ -310,23 +310,29 @@
 /* =========================
    공통: 모달 오버레이/다이얼로그
    ========================= */
-.donate-modal, .modal {
+.donate-modal,
+.modal {
 	position: fixed;
 	inset: 0;
-	display: none; /* 기본은 숨김 */
+	display: none;
+	/* 기본은 숨김 */
 	align-items: center;
 	justify-content: center;
-	background: rgba(0, 0, 0, .45); /* 어두운 배경 */
+	background: rgba(0, 0, 0, .45);
+	/* 어두운 배경 */
 	z-index: 10000;
 }
 
 /* JS에서 .show 클래스를 쓰거나, aria-hidden="false" 를 쓰면 노출 */
-.donate-modal.show, .modal.show, .donate-modal[aria-hidden="false"],
-	.modal[aria-hidden="false"] {
+.donate-modal.show,
+.modal.show,
+.donate-modal[aria-hidden="false"],
+.modal[aria-hidden="false"] {
 	display: flex;
 }
 
-.donate-dialog, .modal-dialog {
+.donate-dialog,
+.modal-dialog {
 	width: min(880px, 92vw);
 	max-height: 86vh;
 	overflow: auto;
@@ -338,7 +344,8 @@
 /* =========================
    상단 영역(헤더/탭/닫기)
    ========================= */
-.donate-header, .modal-header {
+.donate-header,
+.modal-header {
 	position: sticky;
 	top: 0;
 	display: flex;
@@ -372,7 +379,8 @@
 	color: #1b5e20;
 }
 
-.donate-close, .modal-close {
+.donate-close,
+.modal-close {
 	font-size: 28px;
 	line-height: 1;
 	border: 0;
@@ -381,14 +389,16 @@
 	cursor: pointer;
 }
 
-.donate-close:hover, .modal-close:hover {
+.donate-close:hover,
+.modal-close:hover {
 	color: #263238;
 }
 
 /* =========================
    본문 레이아웃/타이포
    ========================= */
-.donate-body, .modal-body {
+.donate-body,
+.modal-body {
 	padding: 24px 28px;
 }
 
@@ -413,7 +423,7 @@
 	align-items: start;
 }
 
-@media ( max-width : 900px) {
+@media (max-width : 900px) {
 	.donate-grid {
 		grid-template-columns: 1fr;
 	}
@@ -497,13 +507,17 @@
 }
 
 #chargeModal .method-pill {
-	background: #FEE500; /* 카카오 옐로우 */
-	color: #191919; /* 가독성 좋은 진회색 */
-	border: 1px solid #e1c900; /* 살짝 어두운 테두리로 또렷하게 */
+	background: #FEE500;
+	/* 카카오 옐로우 */
+	color: #191919;
+	/* 가독성 좋은 진회색 */
+	border: 1px solid #e1c900;
+	/* 살짝 어두운 테두리로 또렷하게 */
 	padding: 6px 12px;
 	border-radius: 999px;
 	font-weight: 700;
-	box-shadow: 0 1px 0 rgba(0, 0, 0, .05); /* 아주 얕은 입체감 */
+	box-shadow: 0 1px 0 rgba(0, 0, 0, .05);
+	/* 아주 얕은 입체감 */
 }
 
 .point-balance {
@@ -560,7 +574,8 @@
 	padding: 14px 16px;
 	border-radius: 12px;
 	border: 0;
-	background: #22c55e; /* 초록 */
+	background: #22c55e;
+	/* 초록 */
 	color: #fff;
 	font-weight: 800;
 	font-size: 18px;
@@ -598,9 +613,11 @@
 	opacity: 0;
 }
 
-keyframes wave {to { transform:translate(-50%, -50%)scale(1);
-	opacity: 1;
-}
+keyframes wave {
+	to {
+		transform: translate(-50%, -50%)scale(1);
+		opacity: 1;
+	}
 
 }
 
@@ -624,17 +641,22 @@ keyframes wave {to { transform:translate(-50%, -50%)scale(1);
 
 /* 스크립트가 style="display:block"로 여는 경우에도 중앙 정렬되도록 강제 */
 .donate-modal[style*="display: block"] {
-	display: flex !important; /* overlay 자체를 flex로 만들어 중앙정렬 */
+	display: flex !important;
+	/* overlay 자체를 flex로 만들어 중앙정렬 */
 	align-items: center;
 	justify-content: center;
-	padding: 32px 16px; /* 작은 화면에서 가장자리 여백 */
+	padding: 32px 16px;
+	/* 작은 화면에서 가장자리 여백 */
 }
 
 /* 가로보다 세로가 더 긴 비율 + 정확히 화면 중앙 배치 */
 #chargeModal .donate-dialog {
-	width: 450px; /* 360px를 기본으로, 화면이 작으면 92vw까지 줄어듦 */
-	min-height: 72vh; /* 세로가 더 길게 */
-	max-height: 86vh; /* 화면 넘치면 내부 스크롤 */
+	width: 450px;
+	/* 360px를 기본으로, 화면이 작으면 92vw까지 줄어듦 */
+	min-height: 72vh;
+	/* 세로가 더 길게 */
+	max-height: 86vh;
+	/* 화면 넘치면 내부 스크롤 */
 	display: flex;
 	flex-direction: column;
 }
@@ -653,12 +675,14 @@ keyframes wave {to { transform:translate(-50%, -50%)scale(1);
 
 /* 입력창*/
 #chargeModal .amount-input-wrap {
-	max-width: 300px; /* 필요하면 300~360 사이로 조절 */
+	max-width: 300px;
+	/* 필요하면 300~360 사이로 조절 */
 }
 
 #chargeModal .amount-row {
 	display: grid;
-	justify-items: start; /* 라벨/입력 좌측 정렬 */
+	justify-items: start;
+	/* 라벨/입력 좌측 정렬 */
 	row-gap: 8px;
 }
 
@@ -695,8 +719,10 @@ keyframes wave {to { transform:translate(-50%, -50%)scale(1);
 	position: relative;
 	cursor: pointer;
 	/* 3D 효과 */
-	box-shadow: 0 10px 0 #15834a, /* 아래 엣지(진한 초록) */
-    0 18px 24px rgba(0, 0, 0, .18); /* 외곽 그림자 */
+	box-shadow: 0 10px 0 #15834a,
+		/* 아래 엣지(진한 초록) */
+		0 18px 24px rgba(0, 0, 0, .18);
+	/* 외곽 그림자 */
 	transform: translateY(0);
 	transition: transform .06s ease, box-shadow .06s ease;
 }
@@ -724,7 +750,79 @@ keyframes wave {to { transform:translate(-50%, -50%)scale(1);
 }
 
 /* ====== 기타: 모달 자체 중앙고정 보강 ====== */
-.donate-modal, .modal {
-	align-items: center; /* 혹시 기본 규칙이 덮였을 경우 대비 */
+.donate-modal,
+.modal {
+	align-items: center;
+	/* 혹시 기본 규칙이 덮였을 경우 대비 */
 	justify-content: center;
+}
+
+
+
+/* 기부 성공 전용 모달 */
+.lf-success {
+	position: fixed;
+	inset: 0;
+	z-index: 10000;
+	display: none;
+}
+
+.lf-success.show {
+	display: block;
+}
+
+/* 배경 어둡게 (모달이 열릴 때만) */
+.lf-success__backdrop {
+	position: absolute;
+	inset: 0;
+	background: rgba(0, 0, 0, .32);
+	/* ← “살짝” 어둡게 */
+	opacity: 0;
+	transition: opacity .18s ease;
+}
+
+.lf-success.show .lf-success__backdrop {
+	opacity: 1;
+}
+
+/* 모달 박스 */
+.lf-success__dialog {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%) scale(.98);
+	background: #fff;
+	width: min(520px, 92vw);
+	border-radius: 14px;
+	box-shadow: 0 12px 40px rgba(0, 0, 0, .18);
+	padding: 22px 22px 18px;
+	opacity: 0;
+	transition: opacity .18s ease, transform .2s ease;
+}
+
+.lf-success.show .lf-success__dialog {
+	opacity: 1;
+	transform: translate(-50%, -50%) scale(1);
+}
+
+.lf-success__title {
+	margin: 0 0 8px;
+	font-size: 20px;
+}
+
+.lf-success__msg {
+	margin: 0 0 16px;
+	line-height: 1.6;
+	color: #333;
+}
+
+.lf-success__actions {
+	text-align: right;
+}
+
+/* 모달뒤로보내기 */
+#confettiTarget canvas,
+canvas[class*="confetti"],
+canvas[id*="confetti"] {
+	z-index: 1 !important;
 }

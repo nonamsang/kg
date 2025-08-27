@@ -47,11 +47,16 @@ public class UserServiceImpl implements UserService {
 	public boolean isOauthIdDuplicate(String oauthId) {
 		return userMapper.findByOauthID(oauthId) != null;
 	}
-	
 
 	@Override
 	public UserVO getInfo(int id) {
 		return userMapper.getInfo(id);
+	}
+
+	// 포인트 선물하기 추가
+	@Override
+	public boolean existsById(int id) {
+		return userMapper.countById(id) > 0;
 	}
 
 }

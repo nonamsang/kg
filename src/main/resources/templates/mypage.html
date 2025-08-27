@@ -1,86 +1,3 @@
-<!--<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Little Forest</title>
-<link rel="stylesheet" href="/css/style.css">  공통 header/footer용 
-<link rel="stylesheet" href="/css/mypage.css">  마이페이지 전용 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  
-</head>
-<body>
-
- 공통 header 삽입 
-  <div th:replace="fragments/header :: header"></div>
-
-
-	<div class="mypage-container">
-	   프로필 영역 
-	  <div class="profile-box">
-	    <img class="profile-img" th:src="@{'/image/' + ${profilePhotoPath}}" alt="프로필">
-	    <div class="profile-info">
-	      <strong th:text="${userInfo.nickname}"></strong> 님 >
-	      <p class="sub"> 나의 보유 포인트
-	        (<span th:text="${userInfo.point}"></span>P) >
-	      </p>
-	      <p><a href="/payment"> 최근지출보러가기 </a></p>
-	    </div>
-	  </div>
-	
-	   포인트 및 쿠폰 
-	  <div class="status-box">
-	    <div>
-	      <i class="fa-solid fa-dollar-sign"></i>
-	      <span>그린포인트</span>
-	      <strong th:text="${userInfo.point} + 'p'"></strong>
-	    </div>
-	    <div>
-	      <i class="fa-solid fa-ticket"></i>
-	      <span>쿠폰</span>
-	      <strong>1개</strong>
-	    </div>
-	    <div>
-	      <i class="fa-solid fa-emission"></i>
-	      <span>나의 탄소 배출량</span>
-	      <strong>탄소배출량.emission</strong>
-	    </div>
-	  </div>
-	
-	   이벤트 배너 
-	  <div class="banner">
-	    <img src="/image/event_banner_centered.png" alt="이벤트 배너" />
-	  </div>
-	
-	   메뉴 
-	  <ul class="menu">
-	    <li><a href="#">1:1 문의 <i class="fa-solid fa-angle-right"></i></a></li>
-	    <li><a href="#">고객센터 <i class="fa-solid fa-angle-right"></i></a></li>
-	  </ul>
-		<form action="/member/logout" method="post">
-			<button type="submit">로그아웃</button>
-		</form>
-
-	</div>
-
- 
-    <h2 th:text="${userInfo.nickname} + ' 님의 마이페이지'"></h2>
-	<img th:src="@{'/image/' + ${profilePhotoPath}}" alt="프로필" width="100">
-    <p>이름: <span th:text="${userInfo.name}"></span></p>
-    <p>닉네임: <span th:text="${userInfo.nickname}"></span></p>
-    <p>주소: <span th:text="${userInfo.address}"></span></p>
-    <p>포인트: <span th:text="${userInfo.point}"></span> P</p>
-     
-    <p><a href="/wallet">지갑으로 가기 (이미지로)</a></p>
-    <p><a href="/emission">탄소배출량 차트보러가기 (이미지로)</a></p>
-    
-    
- 공통 footer 삽입 
-  <div th:replace="fragments/footer :: footer"></div>
-    
-</body>
-</html>-->
-
-
 <!DOCTYPE html>
 <html>
 
@@ -89,7 +6,8 @@
 	<title>mypage</title>
 	<link rel="stylesheet" href="/css/mypage.css"> <!-- 마이페이지 전용 -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-	<link rel="stylesheet" href="/css/style.css"> <!-- 공통 header/footer용 -->
+	<!--<link rel="stylesheet" href="/css/style.css">--> <!-- 공통 header/footer용 -->
+	<link rel="stylesheet" href="/css/mainpagestyle.css">
 
 </head>
 
@@ -148,9 +66,8 @@
 			<a href="/carbon/point">포인트 보러가기 (이미지로)</a>
 			<a href="/pay">포인트 충전하러가기</a>
 		</p>
+
 	</div>
-
-
 
 	<!-- 공통 footer 삽입 -->
 	<div th:replace="fragments/footer :: footer"></div>

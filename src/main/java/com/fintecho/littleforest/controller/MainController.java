@@ -69,8 +69,18 @@ public class MainController {
 		return "emission1";
 	}
 
-	// 로그인 !
+	@GetMapping("/slider")
+	public String sliderPage() {
+		return "slider"; //
+	}
 
+	// 회사소개 페이지
+	@GetMapping("/about")
+	public String aboutPage() {
+		return "about"; //
+	}
+
+	// 로그인 !
 	@PostMapping("/login")
 	public String login(@RequestParam String oauth_id, @RequestParam String password, Model model,
 			HttpSession session) {

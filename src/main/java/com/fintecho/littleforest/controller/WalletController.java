@@ -23,87 +23,77 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 public class WalletController {
-	
+
 	@Autowired
 	WalletService walletService;
-	
-    @Autowired
-    UserService userService; 
-    
-    @Autowired
-    PaymentService paymentService; 
-	
-    @RequestMapping("/wallet")
-    public String walletlist(HttpSession session, Model model) {
-    	
-    		int testUserId =5; //db 테스트용 유저 번호 
-    		//로그인한 사용자의 user_seq 기준으로 사용자 정보 조회
-    		// int user_Id = loginUser.getUser_id();
 
-    		// 유저 정보 조회 후 model에 추가
-        UserVO userInfo = userService.getInfo(testUserId);
-        model.addAttribute("userInfo", userInfo);
-		
-        // 모달에 표시할 보유 포인트
-        model.addAttribute("pointBalance", userInfo.getPoint());
-		/*
-		 * if (userInfo == null) { // 사용자 정보를 찾을 수 없는 경우 메인페이지로 return
-		 * "redirect:/mainpage"; }
-		 */
-   
-    		// user_id로 지갑 목록 전체 조회 (전체 계좌 정보)
-        List<WalletVO> walletList = walletService.getWalletsByUserId(testUserId);
-        model.addAttribute("walletList", walletList);
-        
-        //총 잔액 계산
-        int totalBalance = walletList.stream()
-                .mapToInt(WalletVO::getAccount_Balance)
-                .sum();
-  	    model.addAttribute("totalBalance", totalBalance);
-        
-        // 통장 인덱스 walletList에서 중복제거하기 위한 Thymeleaf 사용중이라 따로 만들어야함
-        // 중복 제거된 은행명 리스트 (탭생성용)
-        Set<String> bankNames = walletList.stream()
-                .map(WalletVO::getBank_Name)
-                .collect(Collectors.toCollection(LinkedHashSet::new));
-        											//순서유지 
-        // Set <String > bankNames =[농협, 기업, 신한]
-        model.addAttribute("bankNames", bankNames);
-        
-     // 첫 탭 기본 선택 (첫 번째 은행명)
-		/*
-		 * if (!bankNames.isEmpty()) { model.addAttribute("defaultBank",
-		 * bankNames.iterator().next()); }
-		 */
+	@Autowired
+	UserService userService;
 
-        model.addAttribute("showPassbook", false);
-        
-    		return "walletlist";
-    } 
+	@Autowired
+	PaymentService paymentService;
 
+	@RequestMapping("/wallet")
+	public String walletlist(HttpSession session, Model model) {
 
-    @RequestMapping("/payment")
-    public String paymentlist(HttpSession session, Model model) {
-        int testUserId = 5;
+		// int testUserId =1; //db 테스트용 유저 번호
 
-        // 유저 정보
-        UserVO userInfo = userService.getInfo(testUserId);
-        model.addAttribute("userInfo", userInfo);
+		UserVO loginUser = (UserVO) session.getAttribute("loginUser");
+		if (loginUser == null)
+			return "redirect:/login";
+		int userId = loginUser.getId();
 
-        // 지갑 내역
-        List<PaymentVO> paymentList = paymentService.getPaymentListByUserId(testUserId);
-       // log.info("결제 내역 수: {}", paymentList.size()); db에 값 없을때 대비
-        model.addAttribute("paymentList", paymentList);
+		// 유저 정보 조회 후 model에 추가
+		UserVO userInfo = userService.getInfo(userId);
+		model.addAttribute("userInfo", userInfo);
+		// 모달에 표시할 보유 포인트
+		model.addAttribute("pointBalance", userInfo.getPoint());
 
-        // ⬇ 총잔액 계산 추가 (walletService 이용)
-        List<WalletVO> walletList = walletService.getWalletsByUserId(testUserId);
-        int totalBalance = walletList.stream()
-        		.mapToInt(WalletVO::getAccount_Balance)
-        		.sum();
-        model.addAttribute("totalBalance", totalBalance);
+		// user_id로 지갑 목록 전체 조회 (전체 계좌 정보)
+		List<WalletVO> walletList = walletService.getWalletsByUserId(userId);
+		model.addAttribute("walletList", walletList);
 
-        return "payment";
-    }
+		// 총 잔액 계산
+		int totalBalance = walletList.stream().mapToInt(WalletVO::getAccount_Balance).sum();
+		model.addAttribute("totalBalance", totalBalance);
 
+		// 통장 인덱스 walletList에서 중복제거하기 위한 Thymeleaf 사용중이라 따로 만들어야함
+		// 중복 제거된 은행명 리스트 (탭생성용)
+		Set<String> bankNames = walletList.stream().map(WalletVO::getBank_Name)
+				.collect(Collectors.toCollection(LinkedHashSet::new));
+		// 순서유지
+		// Set <String > bankNames =[농협, 기업, 신한]
+		model.addAttribute("bankNames", bankNames);
+		model.addAttribute("showPassbook", false);
+
+		return "walletlist";
+	}
+
+	@RequestMapping("/payment")
+	public String paymentlist(HttpSession session, Model model) {
+		// int testUserId = 5;
+
+		/* =====================추가==================== */
+		UserVO loginUser = (UserVO) session.getAttribute("loginUser");
+		if (loginUser == null)
+			return "redirect:/login";
+		int userId = loginUser.getId();
+
+		// 유저 정보
+		UserVO userInfo = userService.getInfo(userId);
+		model.addAttribute("userInfo", userInfo);
+
+		// 지갑 내역
+		List<PaymentVO> paymentList = paymentService.getPaymentListByUserId(userId);
+		// log.info("결제 내역 수: {}", paymentList.size()); db에 값 없을때 대비
+		model.addAttribute("paymentList", paymentList);
+
+		// ⬇ 총잔액 계산 추가 (walletService 이용)
+		List<WalletVO> walletList = walletService.getWalletsByUserId(userId);
+		int totalBalance = walletList.stream().mapToInt(WalletVO::getAccount_Balance).sum();
+		model.addAttribute("totalBalance", totalBalance);
+
+		return "payment";
+	}
 
 }

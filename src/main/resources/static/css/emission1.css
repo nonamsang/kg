@@ -1,25 +1,30 @@
 #calendar {
-  max-width: 1200px;
-  margin: 15px auto;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	max-width: 1200px;
+	margin: 15px auto;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
 #calendar-container {
-  max-width: 1300px;
-  margin: 30px auto;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	max-width: 1300px;
+	margin: 30px auto;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 #calendar-title {
-  text-align: center;
-  font-weight: 700;
-  font-size: 1.8rem;
-  color: #2e7d32;
-  margin-bottom: 15px;
+	text-align: center;
+	font-weight: 700;
+	font-size: 1.8rem;
+	color: #2e7d32;
+	margin-bottom: 15px;
 }
-#calendar-controls select  {
-	padding: 12px 24px; /* 위아래 12px, 좌우 24px로 넉넉하게 */
-	font-size: 1.4rem; /* 글자 크기 키우기 */
-	width: 150px; /* 너비 고정 (필요에 따라 조절) */
+
+#calendar-controls select {
+	padding: 12px 24px;
+	/* 위아래 12px, 좌우 24px로 넉넉하게 */
+	font-size: 1.4rem;
+	/* 글자 크기 키우기 */
+	width: 150px;
+	/* 너비 고정 (필요에 따라 조절) */
 	padding: 6px 12px;
 	font-size: 1rem;
 	border: 1px solid #4CAF50;
@@ -30,86 +35,90 @@
 }
 
 #calendar-controls select:focus {
-  outline: none;
-  border-color: #2e7d32;
-  box-shadow: 0 0 5px #2e7d32aa;
+	outline: none;
+	border-color: #2e7d32;
+	box-shadow: 0 0 5px #2e7d32aa;
 }
 
 /* 월 소비량 드롭다운 */
 .toolbar .select select {
-  padding: 8px 16px;           /* 넉넉한 패딩 */
-  font-size: 1rem;
-  border: 1px solid #4caf50;   /* 진한 초록 테두리 */
-  border-radius: 6px;
-  color: #2e7d32;              /* 글씨 진한 초록 */
-  cursor: pointer;
-  position: relative;
-  transition: all 0.2s ease;
+	padding: 8px 16px;
+	/* 넉넉한 패딩 */
+	font-size: 1rem;
+	border: 1px solid #4caf50;
+	/* 진한 초록 테두리 */
+	border-radius: 6px;
+	color: #2e7d32;
+	/* 글씨 진한 초록 */
+	cursor: pointer;
+	position: relative;
+	transition: all 0.2s ease;
 }
 
 /* 드롭다운 포커스 시 강조 */
 .toolbar .select select:focus {
-  outline: none;
-  border-color: #2e7d32;
-  box-shadow: 0 0 5px #2e7d32aa;
+	outline: none;
+	border-color: #2e7d32;
+	box-shadow: 0 0 5px #2e7d32aa;
 }
 
 /* 커스텀 화살표 */
 .toolbar .select::after {
-  content: '▾';
-  position: absolute;
-  right: 12px;
-  pointer-events: none;
-  color: #2e7d32;
-  font-size: 0.8rem;
+	content: '▾';
+	position: absolute;
+	right: 12px;
+	pointer-events: none;
+	color: #2e7d32;
+	font-size: 0.8rem;
 }
 
 
 #calendar table {
-  width: 100%;
-  border-collapse: collapse;
-  table-layout: fixed;
+	width: 100%;
+	border-collapse: collapse;
+	table-layout: fixed;
 }
 
 #calendar th {
-  background-color: #2e7d32;
-  color: white;
-  padding: 12px 0;
-  font-weight: 600;
-  font-size: 1rem;
+	background-color: #2e7d32;
+	color: white;
+	padding: 12px 0;
+	font-weight: 600;
+	font-size: 1rem;
 }
 
 #calendar td {
-  border: 1px solid #ddd;
-  text-align: center;
-  vertical-align: top;
-  padding: 12px 6px;
-  height: 100px;
-  color: #333;
+	border: 1px solid #ddd;
+	text-align: center;
+	vertical-align: top;
+	padding: 12px 6px;
+	height: 100px;
+	color: #333;
 }
 
 #calendar .date {
-  font-weight: 700;
-  font-size: 1.1rem;
-  margin-bottom: 8px;
-  color: #2e7d32;
+	font-weight: 700;
+	font-size: 1.1rem;
+	margin-bottom: 8px;
+	color: #2e7d32;
 }
 
 #calendar .carbon {
-  font-size: 0.95rem;
-  color: rgb(76, 175, 80);
-  font-weight: 700;
+	font-size: 0.95rem;
+	color: rgb(76, 175, 80);
+	font-weight: 700;
 }
 
 /* 빈 셀은 테두리만 연하게 */
 #calendar td:empty {
-  border-color: #f0f0f0;
-  background-color: #fafafa;
-}
-.payment {
-  font-size: 0.9rem;
-  color: #d32f2f; /* 빨간색 계열 */
-  margin-top: 5px;
-  font-weight: 700;
+	border-color: #f0f0f0;
+	background-color: #fafafa;
 }
 
+.payment {
+	font-size: 0.9rem;
+	color: #d32f2f;
+	/* 빨간색 계열 */
+	margin-top: 5px;
+	font-weight: 700;
+}

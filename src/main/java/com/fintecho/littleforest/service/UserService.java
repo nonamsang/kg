@@ -17,7 +17,10 @@ public interface UserService {
 
 // Oauth ID 중복 체크
 	boolean isOauthIdDuplicate(String oauthId);
-	
+
 	UserVO getInfo(int id);
+
+	// 포인트 선물하기
+	boolean existsById(int id);
 
 }

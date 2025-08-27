@@ -120,6 +120,21 @@ public class PointServiceImpl implements PointService {
 		return (fromCur - amount); // 보낸 사람의 새 잔액 반환
 	}
 
+	// 포인트 선물하기 (없는 유저 등..)
+	@Override
+	public boolean userExists(int userId) {
+		return userMapper.countById(userId) > 0;
+	}
+
+	@Override
+	public int getBalance(int userId) {
+		// 락이 필요 없는 단순 조회용
+		Integer p = userMapper.selectPoint(userId); // 없으면 0 또는 null 처리
+		if (p == null)
+			throw new IllegalStateException("NO_USER");
+		return p;
+	}
+
 	@Override
 	public List<PointVO> getPointByUserId(int userId) {
 		return pointMapper.getPointByUserId(userId);

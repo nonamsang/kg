@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.fintecho.littleforest.mapper.PaymentMapper">
 
 
 <resultMap id="paymentMap" type="com.fintecho.littleforest.vo.PaymentVO">
-  <result property="tran_At" column="tran_at"/>
-  <result property="type" column="type"/>
-  <result property="amount" column="amount"/>
+  <id     property="id"         column="id"/>
+  <result property="tran_At"    column="tran_at"/>
+  <result property="type"       column="type"/>
+  <result property="amount"     column="amount"/>
   <result property="description" column="description"/>
-  <result property="bank_Name" column="bank_name"/>
+  <result property="bank_Name"  column="bank_name"/>
+  <!-- 추가: SQL alias earned_point → VO.earnedPoint -->
+  <result property="earnedPoint" column="earned_point"/>
 </resultMap>
+
 
 <select id="getPaymentListByUserId" resultMap="paymentMap">
   SELECT 
@@ -26,7 +29,52 @@
   ORDER BY p.tran_at DESC
 </select>
 
-    
+<!-- 결제내역 + 포인트 계산 -->
+<select id="selectPaymentWithPoints" parameterType="int" resultMap="paymentMap">
+  SELECT
+      p.id,
+      p.tran_at,
+      p.type,
+      p.amount,
+      -- CLOB -> VARCHAR2 로 내려주기 (화면 표시용)
+      DBMS_LOB.SUBSTR(p.description, 4000, 1) AS description,
+      w.bank_name,
+      /* 여기서 한 번에 포인트 계산 */
+      NVL((
+        SELECT MAX(
+                 CASE r.unit
+                   WHEN 'CASE' THEN r.reward
+                   WHEN 'KM'   THEN NVL(
+                                    TO_NUMBER(
+                                      REGEXP_SUBSTR(
+                                        DBMS_LOB.SUBSTR(p.description, 4000, 1),
+                                        '([0-9]+)[[:space:]]*km', 1, 1, NULL, 1
+                                      )
+                                    ), 0
+                                  ) * r.reward
+                   WHEN 'KG'   THEN NVL(
+                                    TO_NUMBER(
+                                      REGEXP_SUBSTR(
+                                        DBMS_LOB.SUBSTR(p.description, 4000, 1),
+                                        '([0-9]+)[[:space:]]*kg', 1, 1, NULL, 1
+                                      )
+                                    ), 0
+                                  ) * r.reward
+                   ELSE 0
+                 END
+               )
+          FROM point_rule_table r
+         WHERE INSTR(DBMS_LOB.SUBSTR(p.description, 4000, 1), r.keyword) > 0
+      ), 0) AS earned_point
+  FROM payment_table p
+  JOIN wallet_table w
+    ON w.id = p.wallet_id
+  WHERE w.user_id = #{userId}
+  ORDER BY p.tran_at DESC, p.id DESC
+</select>
+
+
+   
 </mapper>
 
 

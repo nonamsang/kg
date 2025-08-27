@@ -1,4 +1,3 @@
-// 간단 UX: 숫자만, 빈값 방지
 (function() {
 	const form = document.getElementById('adminLoginForm');
 	const idInput = document.getElementById('username');

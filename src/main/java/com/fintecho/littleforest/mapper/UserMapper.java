@@ -34,6 +34,12 @@ public interface UserMapper {
 	// 포인트 증가(추가)
 	int addPoint(int id, int amount);
 
+	// 포인트 선물하기 추가
+	int countById(@Param("id") int id);
+
+	// (getBalance 구현 시 필요)
+	Integer selectPoint(@Param("userId") int userId);
+
 	/*
 	 * UserVO getInfo(@Param("id") int id); Integer
 	 * selectPointForUpdate(@Param("id") int id); int deductPoint(@Param("id") int
