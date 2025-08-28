@@ -14,6 +14,7 @@ import com.fintecho.littleforest.mapper.WalletMapper;
 import com.fintecho.littleforest.vo.ProductVO;
 import com.fintecho.littleforest.vo.WalletVO;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -28,11 +29,13 @@ public class ProductController {
 	WalletMapper walletmapper;
 	
 	@GetMapping("/product")
-	public String product(@RequestParam int product_Id, Model model) {
+	public String product(@RequestParam int product_Id, Model model, HttpSession session) {
+		
+		int id = (int) session.getAttribute("user_Id");
 		
 		ProductVO product = productmapper.getProductByProductId(product_Id);
 		String merchant_Name = merchantmapper.getMerchantNameByMerchantId(product.getMerchants_Id());
-		List<WalletVO> wallet = walletmapper.findByUserId(2);
+		List<WalletVO> wallet = walletmapper.findByUserId(id);
 		int total_Balance = 0;
 		
 		for (WalletVO w : wallet) {
@@ -40,9 +43,12 @@ public class ProductController {
 		    
 		}
 		
+		Double point = product.getPrice() * (product.getCarbon_Effect() / 100);
+		String pointText = String.format("%.2f", point);
+		
 		model.addAttribute("product",product);
 		model.addAttribute("merchant_Name", merchant_Name);
-		model.addAttribute("point", product.getPrice() * (product.getCarbon_Effect() / 100));
+		model.addAttribute("point", pointText);
 		model.addAttribute("total_Balance", total_Balance);
 		model.addAttribute("wallet", wallet);
 		
