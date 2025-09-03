@@ -81,5 +81,21 @@
 		  ON u.id = t.sender
 
 	</select>
+
+	<select id="countChatRoom" resultType="int">
+		SELECT COUNT(*)
+    	FROM chat_room_table
+    	WHERE user_id=#{user_Id}
+	</select>
+
+	<insert id = "insertChatRoom">
+		INSERT INTO chat_room_table
+		VALUES (4, '새로운 챗방', #{user_Id})
+	</insert>
+
+	<insert id = "insertChatRoomAdmin">
+		INSERT INTO chat_room_table 
+		VALUES (4, '새로운 챗방', 2)
+	</insert>
 	
 </mapper>

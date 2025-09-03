@@ -13,7 +13,7 @@ public interface GrowingTreeMapper {
 	GrowingTreeVO getAllStock(@Param("user_Id") int user_Id);
 
 //사용자가 키우고 있는 나무 재고 조회 선언
-	int ifTree(int userId);
+	int ifTree(int user_Id);
 
 //나무를 심는다(사용자가 키우는 나무가 없다면)
 	int insertTree(GrowingTreeVO treevo);
@@ -38,5 +38,8 @@ public interface GrowingTreeMapper {
 
 //레벨7 달성하고 다시키우기 선택시 삭제
 	void deletetree(GrowingTreeVO deletevo);
+
+	// 키우던 나무에서 재고가 있으면 재고테이블에서 업데이트(트랜잭션 예정)
+	int insertStockByUserId(GrowingTreeVO treevo);
 
 }

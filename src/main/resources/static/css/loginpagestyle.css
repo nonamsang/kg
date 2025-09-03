@@ -176,3 +176,20 @@ body {
 	border-radius: 4px;
 	display: inline-block;
 }
+
+.btn.admin {
+	display: block;
+	text-align: center;
+	background-color: #6c63ff;
+	/* 보라색 계열 */
+	color: #fff !important;
+	padding: 12px;
+	margin-top: 12px;
+	border-radius: 6px;
+	font-weight: bold;
+	transition: background 0.3s;
+}
+
+.btn.admin:hover {
+	background-color: #5548d9;
+}

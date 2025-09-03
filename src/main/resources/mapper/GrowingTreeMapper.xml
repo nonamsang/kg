@@ -32,6 +32,22 @@ SYSDATE
 )
 </insert>
 
+<insert id="insertStockByUserId" parameterType="com.fintecho.littleforest.vo.GrowingTreeVO">
+insert into growing_tree_table(id,user_id,tree_level,tree_name,carbon_saved,water_count,water_stock,biyro_stock,biyro_used_at,last_updated)
+values(
+growing_tree_Seq.nextval,
+#{user_Id},
+1,
+#{tree_Name},
+0,
+0,
+#{water_Stock},
+#{biyro_Stock},
+#{biyro_Used_At, jdbcType=DATE},
+SYSDATE
+)
+</insert>
+
 <update id="updatestock" parameterType="com.fintecho.littleforest.vo.GrowingTreeVO">
 update growing_tree_table set biyro_stock=biyro_stock + #{quantity} where user_id=#{user_Id}
 </update>
@@ -49,7 +65,7 @@ update growing_Tree_table set tree_level=#{tree_Level} where user_id=#{user_Id}
 </update>
 
 <update id="updatebiyro" parameterType="com.fintecho.littleforest.vo.GrowingTreeVO">
-update growing_Tree_table set biyro_stock=#{biyro_Stock}-1, biyro_used_at=sysdate where user_id=#{user_Id}
+update growing_Tree_table set biyro_stock=biyro_Stock-1, biyro_used_at=sysdate where user_id=#{user_Id}
 </update>
 <update id="updateburning" parameterType="com.fintecho.littleforest.vo.GrowingTreeVO">
   <![CDATA[

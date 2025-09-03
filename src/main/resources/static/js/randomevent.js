@@ -1,10 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
+	const ranLevel = document.getElementById("tree_Level");
+	const parseLevel = parseInt(ranLevel.textContent);
+	if (parseLevel == 7) {
+		return;
+	}
 	const ranpop = document.getElementById("randomeventpopup");
 	const meadow = document.querySelector(".meadow");
 	const random = Math.random();
 	const rwaterbtn = document.getElementById("waterbtn");
 	const rbiyrobtn = document.getElementById("biyrobtn");
-	if (random < 0.05) {
+	if (random < 0.11) {
 		const meadow2 = 400;
 		for (var i = 1; i < meadow2; i++) {
 			const weed = document.createElement('div');
@@ -23,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 		rwaterbtn.disabled = true;
 		rbiyrobtn.disabled = true;
-		setTimeout(() => { ranpop.style.display = "flex" }, 2000);
+		setTimeout(() => { ranpop.style.display = "flex" }, 500);
 		// 1. F5, Ctrl+R 막기
 		/*document.addEventListener("keydown", function(e) {
 			if (e.key === "F5" || (e.ctrlKey && (e.key === "r" || e.key === "R"))) {
@@ -38,10 +43,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		const adbtn = document.getElementById("adbtn");
 		const allmeadow = meadow.querySelectorAll(".weed");
+		const completepopup = document.getElementById("completepopup");
+		const sucbtn = document.getElementById("sucbtn");
 		adbtn.onclick = () => {
 			window.open('https://sites.google.com/view/littleforestad');
+			ranpop.style.display = "none";
 			setTimeout(() => {
-				ranpop.style.display = "none";
 				setTimeout(() => { allmeadow.forEach(weed => meadow.removeChild(weed)) }, 5000);
 			}, 7000);
 			rwaterbtn.disabled = false;
@@ -58,15 +65,19 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 			const formData20 = new FormData();
 			formData20.append("point", pointContent);
-			fetch("/happen", {
+			fetch("/growtree/happen", {
 				method: 'POST',
 				body: formData20
-			}).then(response => response.text()).then(data => {
-				alert("잡초제거 성공했습니다.", data)
-				ranpop.style.display = "none";
-				setTimeout(() => { allmeadow.forEach(weed => meadow.removeChild(weed)) }, 5000);
-				rwaterbtn.disabled = false;
-				rbiyrobtn.disabled = false;
+			}).then(response => response.text()).then(() => {
+				completepopup.style.display = "flex";
+				document.getElementById("pointHtml").innerHTML = `<h3>결제 포인트 : 100P</h3>` + `<h3>남은 보유 포인트 : ${pointContent - 100}P</h3>`;
+				sucbtn.onclick = () => {
+					completepopup.style.display = "none";
+					ranpop.style.display = "none";
+					setTimeout(() => { allmeadow.forEach(weed => meadow.removeChild(weed)) }, 5000);
+					rwaterbtn.disabled = false;
+					rbiyrobtn.disabled = false;
+				}
 			})
 			point0.textContent = pointContent - 100;
 		}

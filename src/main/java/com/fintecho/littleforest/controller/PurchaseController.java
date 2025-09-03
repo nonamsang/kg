@@ -18,7 +18,7 @@ public class PurchaseController {
 	@Autowired
 	private GrowingTreeService growingTreeService;
 
-	@PostMapping("/purchase")
+	@PostMapping("/growtree/purchase")
 	public ResponseEntity<String> purchase(@RequestBody PurchaseRequest request, HttpSession session) {
 		// int user_Id = 4; // 나중에 실제 로그인한 사용자 ID로 변경
 		UserVO loginUser = (UserVO) session.getAttribute("loginUser");

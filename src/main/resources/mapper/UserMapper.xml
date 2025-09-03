@@ -107,4 +107,31 @@ and password = #{password}
   SELECT point FROM user_table WHERE id = #{userId}
 </select>
 
+
+<!-- 회원정보 수정 -->
+<update id="userUpdate" parameterType="UserVO">
+update user_table set phone=#{phone}, address=#{address},email=#{email}, nickname=#{nickname}, profile_photo=#{profile_Photo,jdbcType=VARCHAR}
+where id=#{id}
+</update>
+
+<!-- 사진만 수정 -->
+<update id="userUpdateProfile" parameterType="UserVO">
+update user_table set profile_photo=#{profile_Photo,jdbcType=VARCHAR}
+where id=#{id}
+</update>
+
+<!-- 닉네임 중복체크를 위한 것 -->
+<select id="nicknameChecking" parameterType="String" resultType="int">
+select count(*) from user_table where nickname=#{nickname}
+</select>
+
+<!-- 비밀번호 변경 -->
+<update id="userUpdatePassword" parameterType="UserVO">
+update user_table set password=#{password} where id=#{id}
+</update>
+<!-- 관리자 이메일만 가져옴 (일단 관리자 요소 다 가져옴)-->
+<select id="adminInform" parameterType="UserVO">
+select * from user_table where role in('admin')
+</select>
+
 </mapper>

@@ -46,4 +46,18 @@ public interface UserMapper {
 	 * id, @Param("amount") int amount);
 	 */
 
+	int userUpdate(UserVO uvo);
+
+	// 회원정보 수정(프로필만)
+	int userUpdateProfile(UserVO uvo);
+
+	// 닉네임 중복체크용
+	int nicknameChecking(@Param("nickname") String nickname);
+
+	// 관리자 이메일만 가져오기
+	void adminInform(@Param("role") String role);
+
+	// 비밀번호 수정을 위한것
+	int userUpdatePassword(UserVO uvo);
+
 }

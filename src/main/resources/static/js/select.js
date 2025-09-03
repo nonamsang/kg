@@ -6,11 +6,11 @@ function status(card) {
 	fetch(`/community/status?id=${communityid9}`)
 		.then(response => response.json())
 		.then(data => {
-			document.getElementById("s2nickname").textContent="닉네임 :"+data.nickname;
-			document.getElementById("s2type").textContent = "타입 : "+data.type;
-			document.getElementById("s2likes").textContent = "좋아요 수 : "+data.likes;
-			document.getElementById("s2title").textContent = "제목 : "+data.title;
-			document.getElementById("s2content").textContent = "내용 : "+data.content;
+			document.getElementById("s2nickname").textContent = "닉네임 :" + data.nickname;
+			document.getElementById("s2type").textContent = "타입 : " + data.type;
+			document.getElementById("s2likes").textContent = "좋아요 수 : " + data.likes;
+			document.getElementById("s2title").textContent = "제목 : " + data.title;
+			document.getElementById("s2content").textContent = "내용 : " + data.content;
 
 			const d = new Date(data.created_At);
 			var y1 = d.getFullYear();
@@ -30,13 +30,13 @@ function status(card) {
 			if (comments.length === 0) {
 				subcomment.innerHTML = "<p align='center'>댓글이 없습니다.</p>" +
 					"<div style='text-align:center;'><button class='idmore2'>자세히 보기</button></div>";
-					const mbtn2 = subcomment.querySelector(".idmore2");
-									if (mbtn2) {
-										mbtn2.onclick = () => {
-											window.location.href = `/community/morecomment?community_Id=${communityid9}`;
-											console.log(mbtn2);
-										}
-									}
+				const mbtn2 = subcomment.querySelector(".idmore2");
+				if (mbtn2) {
+					mbtn2.onclick = () => {
+						window.location.href = `/community/morecomment?community_Id=${communityid9}`;
+						console.log(mbtn2);
+					}
+				}
 			} else {
 				var length = comments.length;
 				subcomment.innerHTML = "<p align='center'>댓글이 " + length + "개 있습니다.</p>" +

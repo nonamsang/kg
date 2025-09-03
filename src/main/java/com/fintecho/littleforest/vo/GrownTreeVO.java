@@ -12,4 +12,5 @@ public class GrownTreeVO {
 	private int growing_Tree_Id;
 	private Date complete_Tree;
 	private String ident_Tree;
+	private String photo;
 }

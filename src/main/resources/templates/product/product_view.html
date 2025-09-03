@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<th:block layout:fragment="BaseStructure">
+	<title layout:fragment="title">상품 보기</title>
+</th:block>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/product_view.css">
+<script src="../js/product_view.js"></script>
+
+<body>
+	<div th:replace="fragments/header :: header"></div>
+
+	<div class="container">
+
+		<!-- 왼쪽: 상품 정보 -->
+		<div class="product-container">
+			
+			<img th:src="@{${product.image_Path}}" alt="제품 이미지" class="product_img">
+		</div>
+
+		<!-- 오른쪽: 계좌 정보 -->
+		
+		<div class="wallet-section">
+			<h2 th:text="'상품명: ' + ${product.name}"></h2>
+			<h2 th:text="'가격: ' + ${product.price} + ' 적립 포인트: ' + ${point} +'p'"></h2>
+			<hr>
+			<h2>보유 계좌 목록</h2>
+			<div class="total-balance" th:text="'총 자산: ' + ${total_Balance}"></div>
+
+			<div th:each="item, iterStat : ${wallet}" class="wallet-row">
+				
+					
+				<label th:for="'wallet' + ${iterStat.index}">
+					<input type="radio" name="selectedWallet"
+					th:id="'wallet' + ${iterStat.index}"
+					th:value="${item.account_Number}" /> 
+					<div th:text="${item.bank_Name}"></div>
+					<div th:text="${item.account_Number}"></div>
+					<div th:text="'잔액: ' + ${item.account_Balance}"></div>
+				</label>
+			</div>
+
+			<input type="button" th:id="payment_button" th:value="결제하기" onclick="payment()"/> 
+			<input type="button" th:id="undo_button" th:value="취소하기" />
+		</div>
+	</div>
+
+
+
+
+</body>
+</html>

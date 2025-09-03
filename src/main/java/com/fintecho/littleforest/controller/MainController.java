@@ -88,6 +88,7 @@ public class MainController {
 		UserVO user = userService.findByOauthID(oauth_id);
 
 		if (user != null && user.getPassword().equals(password)) {
+			// if (user != null && passwordEncoder.matches(password, user.getPassword())) {
 			session.setAttribute("loginUser", user);
 			return "redirect:/";
 		} else {

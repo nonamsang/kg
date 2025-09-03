@@ -75,11 +75,11 @@
 		</nav>
 	</aside>
 
-	<main class="content"> 
-		<div class="container"> 
+	<main class="content">
+		<div class="container">
 			<th:block th:insert="${content}"></th:block>
-		</div> 
-	</main> 
+		</div>
+	</main>
 	<th:block th:insert="${scripts}"></th:block>
 	<!-- set-user JS -->
 	<script>
@@ -92,19 +92,19 @@
 				e.preventDefault();
 				const userId = this.dataset.id;
 
-				
+
 				const headers = {'Content-Type': 'application/x-www-form-urlencoded'};
 				if (csrfMeta && csrfHeader) {
 					headers[csrfHeader.content] = csrfMeta.content;
 				}
 
-				
+
 				fetch('/set-user', {
 					method: 'POST',
 					headers,
 					//: {
-						//'Content-Type': 'application/x-www-form-urlencoded',
-						//'X-CSRF-TOKEN': document.querySelector('meta[name="_csrf"]').content
+					//'Content-Type': 'application/x-www-form-urlencoded',
+					//'X-CSRF-TOKEN': document.querySelector('meta[name="_csrf"]').content
 					//},
 					body: `id=${userId}`
 				})

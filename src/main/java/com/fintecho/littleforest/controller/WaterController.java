@@ -22,7 +22,7 @@ public class WaterController {
 	@Autowired
 	GrowingTreeService growingTreeService;
 
-	@GetMapping("/water")
+	@GetMapping("/growtree/water")
 	public ResponseEntity<String> water0(HttpSession session) {
 		// int user_Id=4;
 		UserVO loginUser = (UserVO) session.getAttribute("loginUser");
@@ -39,7 +39,7 @@ public class WaterController {
 		return ResponseEntity.ok("성공");
 	}
 
-	@PostMapping("/water2")
+	@PostMapping("/growtree/water2")
 	public ResponseEntity<Map<String, Object>> water(@RequestBody WaterRequest request, HttpSession session) {
 		// int user_seq=(int) session.getAttribute("user_seq");
 		try {
@@ -52,21 +52,21 @@ public class WaterController {
 			int user_Id = loginUser.getId();
 
 			GrowingTreeVO treevo = growingTreeService.getAllStock(user_Id);
-			
+
 			int count = treevo.getWater_Count();
 			int tree_Level = treevo.getTree_Level();
-			
+
 			treevo.setWater_Count((count) + 1);
-			
+
 			growingTreeService.updatewater(user_Id);
 			growingTreeService.updatelevel(tree_Level, user_Id);
-			
+
 			GrowingTreeVO reload = growingTreeService.getAllStock(user_Id);
-			
+
 			Map<String, Object> response = new HashMap<>();
 			response.put("exp", reload.getWater_Count());
 			response.put("treeLevel", reload.getTree_Level());
-			
+
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {
 			Map<String, Object> error = new HashMap<>();

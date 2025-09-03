@@ -52,7 +52,7 @@ public class StockController {
 
 	}
 
-	@PostMapping("/give")
+	@PostMapping("/growtree/give")
 	public ResponseEntity<String> give(@RequestBody GiveRequest request, HttpSession session) {
 		try {
 			// int user_Id = 4; //임시
@@ -70,7 +70,7 @@ public class StockController {
 		}
 	}
 
-	@PostMapping("/biyro")
+	@PostMapping("/growtree/biyro")
 	public ResponseEntity<String> biyro(@RequestBody BiyroRequest request, HttpSession session) {
 		try {
 			// int user_Id = 4;

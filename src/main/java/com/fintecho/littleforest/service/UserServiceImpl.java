@@ -59,4 +59,32 @@ public class UserServiceImpl implements UserService {
 		return userMapper.countById(id) > 0;
 	}
 
+	@Override
+	public int userUpdate(UserVO uvo) {
+		// TODO Auto-generated method stub
+		return userMapper.userUpdate(uvo);
+	}
+
+	@Override
+	public int userUpdateProfile(UserVO uvo) {
+		return userMapper.userUpdateProfile(uvo);
+	}
+
+	@Override
+	public int nicknameChecking(String nickname) {
+		return userMapper.nicknameChecking(nickname);
+	}
+
+	@Override
+	public void adminInform(String role) {
+		userMapper.adminInform(role);
+
+	}
+
+	@Override
+	public int userUpdatePassword(UserVO uvo) {
+		// TODO Auto-generated method stub
+		return userMapper.userUpdatePassword(uvo);
+	}
+
 }

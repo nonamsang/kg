@@ -46,12 +46,16 @@ public class TreeController {
 
 	@GetMapping("/growtree")
 	public String tree(Model model, HttpSession session) {
-		// int user_Id = 4;
+
 		UserVO loginUser = (UserVO) session.getAttribute("loginUser");
 		if (loginUser == null) {
 			return "redirect:/login";
 		}
+
 		int user_Id = loginUser.getId();
+
+		UserVO vo2 = userService.getinform(user_Id);
+		model.addAttribute("users", vo2);
 
 		GrowingTreeVO vo = growingTreeService.getAllStock(user_Id);
 		// int user_seq=(int) session.getAttribute("user_seq");
@@ -97,7 +101,7 @@ public class TreeController {
 				status = "7레벨";
 				break;
 			}
-			UserVO vo2 = userService.getinform(user_Id);
+			// UserVO vo2 = userService.getinform(user_Id);
 
 			boolean event = randomEvent();
 			if (event) {
@@ -107,14 +111,14 @@ public class TreeController {
 			}
 			model.addAttribute("status", status);
 			model.addAttribute("stock", vo);
-			model.addAttribute("users", vo2);
+			// model.addAttribute("users", vo2);
 			model.addAttribute("tree_Image", tree_image);
 			model.addAttribute("iftree", true);
 		}
 		return "tree";
 	}
 
-	@PostMapping("/plant")
+	@PostMapping("/growtree/plant")
 	public ResponseEntity<String> plant(Model model, HttpSession session, @RequestBody InsertRequest request) {
 		// int user_Id = 5;
 		UserVO loginUser = (UserVO) session.getAttribute("loginUser");
@@ -133,7 +137,7 @@ public class TreeController {
 		return (result > 0) ? ResponseEntity.ok("success") : ResponseEntity.status(500).body("fail");
 	}
 
-	@PostMapping("/happen")
+	@PostMapping("/growtree/happen")
 	public ResponseEntity<String> happening(HttpSession session) {
 		// int user_Id = 5;
 		UserVO loginUser = (UserVO) session.getAttribute("loginUser");

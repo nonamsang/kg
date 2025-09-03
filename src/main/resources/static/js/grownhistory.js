@@ -1,11 +1,20 @@
-/*const congrulationpopupbtn = document.getElementById("congrulationpopup");
+const congrulationpopupbtn = document.getElementById("congrulationpopup");
 const historybtn = document.getElementById("historyBtn");
 const nobtn = document.getElementById("nobtn");
 const morebtn = document.getElementById("morebtn");
 const popupident = document.getElementById("popupident");
-const identbtn=document.getElementById("identbtn");
+const waterstockq = document.getElementById("water_Stock");
+const biyrostockq = document.getElementById("biyro_Stock");
+const biyrousedatq = document.getElementById("biyro_Used_At");
+const son7 = document.getElementById("son7");
+const son77 = document.getElementById("son77");
+const son7Pose = document.getElementById("son7_pose");
+const sonclose = son7Pose.querySelector(".close");
+const beforeServer = document.getElementById("beforeServer");
+let cleanShot;
+/*const identbtn=document.getElementById("identbtn");*/
 historybtn.onclick = () => {
-	location.href = "/grown";
+	location.href = "/growtree/grown";
 	console.log();
 }
 nobtn.onclick = () => {
@@ -13,59 +22,90 @@ nobtn.onclick = () => {
 }
 
 morebtn.onclick = () => {
-	popupident.style.display="block";
-	location.href = "/more";
+	son7Pose.style.display = "flex";
+	const sontrue = document.getElementById("sontrue");
+	const sonfalse = document.getElementById("sonfalse");
+
+	//location.href="/growtree/more";
+}
+sonclose.onclick = () => {
+	son7Pose.style.display = "none";
+}
+sontrue.onclick = async () => {
+	son7Pose.style.display = "none";
+	congrulationpopupbtn.style.display = "none";
+	const shot = await html2canvas(son7);
+	shot.toBlob(async (blob) => {
+		const previewDiv = document.getElementById("preview");
+		const img31 = document.createElement("img");
+		img31.src = URL.createObjectURL(blob);
+		img31.style.width = "300px";
+		img31.style.height = "300px";
+		previewDiv.appendChild(img31);
+		beforeServer.style.display = "flex";
+		cleanShot = previewDiv;
+		const SonGoodbtn = document.getElementById("goodBtn");
+		SonGoodbtn.onclick = async () => {
+			//2clouninary api로 이미지 전송
+			const CLOUD_NAME = "dkaeihkco"; // Cloudinary cloud name
+			const UPLOAD_PRESET = "community"; // Unsigned preset 이름
+			const url = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
+			const SonData2 = new FormData();
+			SonData2.append("upload_preset", UPLOAD_PRESET);
+			SonData2.append("file", blob);
+
+			const res = await fetch(url, { method: "POST", body: SonData2 });
+
+			if (!res.ok) {
+				const errData = await res.json();
+				console.error("Cloudinary 에러 응답:", errData);
+				throw new Error("이미지 업로드 실패");
+			}
+
+			const data = await res.json();
+			let screenUrl = data.secure_url;
+
+			const SonData3 = new FormData();
+			SonData3.append("screenshot", screenUrl);
+			fetch("/growtree/more", {
+				method: 'POST',
+				body: SonData3
+			}).then(res => res.text())
+				.then(data => {
+					if (data == "success") {
+						location.href = "/growtree/grown";
+					}
+				})
+		}
+	}, "image/png");
+
 }
 
+beforeServer.querySelector(".close").onclick = () => {
+	cleanShot.innerHTML = "";
+	beforeServer.style.display = "none";
+
+}
+sonfalse.onclick = () => {
+	let screenshot = "";
+	const sonData = new FormData();
+	sonData.append("screenshot", screenshot);
+	fetch("/growtree/more", {
+		method: 'POST',
+		body: sonData
+	}).then(response => response.text())
+		.then(data => {
+			if (data == "success") {
+				location.href = "/growtree/grown";
+			}
+		})
+}
 identbtn.onclick = () => {
-	let identTree = document.getElementById("identTree").value.trim();
+	/*let identTree = document.getElementById("identTree").value.trim();
 
 		if (identTree.length < 1 || identTree.length > 5) {
 			alert("식별자 이름은 1 ~ 5 자 사이로 입력해주세요.");
 			return;
-		}
-	location.href = "/more";
-}*/
-
-document.addEventListener('DOMContentLoaded', () => {
-	const $ = (id) => document.getElementById(id);
-
-	const congrulationpopup = $('congrulationpopup');
-	const historyBtn = $('historyBtn');
-	const nobtn = $('nobtn');
-	const morebtn = $('morebtn');
-	const popupident = $('popupident');
-	const identbtn = $('identbtn');   // 있을 수도, 없을 수도 있음
-
-	if (historyBtn) {
-		historyBtn.addEventListener('click', () => {
-			location.href = '/grown';
-		});
-	}
-
-	if (nobtn && congrulationpopup) {
-		nobtn.addEventListener('click', () => {
-			congrulationpopup.style.display = 'none';
-		});
-	}
-
-	if (morebtn) {
-		morebtn.addEventListener('click', () => {
-			// popup에서 식별자 입력을 쓰려면 이 라인 사용:
-			// if (popupident) popupident.style.display = 'block';
-			// 그냥 바로 이동이면 아래 한 줄만:
-			location.href = '/more';
-		});
-	}
-
-	if (identbtn) {
-		identbtn.addEventListener('click', () => {
-			// 필요하면 레벨 읽어서 로직에 활용
-			const levelEl = $('tree_Level') || $('treeLevel');
-			const levelInt = levelEl ? parseInt(levelEl.textContent, 10) : 0;
-			// TODO: levelInt 사용 로직이 있으면 여기에 추가
-
-			location.href = '/more';
-		});
-	}
-});
+		}*/
+	location.href = "/growtree/more";
+}

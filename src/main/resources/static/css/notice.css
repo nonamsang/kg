@@ -4,24 +4,46 @@ body {
 	margin: 0;
 }
 
+/* 상단 헤더 */
 .notice-header {
 	background: #2e7d32;
-	/* LittleForest 초록 */
 	color: #fff;
 	padding: 20px;
-	text-align: center;
 	font-size: 22px;
 	font-weight: bold;
+
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.notice-actions a {
+	text-decoration: none;
+	padding: 8px 14px;
+	border-radius: 20px;
+	font-weight: bold;
+	font-size: 14px;
+	transition: background 0.2s;
+}
+
+.btn-home {
+	background: #4caf50;
+	color: white;
+}
+
+.btn-home:hover {
+	background: #388e3c;
 }
 
 .notice-container {
-	max-width: 700px;
+	max-width: 1000px;
 	margin: 40px auto;
-	padding: 30px;
+	padding: 40px;
 	background: #fff;
 	border-radius: 16px;
 	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
 }
+
 
 .notice-main {
 	text-align: center;
@@ -41,6 +63,8 @@ body {
 	padding: 15px 20px;
 	margin-bottom: 20px;
 	border-radius: 8px;
+
+	text-align: center;
 }
 
 .notice-card h3 {
@@ -50,12 +74,16 @@ body {
 
 .notice-card p,
 .notice-card ul {
-	margin: 0;
+	margin: 0 0 10px;
 	color: #444;
+	line-height: 1.6;
 }
 
 .notice-card ul {
-	padding-left: 20px;
+	list-style: none;
+	padding-left: 0;
+	margin: 0;
+	text-align: center;
 }
 
 .notice-footer {

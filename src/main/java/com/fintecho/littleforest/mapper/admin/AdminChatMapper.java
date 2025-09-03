@@ -18,6 +18,13 @@ public interface AdminChatMapper {
 	ArrayList<Integer> getOtherUserByUserId(int user_Id);
 
 	ArrayList<ChatRoomDTO> getChatRoomDTO(int user_Id);
-	
-	ChatOtherUserDTO getOtherUserInfoById( int room_Id, int user_Id);
+
+	ChatOtherUserDTO getOtherUserInfoById(int room_Id, int user_Id);
+
+	int countChatRoom(int user_Id);
+
+	void insertChatRoom(int user_Id);
+
+	void insertChatRoomAdmin();
+
 }

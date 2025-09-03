@@ -23,4 +23,16 @@ public interface UserService {
 	// 포인트 선물하기
 	boolean existsById(int id);
 
+	int userUpdate(UserVO uvo);
+
+	// 회원정보 수정(프로필만)
+	int userUpdateProfile(UserVO uvo);
+
+	int nicknameChecking(String nickname);
+
+	void adminInform(String role);
+
+	// 비밀번호 수정을 위한것
+	int userUpdatePassword(UserVO uvo);
+
 }

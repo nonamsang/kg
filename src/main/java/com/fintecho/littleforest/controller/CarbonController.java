@@ -51,7 +51,7 @@ public class CarbonController {
 
 	@PostMapping("/netzero")
 	public String netzero(@ModelAttribute("form") NetZeroPointRequest form, Model model, HttpSession session) {
-		
+
 		try {
 			UserVO loginUser = (UserVO) session.getAttribute("loginUser");
 			if (loginUser == null) {
