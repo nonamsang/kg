@@ -1,4 +1,5 @@
-package com.fintecho.littleforest.config;
+
+/*package com.fintecho.littleforest.config;
   
 import org.springframework.boot.CommandLineRunner; import
 org.springframework.context.annotation.Bean; import
@@ -16,3 +17,4 @@ encoder.encode(raw);
 System.out.println("\n===== BCrypt hash (" + raw + ") =====");
 System.out.println(hash);
 System.out.println("===== copy & then DELETE HashOnceConfig =====\n"); }; } }
+*/

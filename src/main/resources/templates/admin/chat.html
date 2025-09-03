@@ -7,7 +7,7 @@
 
 	<section>
 
-		<!-- 좌측 채팅방 목록 -->
+ 		<!-- 좌측 채팅방 목록 -->
 		<div class="chatroom_container">
 			<a th:each="c : ${chatroom}" class="chatroom-card"
 				th:onclick="|window.roomId = ${c.id}; window.loadRoom(); return false;|">
