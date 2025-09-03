@@ -42,11 +42,11 @@ public class ProductController {
 			total_Balance += w.getAccount_Balance();
 
 		}
-
 		Double point = product.getPrice() * (product.getCarbon_Effect() / 100);
 		String pointText = String.format("%.2f", point);
 
 		model.addAttribute("product", product);
+
 		model.addAttribute("merchant_Name", merchant_Name);
 		model.addAttribute("point", pointText);
 		model.addAttribute("total_Balance", total_Balance);

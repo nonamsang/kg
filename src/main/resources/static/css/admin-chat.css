@@ -185,8 +185,7 @@ section {
 
 .chat-input {
 	display: flex;
-	gap: 8px;
-	padding: 12px;
+	gap: 8px;	padding: 12px;
 	border-top: 1px solid #e2e8f0;
 	background: #fff;
 }
