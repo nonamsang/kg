@@ -5,19 +5,8 @@
 <body th:replace="~{admin/layout :: layout(~{::section}, ~{::#page-scripts})}">
 
 	<section>
-		<!-- <h3>웹소켓 채팅 데모</h3>
-		<div>
-			Room: <input id="roomId" value="room1"> 
-			Nick: <input id="nick" value="user1">
-			<button onclick="connect()">Connect</button>
-			<button onclick="disconnect()">Disconnect</button>
-		</div>
-		ㅇ
-		<div style="margin-top: 8px">
-			<input id="msg" placeholder="메시지 입력" style="width: 80%">
-			<button onclick="send()">Send</button>
-		</div>
-  <!-- 좌측 채팅방 목록 -->
+
+ 		<!-- 좌측 채팅방 목록 -->
 		<div class="chatroom_container">
 			<div th:each="c : ${chatroom}" class="chatroom-card">
 				<div class="chatroom-info">
