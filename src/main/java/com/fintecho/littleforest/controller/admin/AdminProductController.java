@@ -61,6 +61,6 @@ public class AdminProductController {
 	public void deleter(@RequestBody ProductVO productvo) {
 		
 		adminproductmapper.deleteProduct(productvo);
-
+		
 	}
 }
