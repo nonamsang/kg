@@ -21,5 +21,7 @@ public class PaymentVO {
 	// point_rule_table
 	private int earnedPoint;
 	// ← DB 컬럼 없음. SQL alias(earned_point)로 계산되어 매핑
+	// 절감된 탄소량
+	private java.math.BigDecimal savedEmission; // 이번 결제로 절감된 kg (NULL이면 0)
 
 }

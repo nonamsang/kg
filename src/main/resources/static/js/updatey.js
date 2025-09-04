@@ -46,6 +46,7 @@ cupdbtnrey.onclick = () => {
 	document.getElementById("uphotoy").value = "";
 	document.getElementById("uphotopathy").src = "";
 	document.getElementById("uphotopathy").style.display = "none";
+
 };
 
 // 팝업 닫기
@@ -138,3 +139,4 @@ debtn2.addEventListener("click", () => {
 			alert("삭제 실패");
 		});
 });
+

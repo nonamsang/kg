@@ -1,6 +1,7 @@
 package com.fintecho.littleforest.controller;
 
 import java.util.ArrayList;
+
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import com.fintecho.littleforest.service.StockService;
 import com.fintecho.littleforest.vo.GrowingTreeVO;
 import com.fintecho.littleforest.vo.GrownTreeVO;
 import com.fintecho.littleforest.vo.StockVO;
+
 import com.fintecho.littleforest.vo.UserVO;
 
 import jakarta.servlet.http.HttpSession;
@@ -33,35 +35,9 @@ public class GrownTreeController {
 	@Autowired
 	private StockService stockService;
 
-	/*
-	 * @GetMapping("/growtree/grown") public String growntree(Model model,
-	 * HttpSession session) { // int user_Id=5; // int userId = (Integer)
-	 * session.getAttribute("userId"); UserVO loginUser = (UserVO)
-	 * session.getAttribute("loginUser"); if (loginUser == null) { return
-	 * "redirect:/login"; } int user_Id = loginUser.getId();
-	 * 
-	 * ArrayList<GrownTreeVO> vo = grownTreeService.grownSelect(user_Id);
-	 * model.addAttribute("tree", vo); return "grown";
-	 * 
-	 * }
-	 * 
-	 * @PostMapping("/growtree/more") public ResponseEntity<String>
-	 * more(@RequestParam(value = "screenshot", required = false) String photo,
-	 * GrownTreeVO grownvo, HttpSession session) { // int user_Id = 4; UserVO
-	 * loginUser = (UserVO) session.getAttribute("loginUser");
-	 * session.getAttribute("loginUser"); if (loginUser == null) { return
-	 * ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("login"); } int user_Id =
-	 * loginUser.getId(); GrowingTreeVO treeVO =
-	 * growingTreeService.getAllStock(user_Id); int growing_Tree_Id =
-	 * treeVO.getId(); grownvo.setUser_Id(user_Id);
-	 * grownvo.setGrowing_Tree_Id(growing_Tree_Id); grownvo.setPhoto(photo);
-	 * grownTreeService.grownInsert(grownvo); return ResponseEntity.ok("success");
-	 * 
-	 * }
-	 */
-
 	@GetMapping("/growtree/grown")
 	public String growntree(ArrayList<GrownTreeVO> vo, Model model, HttpSession session) {
+
 		UserVO loginUser = (UserVO) session.getAttribute("loginUser");
 		if (loginUser == null) {
 			return "redirect:/login";
@@ -88,21 +64,6 @@ public class GrownTreeController {
 		return "grown";
 	}
 
-	/*
-	 * @PostMapping("/growtree/more") public ResponseEntity<String>
-	 * more(@RequestParam(value = "screenshot", required = false) String photo,
-	 * HttpSession session) { UserVO loginUser = (UserVO)
-	 * session.getAttribute("loginUser"); if (loginUser == null) { return
-	 * ResponseEntity.badRequest().body("login required"); }
-	 * 
-	 * int user_Id = loginUser.getId(); GrowingTreeVO treeVO =
-	 * growingTreeService.getAllStock(user_Id);
-	 * 
-	 * GrownTreeVO grownvo = new GrownTreeVO(); grownvo.setUser_Id(user_Id);
-	 * grownvo.setGrowing_Tree_Id(treeVO.getId()); grownvo.setPhoto(photo);
-	 * 
-	 * grownTreeService.grownInsert(grownvo); return ResponseEntity.ok("success"); }
-	 */
 	@PostMapping("/growtree/more")
 	public ResponseEntity<String> more(@RequestParam(value = "screenshot", required = false) String photo,
 			HttpSession session) {

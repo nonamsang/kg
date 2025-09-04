@@ -1,4 +1,5 @@
 const congrulationpopupbtn = document.getElementById("congrulationpopup");
+
 const historybtn = document.getElementById("historyBtn");
 const nobtn = document.getElementById("nobtn");
 const morebtn = document.getElementById("morebtn");
@@ -15,6 +16,7 @@ let cleanShot;
 /*const identbtn=document.getElementById("identbtn");*/
 historybtn.onclick = () => {
 	location.href = "/growtree/grown";
+
 	console.log();
 }
 nobtn.onclick = () => {
@@ -102,10 +104,19 @@ sonfalse.onclick = () => {
 }
 identbtn.onclick = () => {
 	/*let identTree = document.getElementById("identTree").value.trim();
+=======
+	popupident.style.display="block";
+	location.href = "/more";
+}
+
+identbtn.onclick = () => {
+	let identTree = document.getElementById("identTree").value.trim();
+>>>>>>> jinhee
 
 		if (identTree.length < 1 || identTree.length > 5) {
 			alert("식별자 이름은 1 ~ 5 자 사이로 입력해주세요.");
 			return;
+<<<<<<< HEAD
 		}*/
 	location.href = "/growtree/more";
 }

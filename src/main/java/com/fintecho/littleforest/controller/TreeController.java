@@ -111,7 +111,9 @@ public class TreeController {
 			}
 			model.addAttribute("status", status);
 			model.addAttribute("stock", vo);
+
 			// model.addAttribute("users", vo2);
+
 			model.addAttribute("tree_Image", tree_image);
 			model.addAttribute("iftree", true);
 		}

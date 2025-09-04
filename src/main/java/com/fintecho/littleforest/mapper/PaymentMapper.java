@@ -3,6 +3,7 @@ package com.fintecho.littleforest.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.data.repository.query.Param;
 
 import com.fintecho.littleforest.vo.PaymentVO;
 
@@ -11,5 +12,8 @@ public interface PaymentMapper {
 	List<PaymentVO> getPaymentListByUserId(int userId);
 
 	List<PaymentVO> selectPaymentWithPoints(int userId);
+
+	/* 09.02 추가 */
+	int upsertEmissionsForUser(@Param("userId") int userId);
 
 }

@@ -37,6 +37,7 @@ function status(card) {
 						console.log(mbtn2);
 					}
 				}
+
 			} else {
 				var length = comments.length;
 				subcomment.innerHTML = "<p align='center'>댓글이 " + length + "개 있습니다.</p>" +

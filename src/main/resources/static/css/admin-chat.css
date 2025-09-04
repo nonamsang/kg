@@ -14,6 +14,7 @@ section {
 	/* 필요에 맞게 조절 */
 	border: 1px solid #e5e7eb;
 	background: #fff;
+
 }
 
 /* 좌측: 채팅방 목록 (3) */
@@ -79,6 +80,7 @@ section {
 	/* 채팅 내용이 많으면 스크롤 */
 	padding: 16px;
 	background: #f8fafc;
+
 }
 
 /* 우측: 채팅 내용 (7) */
@@ -224,6 +226,7 @@ section {
 	border-color: #d8dee6;
 }
 
+
 /* 스크롤바 약간 정리(옵션) */
 .chatroom_container::-webkit-scrollbar,
 .chat_container::-webkit-scrollbar,
@@ -263,4 +266,5 @@ section {
 	.chat_area {
 		flex: initial;
 	}
+
 }

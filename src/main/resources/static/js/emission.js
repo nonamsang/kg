@@ -149,4 +149,5 @@
 	populateYearSelect();
 	populateMonthSelect();
 	await drawCalendar(currentYear, currentMonth);
+
 })();

@@ -18,4 +18,5 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 		registry.enableSimpleBroker("/topic"); // 구독 prefix
 		registry.setApplicationDestinationPrefixes("/app"); // 발행 prefix
 	}
+
 }

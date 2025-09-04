@@ -1,6 +1,7 @@
 /*const biyrobtn = document.getElementById("biyrobtn");
 const biyroStocka = document.getElementById("biyro_Stock");
 const biyroTimer = document.getElementById("biyrotimer");
+<<<<<<< HEAD
 const biyroani = document.getElementById("soil-container");
 const waterbtn00 = document.getElementById("waterbtn");
 const stock0popup = document.getElementById("stock0popup");
@@ -13,17 +14,39 @@ function timereload() {
 	const biyroUsedAtaValue = document.getElementById("biyro_Used_At").value;
 	if (!biyroUsedAtaValue) {
 		biyroTimer.style.display = "none";
+=======
+const biyroani=document.getElementById("soil-container");
+const waterbtn00=document.getElementById("waterbtn");
+
+function time(a){
+	return a < 10 ? '0' + a : a;
+}
+
+function timereload(){
+	const biyroUsedAtaValue = document.getElementById("biyro_Used_At").value;
+	if(!biyroUsedAtaValue) {
+		biyroTimer.style.display="none";
+>>>>>>> jinhee
 		return;
 	}
 	const biyrostart = new Date(biyroUsedAtaValue);
 	const biyroend = new Date(biyrostart);
 	biyroend.setDate(biyroend.getDate() + 3);
+<<<<<<< HEAD
 
 	const now = new Date();
 	const between = biyroend - now;
 
 	if (between <= 0) {
 		biyroTimer.style.display = "none";
+=======
+	
+	const now = new Date();
+	const between = biyroend - now;
+
+	if(between <= 0){
+		biyroTimer.style.display="none";
+>>>>>>> jinhee
 		return;
 	}
 
@@ -41,6 +64,7 @@ timereload();
 biyrobtn.onclick = () => {
 	let stocka = parseInt(biyroStocka.textContent);
 
+<<<<<<< HEAD
 	if (stocka === 0) {
 		stock0popup.style.display = "flex";
 		document.getElementById("pointHtml4").innerHTML = `<h3 align='center'>확인 버튼을 누르시고 <b>비료 구매</b> 버튼을 눌러주세요</h3>`
@@ -65,11 +89,20 @@ biyrobtn.onclick = () => {
 
 
 	fetch('/growtree/biyro', {
+=======
+	if(stocka === 0){
+		alert("비료 재고가 없습니다.");
+		return;
+	}
+
+	fetch('/biyro', {
+>>>>>>> jinhee
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
 			'Accept': 'application/json'
 		},
+<<<<<<< HEAD
 		body: JSON.stringify({ biyro_Stock: stocka })
 	})
 		.then(response => response.text())
@@ -200,6 +233,7 @@ biyrobtn.onclick = () => {
 				setTimeout(() => {
 					biyroani.style.display = "none";
 					waterbtn00.disabled = false;
+
 				}, 2000);
 
 				// 현재시간 포맷팅 (yyyy-MM-dd HH:mm:ss)

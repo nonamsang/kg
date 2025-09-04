@@ -23,4 +23,5 @@ soils.forEach((soil) => {
 			soil.style.translateY = "0px"; // 애니메이션 위치 초기화
 		}
 	});
+
 });

@@ -41,13 +41,17 @@ public class UserController {
 		}
 
 		int user_Id = loginUser.getId();
-
 		UserVO userInfo = userService.getInfo(user_Id);
 
 		// (프로필 사진) 가공된 경로 직접 설정
 		String profilePath = (userInfo.getProfile_Photo() == null || userInfo.getProfile_Photo().isBlank())
 				? "profile.png"
 				: userInfo.getProfile_Photo();
+
+///////////////////// 09.03 추가 세션에 저장 (사이드바가 여기서 꺼내 씀) //////////////////////
+		session.setAttribute("userInfo", userInfo);
+		session.setAttribute("profilePhotoPath", profilePath);
+///////////////////// 09.03 추가 세션에 저장 (사이드바가 여기서 꺼내 씀) //////////////////////
 
 		model.addAttribute("profilePhotoPath", profilePath); // 별도로 전달
 		// Thymeleaf로 전달
@@ -57,6 +61,7 @@ public class UserController {
 	}
 
 	@PostMapping("/mypage/update/profile")
+
 	public ResponseEntity<?> profileU(@RequestParam("id") int id,
 			@RequestParam(value = "profileUrl", required = false) String profileUrl) {
 		UserVO uvo = userService.getInfo(id);

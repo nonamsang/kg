@@ -20,7 +20,6 @@ if (closeBtnc) {
 		congrulationpopup.style.display = "none";
 	};
 }
-
 const bamboobar = document.getElementById("bambooBar");
 const level2 = parseInt(level.textContent);
 const needexp = [0, 5, 20, 50, 80, 130, 200];

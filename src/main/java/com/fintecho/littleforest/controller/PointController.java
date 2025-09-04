@@ -35,7 +35,8 @@ public class PointController {
 	private final PaymentService paymentService;
 	private final PointService pointService;
 	private final EventService eventService;
-	private final PaymentMapper paymentMapper; // 추가
+
+	private final PaymentMapper paymentMapper;
 
 	// 포트원 가맹점 식별코드 (JS SDK에서 사용)
 	@Value("${iamport.merchant_code}")
@@ -45,19 +46,12 @@ public class PointController {
 	@GetMapping("/pay")
 	public String payPage(@RequestParam(defaultValue = "points") String tab, HttpSession session, Model model) {
 
-		// int testUserId = 1; // 로그인 연동 후 교체
-
-		/* ================== 여기서부터 추가 0823 ========================= */
 		UserVO loginUser = (UserVO) session.getAttribute("loginUser");
 		if (loginUser == null)
 			return "redirect:/login";
 		int userId = loginUser.getId();
 
 		UserVO userInfo = userService.getInfo(userId);
-		/*
-		 * ================== 여기까지 추가 0823 (아래 testuserid --> userId로 바꾸기
-		 * ===============
-		 */
 
 		model.addAttribute("userInfo", userInfo);
 		model.addAttribute("merchantCode", merchantCode);
@@ -95,11 +89,13 @@ public class PointController {
 		UserVO userInfo = userService.getInfo(userId);
 		model.addAttribute("userInfo", userInfo);
 
+//////////////////// 09.02 추가 ) emission_table에 먼저 적재(이번 요청에서 DB에 반영)
+		int fixed = paymentMapper.upsertEmissionsForUser(userId);
+
 		// 결제, 포인트 리스트
-		List<PaymentVO> paymentList2 = paymentMapper.selectPaymentWithPoints(userId); // ★
+		List<PaymentVO> paymentList2 = paymentMapper.selectPaymentWithPoints(userId);
 		model.addAttribute("paymentList", paymentList2);
 
-// ==========08.25. 업뎃 
 		// payment.html 총 지출 (withdrawal 합)
 		int totalSpending = paymentList2.stream().filter(p -> "withdrawal".equalsIgnoreCase(p.getType()))
 				.mapToInt(PaymentVO::getAmount).sum();
@@ -109,29 +105,21 @@ public class PointController {
 
 		model.addAttribute("totalSpending", totalSpending);
 		model.addAttribute("totalGreenPoint", totalGreenPoint);
-// ==========08.25. 업뎃        
 		return "payment";
 	}
 
 	/** 카카오페이(포트원) 결제 완료 콜백 → 서버 검증 + 포인트 적립 */
-	/*
-	 * ================== 여기서부터 추가 0823 (위에 ResponseEntity<String>으로바꾸고 HttpSession
-	 * session)추가 * ==============
-	 */
+
 	@PostMapping("/points/charge/complete")
 	@ResponseBody
 	public ResponseEntity<String> chargeComplete(@RequestParam("imp_uid") String impUid,
 			@RequestParam("merchant_uid") String merchantUid, @RequestParam("amount") int amount, HttpSession session) {
-		// int testUserId = 1; //로그인 유저
 
 		UserVO loginUser = (UserVO) session.getAttribute("loginUser");
 		if (loginUser == null)
 			return ResponseEntity.status(401).body("UNAUTHORIZED");
 		int userId = loginUser.getId();
-		/*
-		 * ================== 여기까지 추가 0823 (아래 testuserid --> userId로 바꾸기
-		 * ===============
-		 */
+
 		int newBalance = pointService.verifyAndChargeByKakaoPay(userId, impUid, merchantUid, amount);
 		// 새 포인트 잔액 숫자만 반환(프런트에서 표시 교체)
 		// return String.valueOf(newBalance);
@@ -151,6 +139,7 @@ public class PointController {
 
 		int newBalance = pointService.earn(userId, amount, memo);
 		// return String.valueOf(newBalance);
+
 		return ResponseEntity.ok(String.valueOf(newBalance));
 	}
 
@@ -200,8 +189,6 @@ public class PointController {
 			@RequestParam(value = "amount", required = false) Integer amount, // 금액은 선택(안 보내도 됨)
 			@RequestParam(value = "memo", required = false) String memo, HttpSession session) {
 
-		// int userId = 1; // 로그인 사용자 ID
-
 		UserVO loginUser = (UserVO) session.getAttribute("loginUser");
 		if (loginUser == null)
 			return ResponseEntity.status(401).body("UNAUTHORIZED");
@@ -212,6 +199,11 @@ public class PointController {
 		int amt = (amount != null) ? amount : switch (code) {
 		case "DAILY_TIP" -> 15; // 생활실천팁 기본 15P
 		case "COMMUNITY" -> 5; // 커뮤니티 방문 기본 5P
+
+////////////////// 09.01 추가///////////////////////////////////////////
+		case "AD_VIEW_1" -> 1000; // 추가) pay.html 광고 시청 보상
+///////////////////////////////////////////////////////////////////09.01
+
 		default -> throw new IllegalArgumentException("UNKNOWN_CODE");
 		};
 
@@ -232,7 +224,7 @@ public class PointController {
 	/** 커뮤니티 방문하며 적립 + 이동(하루 1회) */
 	@GetMapping("/points/event/community-visit")
 	public String communityVisitOnce(HttpSession session) {
-		// int testUserId = 1;
+
 		UserVO loginUser = (UserVO) session.getAttribute("loginUser");
 		if (loginUser == null)
 			return "redirect:/login";

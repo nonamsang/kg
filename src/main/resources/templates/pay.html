@@ -6,9 +6,11 @@
 	<title>결제내역 / 포인트</title>
 
 	<link rel="stylesheet" href="/css/donate-cta.css"> <!-- 버튼 스타일 -->
+	<link rel="stylesheet" href="/css/mainpagestyle.css">
 	<link rel="stylesheet" href="/css/pay.css"><!-- 이 페이지 전용 -->
 	<link rel="stylesheet" href="/css/donate.css"> <!-- 기부 모달 스타일 -->
-	<link rel="stylesheet" href="/css/mainpagestyle.css">
+
+	<link rel="stylesheet" href="/css/sidebar.css?v=7">
 
 	<!-- 포트원(Iamport) JS 카카오페이 결제창 호출용 -->
 	<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
@@ -22,140 +24,163 @@
 	<!-- 공통 header -->
 	<div th:replace="fragments/header :: header"></div>
 
-	<div class="pay-page">
-		<!-- 탭 -->
-		<div class="pay-tabs">
-			<a th:classappend="${tab}=='history' ? ' active'" th:href="@{/pay(tab='pointlist')}">포인트내역</a>
-			<a th:classappend="${tab}=='points' ? ' active'" th:href="@{/pay(tab='points')}">이벤트</a>
-		</div>
 
-		<div class="pay-grid">
-			<!-- 왼쪽 -->
-			<main class="pay-main">
-				<!-- ============ 포인트내역 탭 ============ -->
-				<section th:if="${tab}=='pointlist'">
-					<h2 class="section-title">포인트내역</h2>
+	<!-- 🌙/☀️ 다크모드 토글 버튼 -->
+	<button id="lfThemeToggle" class="lf-theme-toggle" aria-label="다크 모드 토글">
+		<img id="lfThemeIcon" src="/images/sidebar/darkmode.png" alt="다크 모드로 전환" />
+	</button>
 
-					<!-- 데이터 없을 때 -->
-					<div class="empty" th:if="${#lists.isEmpty(pointList)}">결제 내역이 없어요.</div>
 
-					<!-- 포인트 리스트 -->
-					<ul class="history-list" th:if="${!#lists.isEmpty(pointList)}">
-						<li class="history-card" th:each="point : ${pointList}">
-							<div class="hc-left">
-								<div class="hc-title" th:text="${point.memo}">메모/코드</div>
-								<div class="hc-meta">
-									<span th:text="${point.type}">deposit</span>
-									<span>·</span>
-									<span th:text="${#dates.format(point.created_At, 'yyyy.MM.dd')}">2025.01.01</span>
-								</div>
-							</div>
-							<div class="hc-right">
-								<!-- 금액: + / - 표기 -->
-								<div class="hc-amount" th:text="${(point.amount >= 0 ? '+' : '-') 
-                         + #numbers.formatInteger(T(java.lang.Math).abs(point.amount), 3, 'COMMA')} + '포인트'">
-									+1,000포인트
-								</div>
-							</div>
-						</li>
-					</ul>
-				</section>
 
-				<!-- ============ 포인트 탭 ============ -->
-				<section th:if="${tab}=='points'">
-					<h2 class="section-title">포인트 쉽게 받기</h2>
+	<!-- 사이드바 + 본문 래퍼 시작 -->
+	<div class="page-with-sidebar">
+		<!-- [좌] 사이드바 프래그먼트 -->
+		<div th:replace="fragments/sidebar :: sidebar"></div>
 
-					<!-- 상단 카드 3개 (버튼만 동작. 광고 연동은 추후) -->
-					<div class="easy-cards">
-						<div class="easy-card">
-							<div class="ec-badge">이벤트</div>
-							<div class="ec-title">자동차보험 확인하면</div>
-							<div class="ec-amount">7천원</div>
-							<button type="button" class="btn-outline" disabled>혜택보기</button>
-						</div>
-
-						<div class="easy-card">
-							<div class="ec-badge">이벤트</div>
-							<div class="ec-title">전고객 최소 2만원 쿠폰</div>
-							<div class="ec-amount">2만원+</div>
-							<button type="button" class="btn-outline" disabled>혜택보기</button>
-						</div>
-
-						<div class="easy-card">
-							<div class="ec-badge">이벤트</div>
-							<div class="ec-title">무료 지원 이벤트</div>
-							<div class="ec-amount">33P</div>
-							<button type="button" class="btn-outline" disabled>혜택보기</button>
-						</div>
-					</div>
-
-					<!-- 오늘의 생활실천팁 -->
-					<h3 class="section-sub"> 클릭하면 바로 적립</h3>
-					<ul class="event-list">
-						<!-- 클릭 즉시 포인트 적립: 서버에 POST -->
-						<li class="event-row">
-							<div>
-								<div class="ev-title">오늘의 생활실천팁 보고</div>
-								<div class="ev-meta">15P 받기</div>
-							</div>
-							<button type="button" class="btn-green" onclick="openTipModal()">포인트 받기</button>
-						</li>
-						<!-- 그린커뮤니티 방문 -->
-						<li class="event-row">
-							<div>
-								<div class="ev-title">그린커뮤니티 방문하고</div>
-								<div class="ev-meta">5P 받기</div>
-							</div>
-							<!-- code 라는 이름으로 보냄 -->
-							<button type="button" class="btn-green"
-								onclick="claimAndGo('COMMUNITY', 5, '커뮤니티 방문', '/community')">
-								포인트 받기
-							</button>
-						</li>
-						<!-- 현장결제 추가 적립 -->
-						<li class="event-row">
-							<div>
-								<div class="ev-title">현장결제하고</div>
-								<div class="ev-meta">추가 포인트 받기</div>
-							</div>
-							<button type="button" class="btn-green"
-								onclick="claimDaily('OFFLINE_BONUS', 30, '현장결제 추가적립')">
-								포인트 받기
-							</button>
-						</li>
-					</ul>
-				</section>
-			</main>
-
-			<!-- 오른쪽 사이드: 유저 카드(항상 동일) -->
-			<aside class="pay-side">
-				<div class="user-card">
-					<div class="uc-header">
-						<div class="uc-name" th:text="${userInfo.name}">이름</div>
-						<a href="/mypage" class="uc-settings">마이페이지</a>
-					</div>
-
-					<div class="balance-cards">
-						<div class="balance-card">
-							<div class="bc-title">LF 포인트</div>
-							<div class="bc-amount" id="pointBalance"
-								th:text="${#numbers.formatInteger(userInfo.point, 3, 'COMMA')} + '포인트'">0포인트</div>
-							<div class="bc-actions">
-								<button type="button" class="btn-light" id="btnCharge">충전</button>
-								<button type="button" class="btn-light" id="btnGiftOpen">포인트 선물</button>
-								<button type="button" class="btn-light" disabled>송금</button>
-							</div>
-						</div>
-					</div>
-					<!-- =======기부하기 버튼 ======= -->
-					<div class="donate-cta-wrap">
-						<button type="button" id="openDonateModalPay" class="donate-cta btn-jittery"
-							aria-label="기부 모달 열기">기부하기</button>
-					</div>
+		<!-- [우] 본문 컨테이너 (당신의 기존 내용 유지) -->
+		<div class="page-content">
+			<div class="pay-page">
+				<!-- 탭 -->
+				<div class="pay-tabs">
+					<a th:classappend="${tab}=='history' ? ' active'" th:href="@{/pay(tab='pointlist')}">포인트내역</a>
+					<a th:classappend="${tab}=='points' ? ' active'" th:href="@{/pay(tab='points')}">이벤트</a>
 				</div>
-			</aside>
+
+				<div class="pay-grid">
+					<!-- 왼쪽 -->
+					<main class="pay-main">
+						<!-- ============ 포인트내역 탭 ============ -->
+						<section th:if="${tab}=='pointlist'">
+							<h2 class="section-title">포인트내역</h2>
+
+							<!-- 데이터 없을 때 -->
+							<div class="empty" th:if="${#lists.isEmpty(pointList)}">결제 내역이 없어요.</div>
+
+							<!-- 포인트 리스트 -->
+							<ul class="history-list" th:if="${!#lists.isEmpty(pointList)}">
+								<li class="history-card" th:each="point : ${pointList}">
+									<div class="hc-left">
+										<div class="hc-title" th:text="${point.memo}">메모/코드</div>
+										<div class="hc-meta">
+											<span th:text="${point.type}">deposit</span>
+											<span>·</span>
+											<span
+												th:text="${#dates.format(point.created_At, 'yyyy.MM.dd')}">2025.01.01</span>
+										</div>
+									</div>
+									<div class="hc-right">
+										<!-- 금액: + / - 표기 -->
+										<div class="hc-amount" th:text="${(point.amount >= 0 ? '+' : '-') 
+                         + #numbers.formatInteger(T(java.lang.Math).abs(point.amount), 3, 'COMMA')} + '포인트'">
+											+1,000포인트
+										</div>
+									</div>
+								</li>
+							</ul>
+						</section>
+
+						<!-- ============ 포인트 탭 ============ -->
+						<section th:if="${tab}=='points'">
+							<h2 class="section-title">포인트 쉽게 받기</h2>
+
+							<!-- 상단 카드 3개 (버튼만 동작. 광고 연동은 추후) -->
+							<div class="easy-cards">
+								<div class="easy-card">
+									<div class="ec-badge">이벤트</div>
+									<div class="ec-title">오늘의 광고 확인하면</div>
+									<div class="ec-amount">1,000P</div>
+									<button type="button" class="btn-outline"
+										onclick="openAdAndReward('AD_VIEW_1', 1000)">혜택보기
+									</button>
+								</div>
+
+								<div class="easy-card">
+									<div class="ec-badge">이벤트</div>
+									<div class="ec-title">전고객 최소 2만원 쿠폰</div>
+									<div class="ec-amount">2만원+</div>
+									<button type="button" class="btn-outline" disabled>혜택보기</button>
+								</div>
+
+								<div class="easy-card">
+									<div class="ec-badge">이벤트</div>
+									<div class="ec-title">무료 지원 이벤트</div>
+									<div class="ec-amount">33P</div>
+									<button type="button" class="btn-outline" disabled>혜택보기</button>
+								</div>
+							</div>
+
+							<!-- 오늘의 생활실천팁 -->
+							<h3 class="section-sub"> 클릭하면 바로 적립</h3>
+							<ul class="event-list">
+								<!-- 클릭 즉시 포인트 적립: 서버에 POST -->
+								<li class="event-row">
+									<div>
+										<div class="ev-title">오늘의 생활실천팁 보고</div>
+										<div class="ev-meta">15P 받기</div>
+									</div>
+									<button type="button" class="btn-green" onclick="openTipModal()">포인트 받기</button>
+								</li>
+								<!-- 그린커뮤니티 방문 -->
+								<li class="event-row">
+									<div>
+										<div class="ev-title">그린커뮤니티 방문하고</div>
+										<div class="ev-meta">5P 받기</div>
+									</div>
+									<!-- code 라는 이름으로 보냄 -->
+									<button type="button" class="btn-green"
+										onclick="claimAndGo('COMMUNITY', 5, '커뮤니티 방문', '/community')">
+										포인트 받기
+									</button>
+								</li>
+								<!-- 현장결제 추가 적립 -->
+								<li class="event-row">
+									<div>
+										<div class="ev-title">현장결제하고</div>
+										<div class="ev-meta">추가 포인트 받기</div>
+									</div>
+									<button type="button" class="btn-green"
+										onclick="claimDaily('OFFLINE_BONUS', 30, '현장결제 추가적립')">
+										포인트 받기
+									</button>
+								</li>
+							</ul>
+						</section>
+					</main>
+
+					<!-- 오른쪽 사이드: 유저 카드(항상 동일) -->
+					<aside class="pay-side">
+						<div class="user-card">
+							<div class="uc-header">
+								<div class="uc-name" th:text="${userInfo.name}">이름</div>
+								<a href="/mypage" class="uc-settings">마이페이지</a>
+							</div>
+
+							<div class="balance-cards">
+								<div class="balance-card">
+									<div class="bc-title">LF 포인트</div>
+									<div class="bc-amount" id="pointBalance"
+										th:text="${#numbers.formatInteger(userInfo.point, 3, 'COMMA')} + '포인트'">0포인트
+									</div>
+									<div class="bc-actions">
+										<button type="button" class="btn-light" id="btnCharge">충전</button>
+										<button type="button" class="btn-light" id="btnGiftOpen">포인트 선물</button>
+										<button type="button" class="btn-light" disabled>송금</button>
+									</div>
+								</div>
+							</div>
+							<!-- =======기부하기 버튼 ======= -->
+							<div class="donate-cta-wrap">
+								<button type="button" id="openDonateModalPay" class="donate-cta btn-jittery"
+									aria-label="기부 모달 열기">기부하기</button>
+							</div>
+						</div>
+					</aside>
+				</div>
+			</div>
+			<!-- 사이드바 추가 -->
 		</div>
 	</div>
+
 
 	<!-- 기부 성공 전용 모달 (다른 모달과 분리) -->
 	<div id="donateSuccessModal" class="lf-success" aria-hidden="true">
@@ -593,13 +618,149 @@
 			window.hideDonateSuccess = hideDonateSuccess;
 		})();
 
-		/*
-		IMP.request_pay 로 카카오페이 결제창을 띄움 → 성공 시 서버(/points/charge/complete)로 imp_uid 등 전달 
-		→ 서버가 포트원 REST API로 결제검증 후 user_table.point 증가.
-		“포인트 선물”은 간단 모달로 받는 사람 user_id와 금액만 받고 서버(/points/gift)에서 보내는 사람 차감 
-		+ 받는 사람 증가를 트랜잭션으로 처리.
-		“포인트 받기(이벤트)”는 API /points/event로 POST → 포인트 추가.
-		 */
+
+		////////////////* 포인트 광고팝업 추가 09/01*///////////////////
+
+		function openAdAndReward(code, amount) {
+			// ===== 시청 카운트 박스 만들기 =====
+			const statusEl = document.createElement('div');
+			statusEl.style.position = 'fixed';
+			statusEl.style.bottom = '20px';
+			statusEl.style.right = '20px';
+			statusEl.style.background = '#222';
+			statusEl.style.color = '#fff';
+			statusEl.style.padding = '8px 14px';
+			statusEl.style.borderRadius = '20px';
+			statusEl.style.boxShadow = '0 2px 6px rgba(0,0,0,0.3)';
+			statusEl.style.fontSize = '14px';
+			statusEl.textContent = '광고 시청 중...';
+			document.body.appendChild(statusEl);
+
+			let sec = 0;
+			const secTimer = setInterval(() => {
+				sec++;
+				statusEl.textContent = sec + "초 시청 중...";
+				if (sec >= 3) {
+					statusEl.textContent = "보상 조건 충족 (" + sec + "초)";
+					clearInterval(secTimer);
+				}
+			}, 1000);
+
+			const MIN_WATCH_MS = 3000;
+			const MAX_WAIT_MS = 5 * 60 * 1000;
+
+			const adUrl = 'https://sites.google.com/view/littleforestad?utm_source=lf&event=' + encodeURIComponent(code);
+
+			// 팝업 열기 (★ about:blank 쓰지 말고 바로 URL 오픈)
+			const features = [
+				'width=920', 'height=720',
+				'left=' + Math.max(0, (screen.width - 920) / 2),
+				'top=' + Math.max(0, (screen.height - 720) / 2)
+			].join(',');
+
+			const win = window.open(adUrl, 'lf_ad_popup', features);
+
+			// 팝업 차단 체크
+			if (!win) {
+				alert('브라우저에서 팝업이 차단되었습니다. 설정에서 허용해 주세요.');
+				return;
+			}
+
+			// 닫힘 감지
+			const start = Date.now();
+			const pollTimer = setInterval(() => {
+				if (win.closed) {
+					clearInterval(pollTimer);
+					const watched = Date.now() - start;
+
+					if (watched < MIN_WATCH_MS) {
+						alert('광고를 조금 더 시청해야 보상이 제공됩니다. (최소 ' + (MIN_WATCH_MS / 1000) + '초)');
+						return;
+					}
+
+					// 서버에 적립 요청
+					fetch('/points/event/daily', {
+						method: 'POST',
+						headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+						body: new URLSearchParams({code, amount, memo: '광고 시청 보상'}),
+						keepalive: true
+					})
+						.then(res => res.text().then(text => [res, text]))
+						.then(([res, text]) => {
+							if (res.status === 409 || text === 'ALREADY_CLAIMED') {
+								alert('오늘은 이미 받았습니다!');
+								return;
+							}
+							if (!res.ok) {
+								alert(text || '적립 실패');
+								return;
+							}
+							const newBal = Number(text);
+							const el = document.getElementById('pointBalance');
+							if (el && !isNaN(newBal)) el.textContent = newBal.toLocaleString() + '포인트';
+							alert(amount + 'P 적립 완료!');
+						})
+						.catch(err => {
+							console.error(err);
+							alert('적립 요청 실패');
+						});
+				}
+			}, 700);
+
+			// 타임아웃 안전장치
+			setTimeout(() => {
+				clearInterval(pollTimer);
+				if (!win.closed) try {win.close();} catch (_) { }
+				alert('세션이 만료되었습니다. 다시 시도해주세요.');
+			}, MAX_WAIT_MS);
+		}
+
+
+
+		/* ========================= dark mode ========================= */
+		(function () {
+			const KEY = 'lfTheme'; // 'light' | 'dark'
+			const root = document.documentElement; // <html>
+
+			function applyTheme(mode) {
+				if (mode === 'dark') {
+					root.classList.add('theme-dark');
+					swapIcon('dark');
+					localStorage.setItem(KEY, 'dark');
+				} else {
+					root.classList.remove('theme-dark');
+					swapIcon('light');
+					localStorage.setItem(KEY, 'light');
+				}
+			}
+
+			function swapIcon(mode) {
+				const img = document.getElementById('lfThemeIcon');
+				if (!img) return;
+				if (mode === 'dark') {
+					img.src = '/images/whitemode.png';
+					img.alt = '라이트 모드로 전환';
+				} else {
+					img.src = '/images/sidebar/darkmode.png';
+					img.alt = '다크 모드로 전환';
+				}
+			}
+
+			// 초기 상태: 저장값 → 없으면 OS 설정 따름
+			(function init() {
+				const saved = localStorage.getItem(KEY);
+				const preferDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+				const initial = saved || (preferDark ? 'dark' : 'light');
+				applyTheme(initial);
+			})();
+
+			// 버튼 이벤트
+			const btn = document.getElementById('lfThemeToggle');
+			btn?.addEventListener('click', () => {
+				const isDark = document.documentElement.classList.contains('theme-dark');
+				applyTheme(isDark ? 'light' : 'dark');
+			});
+		})();
 
 
 	</script>

@@ -91,4 +91,11 @@ public class AdminStatsApiController {
 	public List<Map<String, Object>> donationMonthly() {
 		return service.getDonationMonthly();
 	}
+	/*
+	 * public AdminStatsApiController(AdminStatsService service) { this.service =
+	 * service; }
+	 * 
+	 * @GetMapping("/admin/stats/counts") public AdminCountsVO getCounts() { return
+	 * service.getCounts(); }
+	 */
 }

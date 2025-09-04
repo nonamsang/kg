@@ -644,4 +644,19 @@ amount-input-wrap(입력창너비).
 canvas[class*="confetti"],
 canvas[id*="confetti"] {
 	z-index: 1 !important;
+
+}
+
+
+
+/* === wave 효과만 비활성화 (기존 3D 스타일/크기/위치는 유지) === */
+.donate-btn--wave .wave {
+	display: none !important;
+	/* 물결 레이어 자체를 숨김 */
+}
+
+/* 혹시 남아 있는 hover 트리거도 무력화 (안전망) */
+.donate-btn--wave:hover .wave {
+	margin-bottom: -410px !important;
+	animation: none !important;
 }

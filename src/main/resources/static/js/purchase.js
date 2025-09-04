@@ -21,13 +21,13 @@ document.addEventListener("DOMContentLoaded", () => {
 	// 요소가 없으면 실행 중단 (iftree=false일 때 방지)
 	if (!modal || !purchase || !price || !point || !soo) {
 		console.log("구매 모달 요소 없음 → purchase.js 실행 중단");
+
 		return;
 	}
 
 	const levelint = levelif ? parseInt(levelif.textContent) : 0;
 	console.log("현재 레벨:", levelint);
 
-	// 기본값
 	let sales = 500;
 	let gaesoo = 1;
 
@@ -42,7 +42,6 @@ document.addEventListener("DOMContentLoaded", () => {
 	if (closeBtn) {
 		closeBtn.onclick = () => {
 			modal.style.display = "none";
-			// 레벨 7 아닌 경우만 새로고침
 			if (levelint !== 7) {
 				window.location.reload();
 			}

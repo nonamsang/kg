@@ -79,4 +79,19 @@ public class SecurityConfig {
 		return firewall;
 	}
 
+	
+	
+	 // 여기서부터 DeepL용 WebClient 빈 추가 / 08.31
+    @Bean(name = "deeplWebClient")
+    public WebClient deeplWebClient(@Value("${deepl.endpoint}") String endpoint) {
+        // properties가 /v2/translate로 끝나므로 baseUrl만 추출
+        String base = endpoint.replace("/v2/translate", "");
+        return WebClient.builder()
+                .baseUrl(base)
+                .defaultHeader(HttpHeaders.USER_AGENT, "LittleForest/1.0") // UA 필요시 대비
+                .build();
+    }
+    // 여기까지 추가 /08.31
+    
+
 }

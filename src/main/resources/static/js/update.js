@@ -138,4 +138,5 @@ document.querySelectorAll(".debtn1").forEach(btn => {
 				alert("삭제 실패");
 			});
 	});
+
 });

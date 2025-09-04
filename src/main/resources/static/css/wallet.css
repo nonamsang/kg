@@ -111,10 +111,8 @@
 	/* ① 배경(이미지 전용) */
 	.passbook-bg {
 		position: relative;
-		margin-top: 24px;
-		/* 페이지 최상단과 간격 */
-		margin-bottom: 12px;
-		/* 배경과 상단 블록 사이 간격 - 네가 원하는 만큼 */
+		perspective: 1400px;
+		transform-style: preserve-3d;
 	}
 
 
@@ -497,23 +495,17 @@
 	/* 안쪽 종이 영역과 동일한 캔버스 (패널들이 올라오는 영역과 같은 여백) */
 	.paper-frame {
 		position: absolute;
-		/* 좌우는 안쪽 종이 여백과 맞춤 */
-		left: 36px;
-		right: 36px;
+		left: var(--paper-pad-x);
+		right: var(--paper-pad-x);
+		top: var(--paper-top);
+		bottom: var(--paper-btm);
+		height: auto !important;
+		/* 이전 height:40% 같은 값 무력화 */
 		overflow: hidden;
-		/* 이미지가 프레임 밖으로 넘치지 않게 */
-		top: 160px;
-		/* 패널 top과 동일 */
-		/* 프레임을 '안쪽 종이'의 하단 절반 높이에 배치 */
-		bottom: 72px;
-		/* 안쪽 종이의 하단 라인과 맞추기 */
-		height: 40%;
-		/* 하단 절반 정도만 덮음 */
-
-		/* pointer-events:none; */
-		/* 클릭 방해X */
-		/* z-index:4; */
-		/* 탭(5) 아래, 패널(1) 위 */
+		border-radius: 12px;
+		z-index: 7;
+		/* 탭/패널 위로 확실히 */
+		pointer-events: none;
 	}
 
 	/* 종이 넘김 프레임/이미지는 절대 클릭 안 받게 */
@@ -572,8 +564,26 @@
 
 	/* 형광펜(배경 점선) 맞추는 구분선 — 여기 margin만 만지면 됨 */
 	:root {
-		--divider-top: 8px;
-		--divider-bottom: 14px;
+		/* 한 번에 미세조정하기 쉬운 값들 */
+		--paper-pad-x: 36px;
+		--paper-top: 184px;
+		/* 시작이 높으면 ↑ 이 값을 키워 더 아래에서 시작 */
+		--paper-btm: 86px;
+
+		/* 모션/톤 */
+		--flip-dur: .58s;
+		/* ← 살짝 더 빠르게 (.55~.65 사이 권장) */
+		--flip-ease: cubic-bezier(.23, .68, .14, 1);
+		/* 부드러운 가감속 */
+		--hinge-x: 48%;
+		/* 제본쪽(왼쪽으로 48~45% 정도) */
+
+		/* 종이 색상(영상과 비슷한 크림톤) */
+		--paper-cream-1: #fff7e3;
+		--paper-cream-2: #ffecc8;
+		--paper-line: rgba(120, 90, 50, .07);
+		--paper-edge: rgba(0, 0, 0, .08);
+
 	}
 
 
@@ -754,4 +764,507 @@
 		position: relative;
 		z-index: 3;
 		/* 패널(z=1)보다 위 */
+	}
+
+
+
+	/* ====== 아래→위 3D 페이지 넘김 ====== */
+	/* ==== 영상 같은 3D 페이지 플립(가짜 종이) ==== */
+
+	/* 원근감 */
+	.passbook-bg {
+		perspective: 1400px;
+		transform-style: preserve-3d;
+	}
+
+	.paper-frame {
+		position: absolute;
+		left: var(--paper-pad-x);
+		right: var(--paper-pad-x);
+		top: var(--paper-top);
+		bottom: var(--paper-btm);
+		overflow: hidden;
+		border-radius: 12px;
+		z-index: 7;
+		pointer-events: none;
+	}
+
+	.paper-frame>img.passbook-flip {
+		display: none !important;
+	}
+
+	/* half.png 숨김 */
+
+	/* 가짜 종이 베이스 */
+	.passbook-flip.fx {
+		--y: 128%;
+		/* 출발 높이 (128~140%) */
+		--tilt: 84deg;
+		/* 초기 말림 각도 (80~88deg) */
+		--skew: -1.1deg;
+		--drop: 0 0 0 rgba(0, 0, 0, 0);
+		transform-origin: bottom var(--hinge-x);
+		/* 제본 쪽 힌지 */
+		transform: translateY(var(--y)) rotateX(var(--tilt)) skewY(var(--skew));
+		filter: drop-shadow(var(--drop));
+		backface-visibility: hidden;
+		will-change: transform, filter, opacity;
+		opacity: 0;
+
+		/* 종이 질감 */
+		background:
+			linear-gradient(180deg, var(--paper-cream-1), var(--paper-cream-2)),
+			repeating-linear-gradient(0deg, var(--paper-line) 0 1px, transparent 1px 22px);
+		border-radius: 10px 10px 0 0;
+		border: 1px solid var(--paper-edge);
+		border-bottom: none;
+	}
+
+	/* 위엣지 하이라이트(얇게) */
+	.passbook-flip.fx::before {
+		content: "";
+		position: absolute;
+		left: -8px;
+		right: -8px;
+		top: -18px;
+		height: 30px;
+		border-radius: 12px 12px 0 0;
+		background:
+			linear-gradient(180deg, rgba(255, 255, 255, .76), rgba(255, 255, 255, 0)),
+			radial-gradient(60% 120% at 50% 0%, rgba(0, 0, 0, .14), transparent 60%);
+		transform-origin: top center;
+		transform: rotateX(60deg) translateZ(1px);
+		pointer-events: none;
+	}
+
+	/* 말리는 곡면 그림자 */
+	.passbook-flip.fx::after {
+		content: "";
+		position: absolute;
+		left: -20px;
+		right: -20px;
+		top: -10px;
+		height: 28px;
+		background: linear-gradient(180deg, rgba(0, 0, 0, .18), rgba(0, 0, 0, 0));
+		border-radius: 50%/28%;
+		opacity: 0;
+		transform-origin: center top;
+		pointer-events: none;
+	}
+
+	/* 실행(아주 짧은 지연으로 부드럽게) */
+	.passbook-flip.fx.run {
+		animation: lfFlipUp3D var(--flip-dur) var(--flip-ease) .02s forwards;
+	}
+
+	.passbook-flip.fx.run::after {
+		animation: lfCurlShadow var(--flip-dur) var(--flip-ease) .02s forwards;
+	}
+
+	/* ↓↓↓ 모션(낮게 출발 → 충분히 올라옴 → 살짝 오버슈트 → 위로 빠짐) */
+	@keyframes lfFlipUp3D {
+		0% {
+			--y: 128%;
+			--tilt: 84deg;
+			--skew: -1.1deg;
+			--drop: 0 0 0 rgba(0, 0, 0, 0);
+			opacity: 0;
+		}
+
+		16% {
+			--y: 64%;
+			--tilt: 52deg;
+			--skew: -0.8deg;
+			--drop: 0 20px 24px rgba(0, 0, 0, .16);
+			opacity: .92;
+		}
+
+		46% {
+			--y: 4%;
+			--tilt: 10deg;
+			--skew: -0.4deg;
+			--drop: 0 26px 34px rgba(0, 0, 0, .20);
+			opacity: 1;
+		}
+
+		68% {
+			--y: -9%;
+			--tilt: -2deg;
+			--skew: -0.2deg;
+			--drop: 0 14px 22px rgba(0, 0, 0, .14);
+		}
+
+		100% {
+			--y: -124%;
+			--tilt: -6deg;
+			--skew: -0.1deg;
+			--drop: 0 0 0 rgba(0, 0, 0, 0);
+			opacity: 0;
+		}
+	}
+
+	@keyframes lfCurlShadow {
+		0% {
+			opacity: 0;
+			transform: rotateX(56deg) translateY(-6px);
+		}
+
+		26% {
+			opacity: .50;
+			transform: rotateX(34deg) translateY(-3px);
+		}
+
+		52% {
+			opacity: .70;
+			transform: rotateX(16deg) translateY(0px);
+		}
+
+		100% {
+			opacity: 0;
+			transform: rotateX(0deg) translateY(-6px);
+		}
+	}
+
+
+
+	/* ////////다크모드/////////////////////// */
+
+	/* ========== 다크모드 토글 버튼 스타일 ========== */
+	.lf-theme-toggle {
+		position: fixed;
+		top: calc(var(--lf-header-h));
+		/* 헤더 + 여백 */
+		/* 헤더 바로 아래 느낌 */
+		right: 20px;
+		z-index: 900;
+		border: 0;
+		padding: 6px;
+		border-radius: 999px;
+		background: rgba(255, 255, 255, .85);
+		box-shadow: 0 6px 18px rgba(0, 0, 0, .18);
+		cursor: pointer;
+		line-height: 0;
+	}
+
+	.theme-dark .lf-theme-toggle {
+		background: rgba(0, 0, 0, .6);
+		box-shadow: 0 6px 18px rgba(0, 0, 0, .4);
+	}
+
+	.lf-theme-toggle img {
+		display: block;
+		width: 32px;
+		height: 32px;
+	}
+
+	/* ========== 다크모드 컬러 레이어 ========== */
+	/* 기본(라이트) 변수 */
+	:root {
+		--lf-bg: #ffffff;
+		--lf-bg-soft: #f6f7f8;
+		--lf-panel: #ffffff;
+		--lf-border: #e7e7e7;
+		--lf-text: #111;
+		--lf-text-muted: #666;
+		--lf-green: #2e7d32;
+		--lf-green-weak: #e8f5e9;
+	}
+
+	/* 다크 변수(루트 클래스 .theme-dark 활성화 시) */
+	.theme-dark {
+		--lf-bg: #0f1113;
+		--lf-bg-soft: #141618;
+		--lf-panel: #141618;
+		--lf-border: #2a2e33;
+		--lf-text: #e8e9ea;
+		--lf-text-muted: #a8b0b6;
+		--lf-green: #69d088;
+		/* 살짝 밝은 그린 */
+		--lf-green-weak: #12271a;
+		/* 연한 녹 배경 */
+	}
+
+	/* 페이지 배경/문자 기본 치환 */
+	body {
+		background: var(--lf-bg);
+		color: var(--lf-text);
+	}
+
+	/* 탭/섹션/카드류 공통 */
+	.pay-tabs {
+		border-bottom-color: var(--lf-border);
+	}
+
+	.pay-tabs a {
+		color: var(--lf-text-muted);
+	}
+
+	.pay-tabs a.active {
+		color: var(--lf-green);
+	}
+
+	.pay-tabs a.active::after {
+		background: var(--lf-green);
+	}
+
+	.section-sub {
+		color: var(--lf-text-muted);
+	}
+
+	.empty {
+		color: var(--lf-text-muted);
+		border-color: var(--lf-border);
+	}
+
+	/* 카드: 결제내역/이벤트/사용자 패널 */
+	.history-card,
+	.event-row,
+	.easy-card,
+	.user-card,
+	.modal-dialog,
+	.donate-dialog {
+		background: var(--lf-panel) !important;
+		border-color: var(--lf-border) !important;
+		color: var(--lf-text) !important;
+	}
+
+	/* 자잘한 텍스트 */
+	.hc-meta {
+		color: var(--lf-text-muted);
+	}
+
+	.ev-meta {
+		color: var(--lf-green);
+	}
+
+	/* 포인트 카드(우측) */
+	.balance-card {
+		background: var(--lf-green-weak);
+		border-color: color-mix(in hsl, var(--lf-green) 30%, #0000);
+	}
+
+	.bc-title {
+		color: var(--lf-green);
+	}
+
+	/* 버튼류 */
+	.btn-light {
+		background: var(--lf-panel);
+		border-color: var(--lf-border);
+		color: var(--lf-text);
+	}
+
+	.btn-outline {
+		background: var(--lf-panel);
+		border-color: var(--lf-border);
+		color: var(--lf-text);
+	}
+
+	.btn-green,
+	.donate-btn {
+		background: #22c55e;
+		color: #fff;
+	}
+
+	/* 모달 오버레이 */
+	.modal,
+	.donate-modal {
+		background: rgba(0, 0, 0, .55);
+	}
+
+	/* 사이드 레이아웃 그리드 보강(경계색) */
+	.pay-grid {
+		gap: 24px;
+	}
+
+	/* 테이블/경계선 가능성 있는 요소들 한번 더 안전망 */
+	* {
+		border-color: var(--lf-border);
+	}
+
+
+	/* 숫자/강조 텍스트를 다크모드에서 흰색으로 */
+	.theme-dark .ec-amount,
+	.theme-dark .bc-amount,
+	.theme-dark .hc-amount,
+	.theme-dark .ev-meta {
+		color: #fff !important;
+	}
+
+	/* 카드 타이틀/뱃지는 가독성 유지 (선택 사항) */
+	.theme-dark .ec-title,
+	.theme-dark .hc-title,
+	.theme-dark .ev-title {
+		color: var(--lf-text);
+		/* 이미 밝게 설정됨 */
+	}
+
+	.theme-dark .ec-badge,
+	.theme-dark .bc-title {
+		color: #69d088;
+		/* 미묘하게 밝은 그린 */
+	}
+
+
+
+	/* ===== Glass preset: 다크모드에서만 적용 ===== */
+	/* ===== Softer Glass (다크모드에서만) ===== */
+	.theme-dark .easy-card,
+	.theme-dark .user-card,
+	.theme-dark .balance-card,
+	.theme-dark .event-row,
+	.theme-dark .history-card,
+	.theme-dark .modal-dialog,
+	.theme-dark .donate-dialog {
+		/* 더 투명하고, 살짝 그린 틴트가 있는 유리 */
+		background:
+			linear-gradient(to bottom right,
+				rgba(20, 24, 26, .55),
+				rgba(20, 24, 26, .45)) !important;
+		border: 1px solid rgba(255, 255, 255, .16) !important;
+		/* 바깥 그림자는 살짝만 */
+		box-shadow:
+			0 6px 18px rgba(0, 0, 0, .22),
+			inset 0 0 0 1px rgba(255, 255, 255, .04);
+		/* 유리 핵심: blur + 채도↑ */
+		-webkit-backdrop-filter: blur(16px) saturate(140%);
+		backdrop-filter: blur(16px) saturate(140%);
+		/* 둥글게 & 테두리 강조 조금 */
+		border-radius: 14px;
+	}
+
+	/* 상단 가장자리 하이라이트(유리엣지) */
+	.theme-dark .easy-card::before,
+	.theme-dark .user-card::before,
+	.theme-dark .balance-card::before,
+	.theme-dark .event-row::before,
+	.theme-dark .history-card::before,
+	.theme-dark .modal-dialog::before,
+	.theme-dark .donate-dialog::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		border-radius: inherit;
+		pointer-events: none;
+		background:
+			linear-gradient(to bottom,
+				rgba(255, 255, 255, .18), rgba(255, 255, 255, 0) 40%);
+		mix-blend-mode: screen;
+	}
+
+	/* 카드 내부의 텍스트 대비 보강(숫자/강조는 더 하얗게) */
+	.theme-dark .ec-amount,
+	.theme-dark .bc-amount,
+	.theme-dark .hc-amount,
+	.theme-dark .ev-meta {
+		color: #ffffff !important;
+	}
+
+	.theme-dark .ec-title,
+	.theme-dark .hc-title,
+	.theme-dark .ev-title,
+	.theme-dark .uc-name {
+		color: rgba(255, 255, 255, .96);
+	}
+
+	.theme-dark .ec-badge,
+	.theme-dark .bc-title {
+		color: #8be1a8;
+	}
+
+	/* 버튼은 유리 위에 놓인 반투명 버튼 느낌 */
+	.theme-dark .btn-light,
+	.theme-dark .btn-outline {
+		background: rgba(255, 255, 255, .06);
+		border-color: rgba(255, 255, 255, .18);
+		color: #fff;
+	}
+
+	.theme-dark .btn-light:hover,
+	.theme-dark .btn-outline:hover {
+		background: rgba(255, 255, 255, .10);
+		border-color: rgba(255, 255, 255, .28);
+	}
+
+	/* 탭 경계도 유리 톤으로 */
+	.theme-dark .pay-tabs {
+		border-bottom-color: rgba(255, 255, 255, .14);
+	}
+
+	/* 성능/가독성: 작은 화면에서는 blur 강도 살짝 낮춤 */
+	@media (max-width: 768px) {
+
+		.theme-dark .easy-card,
+		.theme-dark .user-card,
+		.theme-dark .balance-card,
+		.theme-dark .event-row,
+		.theme-dark .history-card,
+		.theme-dark .modal-dialog,
+		.theme-dark .donate-dialog {
+			-webkit-backdrop-filter: blur(12px) saturate(140%);
+			backdrop-filter: blur(12px) saturate(140%);
+		}
+	}
+
+	/* 백드롭필터 미지원 브라우저 폴백 */
+	@supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+
+		.theme-dark .easy-card,
+		.theme-dark .user-card,
+		.theme-dark .balance-card,
+		.theme-dark .event-row,
+		.theme-dark .history-card,
+		.theme-dark .modal-dialog,
+		.theme-dark .donate-dialog {
+			background: rgba(20, 24, 26, .78) !important;
+			/* 블러 못 쓰면 불투명도만 조금 높임 */
+		}
+	}
+
+	/* pay와 동일한 보정: grid 내부에서 컨텐츠 너비 초과 방지 */
+	.page-with-sidebar .page-content {
+		min-width: 0;
+	}
+
+	/* pay와 같은 그리드 설정을 강제(혹시 다른 CSS가 덮어썼다면) */
+	.page-with-sidebar {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		gap: 16px;
+		align-items: start;
+	}
+
+	#lfSidebar {
+		width: var(--sb-w) !important;
+	}
+
+	/* 펼친 너비 유지 */
+	#lfSidebar[data-collapsed="true"] {
+		width: var(--sb-w-c) !important;
+	}
+
+	/* 접힘 너비 유지 */
+
+
+	/* wallet 전용: 사이드바→오른쪽, 본문→왼쪽으로 살짝 당기기 */
+	.page-with-sidebar {
+		--nudge: 25px;
+		/* 4~12px 사이에서 취향대로 조절 */
+	}
+
+	/* 사이드바를 오른쪽으로 */
+	#lfSidebar {
+		position: relative;
+		left: var(--nudge);
+	}
+
+	/* 접힘 상태에서도 동일하게 적용 */
+	#lfSidebar[data-collapsed="true"] {
+		left: var(--nudge);
+	}
+
+	/* 본문을 왼쪽으로 */
+	.page-with-sidebar .page-content {
+		position: relative;
+		left: calc(-1 * var(--nudge));
 	}

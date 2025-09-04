@@ -63,7 +63,6 @@
 			<a th:href="@{/admin/members}" th:classappend="${page=='members'} ? ' active'">회원관리</a>
 			<a th:href="@{/admin/posts}" th:classappend="${page=='posts'}   ? ' active'">게시판관리</a>
 			<a th:href="@{/admin/chat?roomId=1}" th:classappend="${page=='chat'}    ? ' active'">채팅</a>
-			<a th:href="@{/admin/inquiries}" th:classappend="${page=='inquiries'} ? ' active'">문의관리</a>
 			<a th:href="@{/admin/stats}" th:classappend="${page=='stats'}   ? ' active'">통계</a>
 
 			<!-- 개발/테스트용: 세션 전환 메뉴 -->
@@ -93,19 +92,15 @@
 				e.preventDefault();
 				const userId = this.dataset.id;
 
-
 				const headers = {'Content-Type': 'application/x-www-form-urlencoded'};
 				if (csrfMeta && csrfHeader) {
 					headers[csrfHeader.content] = csrfMeta.content;
 				}
 
-
 				fetch('/set-user', {
 					method: 'POST',
 					headers,
 					//: {
-					//'Content-Type': 'application/x-www-form-urlencoded',
-					//'X-CSRF-TOKEN': document.querySelector('meta[name="_csrf"]').content
 					//},
 					body: `id=${userId}`
 				})

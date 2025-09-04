@@ -22,8 +22,8 @@ body {
 	/* 화면 꽉 채움 */
 	height: 900px;
 	/* body 높이 고정 */
-
 	overflow-x: hidden;
+
 }
 
 /* 제목 공통 스타일 */
@@ -926,3 +926,4 @@ body.tree-page .footer {
 	transform: translateY(1px);
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
+

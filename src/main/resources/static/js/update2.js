@@ -56,6 +56,7 @@ document.querySelectorAll(".debtn").forEach(btn => {
 			body: formData4
 		}).then(response => response.text())
 			.then(data => {
+
 				alert("삭제되었습니다")
 				commentItem2.remove();
 				location.reload();
@@ -63,3 +64,4 @@ document.querySelectorAll(".debtn").forEach(btn => {
 
 	}
 })
+

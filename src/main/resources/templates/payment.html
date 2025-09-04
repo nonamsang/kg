@@ -59,11 +59,22 @@
 						<td th:text="${#numbers.formatInteger(p.amount, 1, 'COMMA')}"></td>
 						<td th:text="${p.description}"></td>
 						<!-- 교체 (포인트 표시) -->
-						<td th:text="${p.earnedPoint > 0 ? #numbers.formatInteger(p.earnedPoint,1,'COMMA') : '-'}"></td>
+						<!-- <td th:text="${p.earnedPoint > 0 ? #numbers.formatInteger(p.earnedPoint,1,'COMMA') : '-'}"></td> -->
+						<!-- ==================================09.02 변경===================================== -->
+						<td>
+							<div>
+								<span
+									th:text="${p.earnedPoint > 0 ? #numbers.formatInteger(p.earnedPoint,1,'COMMA') : '-'}"></span>
+							</div>
+							<div class="emission-kg" th:if="${p.savedEmission != null and p.savedEmission > 0}"
+								th:text="${'(' + #numbers.formatDecimal(p.savedEmission, 1, 3) + ' kg)'}">
+							</div>
+						</td>
 					</tr>
 				</tbody>
 			</table>
-			<!-- =========================08.25 업뎃  -->
+			<!-- ==================================09.02 변경===================================== -->
+
 			<div class="summary">
 				<p class="total">TOTAL (총 지출) :
 					<span th:text="${#numbers.formatInteger(totalSpending, 1, 'COMMA')}">0</span>

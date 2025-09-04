@@ -7,6 +7,8 @@
 	<link rel="stylesheet" href="/css/mypage.css"> <!-- 마이페이지 전용 -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 	<link rel="stylesheet" href="/css/style.css"> <!-- 공통 header/footer용 -->
+	<!--<link rel="stylesheet" href="/css/style.css">--> <!-- 공통 header/footer용 -->
+	<link rel="stylesheet" href="/css/mainpagestyle.css">
 
 </head>
 
@@ -37,6 +39,9 @@
 				<div id="selectInfo"><strong th:text="${userInfo.nickname}" id="nicknamez"></strong> 님 ></div>
 				<div id="UwithB">회원정보 수정</div>
 				<div id="searchPass">비밀번호 변경</div>
+				<!--<img class="profile-img" th:src="@{'/image/' + ${profilePhotoPath}}" alt="프로필">
+			<div class="profile-info">
+				<strong th:text="${userInfo.nickname}"></strong> 님 >-->
 				<p class="sub"> 나의 보유 포인트
 					(<span th:text="${userInfo.point}"></span>P) >
 				</p>
@@ -203,6 +208,7 @@
 	<div th:replace="fragments/footer :: footer"></div>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script src="/js/userUpdate.js"></script>
+
 
 	<!--  fireflies.js -->
 	<script>

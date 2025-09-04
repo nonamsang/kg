@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8" />
-<title>Little Forest</title>
+	<meta charset="UTF-8" />
+	<title>Little Forest</title>
 	<link rel="stylesheet" th:href="@{/css/community.css}" />
 </head>
+
 <body>
 	<!--<div th:replace="fragments/header :: header"></div>
 	<div th:replace="fragments/footer :: footer"></div>-->
-<a href="/community">리턴</a>
-<div class="logo">로고자리</div>
-<!-- 글 작성 버튼 -->
-<div class="button-container">
-	<button class="button" id="insbtn">
-		    <img class=button_img src="/image/비료.png" alt="글등록">
+	<a href="/community">리턴</a>
+	<div class="logo">로고자리</div>
+	<!-- 글 작성 버튼 -->
+	<div class="button-container">
+		<button class="button" id="insbtn">
+			<img class=button_img src="/image/비료.png" alt="글등록">
 		</button>
 		<select name=sort id="idSelect" width:50px>
 			<option value="desc" th:selected="${sort=='desc'}">최신순</option>
@@ -21,48 +23,49 @@
 			<option value="likes" th:selected="${sort=='likes'}">인기순</option>
 		</select>
 		<label>
-		<input type="checkbox" name="type" id="type" value="free">자유</label>
+			<input type="checkbox" name="type" id="type" value="free">자유</label>
 		<label>
 			<input type=checkbox name="type" id="type" value="share">정보공유</label>
 		</label>
 		<label><input type="checkbox" name="type" id="type" value="notice">공지
 		</label>
-</div>
-<!-- 글 목록 -->
-<div class="post-list">
-    <div th:each="com, iterStat : ${my}" class="post-card">
-		<div id="selectBtn">
-        <h3 class="post-title">
-		<span th:text="${iterStat.index+1}">순서</span>	
-		<span th:text="${com.type}">타입</span>
-		<span th:text="${com.likes}">좋아요</span><br>
-		<span th:text="${com.title}">제목</span>&#127811;</h3>
-        <p class="post-content" th:text="${com.content}">내용</p>
-		<div th:if="${com.photo!=null && com.photo !=''}">
+	</div>
+	<!-- 글 목록 -->
+	<div class="post-list">
+		<div th:each="com, iterStat : ${my}" class="post-card">
+			<div id="selectBtn">
+				<h3 class="post-title">
+					<span th:text="${iterStat.index+1}">순서</span>
+					<span th:text="${com.type}">타입</span>
+					<span th:text="${com.likes}">좋아요</span><br>
+					<span th:text="${com.title}">제목</span>&#127811;
+				</h3>
+				<p class="post-content" th:text="${com.content}">내용</p>
+				<div th:if="${com.photo!=null && com.photo !=''}">
 					<img th:src="@{${com.photo}}" width="100px;" height="100px">
 				</div>
 				<div th:unless="${com.photo!=null && com.photo !=''}"></div>
-		<span class="post-date" 
-		      th:text="${#dates.format(com.createdAt,'yyyy-MM-dd HH:mm')}">
-		    날짜
-		</span>
+				<span class="post-date" th:text="${#dates.format(com.createdAt,'yyyy-MM-dd HH:mm')}">
+					날짜
+				</span>
+			</div>
+			<button class="button_sub" id="subbtn">댓글보기</button>&nbsp;
 		</div>
-		<button class="button_sub" id="subbtn">댓글보기</button>&nbsp;
-    </div>
-</div>
-<!--선택한 팝업-->
-<div id="selectpopup" class="popup">
-	<div class="post-popup">
-		<span class="close" onclick="closer()">&times;</span>
-		<div id="s2type"></div>
-		<div id="s2likes"></div>
-		<h3 id="s2title"></h3>
-		<p id="s2content"></p>
-		<span id="s2date"></span>
 	</div>
-</div>
+	<!--선택한 팝업-->
+	<div id="selectpopup" class="popup">
+		<div class="post-popup">
+			<span class="close" onclick="closer()">&times;</span>
+			<div id="s2type"></div>
+			<div id="s2likes"></div>
+			<h3 id="s2title"></h3>
+			<p id="s2content"></p>
+			<span id="s2date"></span>
+		</div>
+	</div>
 
-<script src="/js/select.js"></script>
-<script src="/js/insert.js"></script>
+	<script src="/js/select.js"></script>
+	<script src="/js/insert.js"></script>
 </body>
+
 </html>

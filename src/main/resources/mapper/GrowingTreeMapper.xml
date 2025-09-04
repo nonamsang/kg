@@ -65,7 +65,11 @@ update growing_Tree_table set tree_level=#{tree_Level} where user_id=#{user_Id}
 </update>
 
 <update id="updatebiyro" parameterType="com.fintecho.littleforest.vo.GrowingTreeVO">
-update growing_Tree_table set biyro_stock=biyro_Stock-1, biyro_used_at=sysdate where user_id=#{user_Id}
+		update growing_Tree_table set biyro_stock=biyro_Stock-1,
+		biyro_used_at=sysdate where user_id=#{user_Id}
+		<!--=======
+update growing_Tree_table set biyro_stock=#{biyro_Stock}-1, biyro_used_at=sysdate where user_id=#{user_Id}
+>>>>>>> jinhee-->
 </update>
 <update id="updateburning" parameterType="com.fintecho.littleforest.vo.GrowingTreeVO">
   <![CDATA[

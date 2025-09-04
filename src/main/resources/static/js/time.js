@@ -9,6 +9,7 @@
 	// const INTERVAL = 5000; // 테스트 5초
 	const INTERVAL = 1000 * 60 * 60 * 12; // 12시간
 	
+
 	function todayKey() { return new Date().toISOString().slice(0, 10); }
 	function loadState() {
 		try { return JSON.parse(localStorage.getItem('waterReceive')) || {}; } catch { return {}; }
@@ -20,6 +21,7 @@
 		state = { date: todayKey(), nextTime: 0 };
 		saveState(state);
 	}
+
 
 	function fmt(ms) {
 		const h = String(Math.floor(ms / 3600000)).padStart(2, '0');

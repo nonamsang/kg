@@ -88,14 +88,23 @@ public class MainController {
 		UserVO user = userService.findByOauthID(oauth_id);
 
 		if (user != null && user.getPassword().equals(password)) {
-			// if (user != null && passwordEncoder.matches(password, user.getPassword())) {
 			session.setAttribute("loginUser", user);
+
+			// 세션 값 세팅 (어디서든 쓸 수 있게 통일)
+			session.setAttribute("userInfo", user);
+
+			// 프로필 파일명(없으면 null → 템플릿에서 기본이미지로 처리)
+			String profilePath = (user.getProfile_Photo() == null || user.getProfile_Photo().isBlank()) ? null
+					: user.getProfile_Photo();
+
+			session.setAttribute("profilePhotoPath", profilePath);
 			return "redirect:/";
 		} else {
 			model.addAttribute("errorMsg", "아이디 또는 비밀번호가 일치하지 않습니다.");
 			return "login";
 		}
 	}
+/////////////////////////0903 수정/////////////////////////////////////////
 
 	// 회원가입 처리
 	@PostMapping("/join")
