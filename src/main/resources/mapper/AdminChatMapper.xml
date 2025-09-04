@@ -89,13 +89,13 @@
 	</select>
 
 	<insert id = "insertChatRoom">
-		INSERT INTO chat_room_table
-		VALUES (4, '새로운 챗방', #{user_Id})
+		INSERT INTO chat_room_table 
+		VALUES (chat_room_seq.NEXTVAL, '유저와 채팅', #{user_Id})
 	</insert>
 
 	<insert id = "insertChatRoomAdmin">
 		INSERT INTO chat_room_table 
-		VALUES (4, '새로운 챗방', 2)
+		VALUES (chat_room_seq.CURRVAL, '유저와 채팅', 2)
 	</insert>
 	
 </mapper>

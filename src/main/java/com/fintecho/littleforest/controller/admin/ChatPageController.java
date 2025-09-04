@@ -112,7 +112,9 @@ public class ChatPageController {
 	@GetMapping("/admin/chat/data")
 	@ResponseBody
 	public Map<String, Object> chatData(@RequestParam int roomId, HttpSession session) {
-		Integer myId = (Integer) session.getAttribute("user_Id");
+
+		
+	    Integer myId = (Integer) session.getAttribute("user_Id");
 
 		var chatRoomId = adminchatmapper.getChatRoomDTO(myId).get(0).getId();
 		var other = adminchatmapper.getOtherUserInfoById(roomId, myId);
