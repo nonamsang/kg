@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fintecho.littleforest.mapper.admin.AdminStatsMapper">
+
+  <!-- Oracle 기준: DUAL 사용하여 한 번에 집계 -->
+  <select id="selectCounts" resultType="com.fintecho.littleforest.vo.admin.AdminCountsVO">
+    SELECT
+      (SELECT COUNT(*) FROM user_table        WHERE role = 'user') AS users,
+      (SELECT COUNT(*) FROM growing_tree_table)                     AS growingTrees,
+      (SELECT COUNT(*) FROM grown_tree_table)                       AS grownTrees
+    FROM dual
+  </select>
+
+</mapper>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>mypage</title>
+	<link rel="stylesheet" href="/css/mypage.css"> <!-- 마이페이지 전용 -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+	<!--<link rel="stylesheet" href="/css/style.css">--> <!-- 공통 header/footer용 -->
+	<link rel="stylesheet" href="/css/mainpagestyle.css">
+
+</head>
+
+<body>
+
+	<!-- 공통 header 삽입 -->
+	<div th:replace="fragments/header :: header"></div>
+
+	<canvas id="canvas"></canvas>
+
+	<div class="mypage-container">
+		<!-- 프로필 영역 -->
+		<div class="profile-box">
+			<img class="profile-img" th:src="@{'/image/' + ${profilePhotoPath}}" alt="프로필">
+			<div class="profile-info">
+				<strong th:text="${userInfo.nickname}"></strong> 님 >
+				<p class="sub"> 나의 보유 포인트
+					(<span th:text="${userInfo.point}"></span>P) >
+				</p>
+				<p><a href="/payment"> 최근지출보러가기 </a></p>
+			</div>
+		</div>
+
+		<!-- 포인트 및 쿠폰 -->
+		<div class="status-box">
+			<div>
+				<i class="fa-solid fa-dollar-sign"></i>
+				<span>그린포인트</span>
+				<strong th:text="${userInfo.point} + 'p'"></strong>
+			</div>
+			<div>
+				<i class="fa-solid fa-ticket"></i>
+				<span>쿠폰</span>
+				<strong>1개</strong>
+			</div>
+			<div>
+				<i class="fa-solid fa-emission"></i>
+				<span>나의 탄소 배출량</span>
+				<strong>탄소배출량.emission</strong>
+			</div>
+		</div>
+
+		<!-- 이벤트 배너 -->
+		<div class="banner">
+			<img src="/image/event_banner_centered.png" alt="이벤트 배너" />
+		</div>
+
+		<!-- 메뉴 -->
+		<ul class="menu">
+			<li><a href="#">1:1 문의 <i class="fa-solid fa-angle-right"></i></a></li>
+			<li><a href="#">고객센터 <i class="fa-solid fa-angle-right"></i></a></li>
+		</ul>
+
+		<p><a href="/wallet">지갑으로 가기 (이미지로)</a>
+			<a href="/emission1">탄소배출량 차트보러가기 (이미지로)</a>
+			<a href="/carbon/point">포인트 보러가기 (이미지로)</a>
+			<a href="/pay">포인트 충전하러가기</a>
+		</p>
+
+	</div>
+
+	<!-- 공통 footer 삽입 -->
+	<div th:replace="fragments/footer :: footer"></div>
+
+
+	<!--  fireflies.js -->
+	<script>
+		let c = init("canvas"),
+			w = (canvas.width = window.innerWidth),
+			h = (canvas.height = window.innerHeight);
+		//initiation
+
+		//반딧불 사이즈 조절
+		const SIZE_MIN = 1;
+		const SIZE_MAX = 3;
+
+		class firefly {
+			constructor() {
+				this.x = Math.random() * w;
+				this.y = Math.random() * h;
+				this.s = Math.random() * 2;  /* 스피드  */
+				this.ang = Math.random() * 2 * Math.PI;
+				this.v = this.s * this.s / 4;
+
+				// 속도는 크기와 무관하게 예전 분포 유지
+				// 기존: this.v = this.s*this.s/4;
+				this.s = SIZE_MIN + Math.random() * (SIZE_MAX - SIZE_MIN);
+				this.v = (Math.random() * 2) ** 2 / 4;   // 0 ~ 1 근처, 예전과 동일한 범위
+
+			}
+
+
+			move() {
+				this.x += this.v * Math.cos(this.ang);
+				this.y += this.v * Math.sin(this.ang);
+				this.ang += Math.random() * 20 * Math.PI / 180 - 10 * Math.PI / 180;
+			}
+			show() {
+				/*      c.beginPath();
+					 c.arc(this.x,this.y,this.s,0,2*Math.PI);
+					 c.fillStyle="#fddba3";
+					 c.fill(); */
+
+				/* 형광버전 */
+				c.save();
+				c.shadowColor = "rgba(255, 255, 80, 0.9)";
+				c.shadowBlur = 12;                 // 글로우 강도 (10~20 사이로 조절)
+				c.beginPath();
+				c.arc(this.x, this.y, this.s, 0, 2 * Math.PI);
+				c.fillStyle = "#fff44f";
+				c.fill();
+				c.restore();
+
+				/* (선명) 라디얼 그라디언트 */
+				/* 	   const g = c.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.s * 3);
+					   g.addColorStop(0.00, "#ffffcc");           // 밝은 코어
+					   g.addColorStop(0.40, "#fff44f");           // 형광 노랑
+					   g.addColorStop(1.00, "rgba(255,255,0,0)"); // 가장자리는 투명
+					   c.beginPath();
+					   c.arc(this.x, this.y, this.s * 3, 0, 2*Math.PI);
+					   c.fillStyle = g;
+					   c.fill(); */
+			}
+		}
+
+		let f = [];
+
+		function draw() {
+			if (f.length < 100) {
+				for (let j = 0; j < 10; j++) {
+					f.push(new firefly());
+				}
+			}
+			//animation
+			for (let i = 0; i < f.length; i++) {
+				f[i].move();
+				f[i].show();
+				if (f[i].x < 0 || f[i].x > w || f[i].y < 0 || f[i].y > h) {
+					f.splice(i, 1);
+				}
+			}
+		}
+
+		let mouse = {};
+		let last_mouse = {};
+
+		canvas.addEventListener(
+			"mousemove",
+			function (e) {
+				last_mouse.x = mouse.x;
+				last_mouse.y = mouse.y;
+
+				mouse.x = e.pageX - this.offsetLeft;
+				mouse.y = e.pageY - this.offsetTop;
+			},
+			false
+		);
+		function init(elemid) {
+			let canvas = document.getElementById(elemid),
+				c = canvas.getContext("2d"),
+				w = (canvas.width = window.innerWidth),
+				h = (canvas.height = window.innerHeight);
+			c.fillStyle = "rgba(30,30,30,1)";
+			c.fillRect(0, 0, w, h);
+			return c;
+		}
+
+		window.requestAnimFrame = (function () {
+			return (
+				window.requestAnimationFrame ||
+				window.webkitRequestAnimationFrame ||
+				window.mozRequestAnimationFrame ||
+				window.oRequestAnimationFrame ||
+				window.msRequestAnimationFrame ||
+				function (callback) {
+					window.setTimeout(callback);
+				}
+			);
+		});
+
+		function loop() {
+			window.requestAnimFrame(loop);
+			c.clearRect(0, 0, w, h);
+			draw();
+		}
+
+		window.addEventListener("resize", function () {
+			(w = canvas.width = window.innerWidth),
+				(h = canvas.height = window.innerHeight);
+			loop();
+		});
+
+		loop();
+		setInterval(loop, 1000 / 60);
+	</script>
+</body>
+
+</html>

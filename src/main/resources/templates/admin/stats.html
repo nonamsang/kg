@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+
+<body th:replace="~{admin/layout :: layout(~{::section}, ~{::script})}">
+	<section>
+		<h2>회원통계</h2>
+
+		<div class="card">
+			<h3>막대 차트</h3>
+			<div class="chart-wrap">
+				<canvas id="barChart" width="520" height="360" aria-label="회원/나무 통계"></canvas>
+			</div>
+			<div class="legend" id="chartLegend"></div>
+		</div>
+
+
+		<link rel="stylesheet" th:href="@{/css/admin-stats.css(v=${#dates.createNow().time})}">
+	</section>
+
+	<!-- scripts 슬롯으로 들어갈 것들 -->
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+	<script th:src="@{/js/admin-stats.js(v=${#dates.createNow().time})}"></script>
+</body>
+
+</html>
