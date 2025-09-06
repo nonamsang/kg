@@ -26,7 +26,7 @@ header {
 	height: 110px;
 
 	position: relative;
-	color: white;
+	/*color: white;*/
 	overflow: visible;
 	/* 중요: submenu가 잘리지 않게 */
 	margin-bottom: 100px;

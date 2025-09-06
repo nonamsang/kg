@@ -3,6 +3,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <body>
+
 	<header>
 		<style>
 			.logout {
@@ -26,6 +27,9 @@
 				color: white;
 			}
 		</style>
+		
+		
+		
 		<div class="logo">
 			<a href="/"> <img src="/image/logo2.png" alt="logo"> </a>
 		</div>
@@ -76,7 +80,7 @@
 			<a th:if="${session.loginUser != null}" th:href="@{/logout}" class="logout">
 				<i class="fa-solid fa-right-from-bracket"></i> 로그아웃</a>
 		</div>
-
+		<div th:replace="~{fragments/chatting}"></div>
 
 		<!--<script>
 			document.getElementById('mypage-link').addEventListener('click', function (event) {
@@ -86,6 +90,7 @@
 			});
 		</script>-->
 	</header>
+	
 </body>
 
 </html>

@@ -75,6 +75,8 @@
 		      });
 	        }
 	        
+	        connect();
+	        
 	        const panel   = document.querySelector('.chat_area.floating');
        		const willOpen = panel.classList.contains('hide');
        	    panel.classList.toggle('hide', !willOpen);
@@ -106,7 +108,7 @@
 		//가져온 채팅방 아이디 js 변수에 넣기
 		roomId = await getRoomId.text();
 		//기존 chat data 가져오기
-	    const res = await fetch(`/admin/chat/data?roomId=${roomId}`, {
+	    const res = await fetch(`/chat/data?roomId=${roomId}`, {
 	      headers: { 'Accept': 'application/json' }
 	    });
 	    if (!res.ok) throw new Error('HTTP ' + res.status);
@@ -114,6 +116,7 @@
 	    const data = await res.json();
 		//가져온 데이터 renderChat 함수로 넘기기
 	    renderChat(data);
+	   
 	    //websorket 서버에 커넥트
 	    connect();
 	  }
@@ -130,6 +133,7 @@
 	    // 기존 메시지 삭제
 	    msgs.innerHTML = '';
 		//채팅 데이터 개수만큼 함수 실행
+		
 	    (data.chat || []).forEach(m => appendMessage(m, MY_ID));
 	    // 맨 아래로 스크롤
 	    msgs.scrollTop = msgs.scrollHeight;
