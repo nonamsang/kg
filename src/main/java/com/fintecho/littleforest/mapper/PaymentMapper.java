@@ -11,5 +11,7 @@ public interface PaymentMapper {
 	List<PaymentVO> getPaymentListByUserId(int userId);
 
 	List<PaymentVO> selectPaymentWithPoints(int userId);
+	
+	void InsertPaymentByShop(PaymentVO paymentvo);
 
 }

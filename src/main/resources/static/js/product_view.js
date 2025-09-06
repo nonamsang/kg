@@ -1,23 +1,78 @@
 function payment() {
 		// 선택된 라디오 버튼 가져오기
-		const selectedWallet = document.querySelector('input[name="selectedWallet"]:checked');
+		const selected = document.querySelector('input[name="selectedWallet"]:checked');
 
 		// 선택 안 한 경우 경고
-		if (!selectedWallet) {
+		if (!selected) {
 			alert('결제할 계좌를 선택해주세요.');
 			return;
 		}
 
-		// 선택된 계좌 정보
-		const accountNumber = selectedWallet.value;
-
-		// 예시: 콘솔에 출력
-		console.log('선택된 계좌번호:', accountNumber);
-
+		const wallet_Id = Number(selected.value); 
+		const product_Id = Number(document.getElementById('pageMeta').dataset.productId);
+		const price       = Number(document.getElementById('pageMeta').dataset.price);
+			
+		console.log('PRODUCT_ID:', product_Id);
+		console.log('PRICE:', price);
+		console.log('WALLET_ID:', wallet_Id);
 		// 이후 원하는 동작 수행 (예: 서버 요청, 페이지 이동 등)
 
 		// 예시: fetch로 서버에 POST 요청
-		/*
+		const amount = 50000;
+		if (Number.isNaN(amount) || amount < price) {
+			alert(`잔액이 부족합니다`);
+			return;
+		}
+	
+		const merchantUid = 'littleForest_Payment' + Date.now();
+		
+		// 카카오페이 결제창 호출
+		const IMP = window.IMP;
+		try {IMP?.init?.('imp76384566');} catch (_) { }
+		IMP.request_pay({
+			pg: 'kakaopay',
+			pay_method: 'card',
+			merchant_uid: merchantUid,
+			name: '결제하기',
+			amount: price
+		}, async (rsp) => {
+			if (!rsp.success) {
+
+				alert('결제가 취소되었거나 실패했습니다.\n' + (rsp.error_msg || ''));
+				return;
+			}
+			
+			try {
+				alert(rsp.imp_uid);
+				// 서버 검증 + DB 적립
+				const res = await fetch('/product/payment/complete', {
+					method: 'POST',
+					headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+					body: new URLSearchParams({
+						wallet_Id: wallet_Id,
+						product_Id: product_Id,
+						amount: price,
+						type: 'deoisit',
+						description: '리틀포레스트 샵 이용'
+						
+					})
+				});
+	
+				const text = await res.text();
+				if (!res.ok) throw new Error(text || '충전 실패');
+	
+				// 잔액 갱신
+				const newBalance = Number(text);
+				const balEl = document.getElementById('pointBalance');
+				if (balEl) balEl.textContent = newBalance.toLocaleString() + '원';
+	
+				closeModal();
+				alert('충전이 완료되었습니다!');
+			} catch (e) {
+				alert(e.message);
+			}
+							
+						
 		fetch('/api/payment', {
 			method: 'POST',
 			headers: {
@@ -34,8 +89,8 @@ function payment() {
 			console.error('결제 중 오류 발생:', error);
 			alert('결제에 실패했습니다.');
 		});
-		*/
-
+		
+	});
 		// 또는 페이지 이동 예시:
 		// window.location.href = `/payment/confirm?account=${accountNumber}`;
-	}
+}
