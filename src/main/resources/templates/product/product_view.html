@@ -9,13 +9,18 @@
 </th:block>
 <link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="/css/product_view.css">
-<script src="../js/product_view.js"></script>
+
 
 <body>
+<!-- 포트원(Iamport) JS 카카오페이 결제창 호출용 -->
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 	<div th:replace="fragments/header :: header"></div>
 
 	<div class="container">
-
+		
+		<!-- 페이지 메타: 상품id/가격을 data-*로 싣기 -->
+		<div id="pageMeta"
+     	th:attr="data-product-id=${product.id},data-price=${product.price}"></div>
 		<!-- 왼쪽: 상품 정보 -->
 		<div class="product-container">
 			
@@ -35,9 +40,13 @@
 				
 					
 				<label th:for="'wallet' + ${iterStat.index}">
-					<input type="radio" name="selectedWallet"
-					th:id="'wallet' + ${iterStat.index}"
-					th:value="${item.account_Number}" /> 
+				
+				<input type="radio" name="selectedWallet"
+       th:id="'wallet' + ${iterStat.index}"
+       th:value="${item.id}"            
+       th:attr="data-account-number=${item.account_Number}" /> <!-- 선택된 wallet_Id로 쓰기 -->
+       
+					
 					<div th:text="${item.bank_Name}"></div>
 					<div th:text="${item.account_Number}"></div>
 					<div th:text="'잔액: ' + ${item.account_Balance}"></div>
@@ -51,6 +60,7 @@
 
 
 
+<script src="../js/product_view.js"></script>
 
 </body>
 </html>

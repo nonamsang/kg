@@ -92,6 +92,18 @@
     ORDER BY p.tran_at DESC, p.id DESC
   </select>
 
+<insert id = "InsertPaymentByShop">
+
+	INSERT INTO payment_table VALUES(
+		payment_seq.nextval,
+		#{wallet_Id},
+		#{product_Id},
+		#{amount},
+		'desopit',
+		'리틀 포레스트 샵 이용',
+		SYSTIMESTAMP )
+
+</insert>
 
   
  <!-- emission 테이블 upsert : 저장은 g 단위 정수 -->

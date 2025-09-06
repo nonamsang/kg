@@ -3,14 +3,19 @@ package com.fintecho.littleforest.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fintecho.littleforest.mapper.MerchantMapper;
+import com.fintecho.littleforest.mapper.PaymentMapper;
 import com.fintecho.littleforest.mapper.ProductMapper;
 import com.fintecho.littleforest.mapper.WalletMapper;
+import com.fintecho.littleforest.vo.PaymentVO;
 import com.fintecho.littleforest.vo.ProductVO;
 import com.fintecho.littleforest.vo.WalletVO;
 
@@ -23,6 +28,8 @@ public class ProductController {
 
 	@Autowired
 	ProductMapper productmapper;
+	@Autowired
+	PaymentMapper paymentmapper;
 	@Autowired
 	MerchantMapper merchantmapper;
 	@Autowired
@@ -54,4 +61,23 @@ public class ProductController {
 
 		return "product/product_view";
 	}
+	
+	@PostMapping("/product/payment/complete")
+	@ResponseBody
+	public ResponseEntity<String> chargeComplete(@RequestParam("wallet_Id") int wallet_Id
+											, @RequestParam("amount") int amount 
+											, @RequestParam("product_Id") int product_Id
+											, HttpSession session) {
+
+		PaymentVO paymentvo = new PaymentVO();
+		
+		paymentvo.setAmount(amount);
+		paymentvo.setProduct_Id(product_Id);
+		paymentvo.setWallet_Id(wallet_Id);
+		
+		paymentmapper.InsertPaymentByShop(paymentvo);
+		
+		return ResponseEntity.ok(String.valueOf(1));
+	}
+	
 }

@@ -14,7 +14,6 @@
 <body>
 	<!-- 헤더 삽입 -->
 	<div th:replace="fragments/header :: header"></div>
-	<div th:replace="~{fragments/chatting}"></div>
 
 	<div class="sakura-container" id="sakura-petals">
 
@@ -25,7 +24,7 @@
 
 
 		<div class="hero-content">
-			<h1>내 손안의 작은 숲, LittleForest</h1>
+			<h1>내 손안의 작은 숲, LittleForest<!-- <span th:text="${session.user_Id}">게스트</span> --></h1>
 			<p>
 				탄소배출량 측정,<br>지속가능한 소비 분석,<br>당신을 위한 환경 데이터 플랫폼
 			</p>

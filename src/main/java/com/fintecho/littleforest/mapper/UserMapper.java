@@ -18,7 +18,7 @@ public interface UserMapper {
 //로그인 //닉네임으로 사용자 한 명 정보 가져오기
 	UserVO findByOauthID(@Param("oauth_id") String oauth_id);
 
-	int checkEmailDupl(String email);
+	int checkEmailAndIdDupl(String id, String email);
 
 	// 회원가입
 	void insertUser(UserVO user);
@@ -59,5 +59,8 @@ public interface UserMapper {
 
 	// 비밀번호 수정을 위한것
 	int userUpdatePassword(UserVO uvo);
+	
+	//
+	int getUserseqByEmail(String email);
 
 }
