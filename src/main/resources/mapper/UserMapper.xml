@@ -57,10 +57,10 @@ and password = #{password}
   WHERE oauth_id = #{oauth_id}
 </select>
 
-<select id="checkEmailDupl" parameterType="string" resultType="int">
+<select id="checkEmailAndIdDupl" parameterType="string" resultType="int">
 	SELECT COUNT(*) 
     FROM user_table
-    WHERE email = #{email}
+    WHERE email = #{email} AND oauth_id = #{id}
 </select>
 
 
@@ -132,6 +132,10 @@ update user_table set password=#{password} where id=#{id}
 <!-- 관리자 이메일만 가져옴 (일단 관리자 요소 다 가져옴)-->
 <select id="adminInform" parameterType="UserVO">
 select * from user_table where role in('admin')
+</select>
+
+<select id="getUserseqByEmail" parameterType="UserVO">
+	SELECT id FROM user_table WHERE email = #{email}
 </select>
 
 </mapper>

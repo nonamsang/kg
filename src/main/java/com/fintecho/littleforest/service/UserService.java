@@ -12,9 +12,6 @@ public interface UserService {
 // 회원가입
 	void joinUser(UserVO user);
 
-// 이메일 중복 체크
-	boolean isEmailDuplicate(String email);
-
 // Oauth ID 중복 체크
 	boolean isOauthIdDuplicate(String oauthId);
 

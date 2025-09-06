@@ -38,10 +38,7 @@ public class UserServiceImpl implements UserService {
 		return userMapper.findByOauthID(oauth_id);
 	}
 
-	@Override
-	public boolean isEmailDuplicate(String email) {
-		return userMapper.checkEmailDupl(email) > 0;
-	}
+
 
 	@Override
 	public boolean isOauthIdDuplicate(String oauthId) {

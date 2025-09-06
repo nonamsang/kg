@@ -14,36 +14,42 @@
               window.Kakao.API.request({
                   url: '/v2/user/me',
                   success: res => {
+					  const id = 'kakao_'+ res.id;
                       const kakao_account = res.kakao_account;
-                      fetch('/checkemail?email=' + kakao_account.email, {
-                          method: 'POST' // GET 방식
+                      fetch('/checkemailandid', {
+                          method: 'POST', 
+						  headers: {
+						  	'Content-Type': 'application/json',
+						  	},
+						  	body: JSON.stringify({ id: id, email: kakao_account.email})
                       })
                           .then(res => res.text())
                           .then(text => {
                               const intValue = parseInt(text, 10);
-                              if (intValue == 1) {
-
-                                  window.location.href = "/main";
+                              if (intValue == 1) { // 카카오로 로그인
+								alert("asdf");
+								fetch('/loginkakao', {
+									method: 'POST', 
+									headers: {
+									  'Content-Type': 'application/json',
+									  },
+									  body: JSON.stringify({ id: id, email: kakao_account.email })
+								})
+                                window.location.href = "/";
                               }
-                              else {
-								const kakaoAccessToken = window.Kakao.Auth.getAccessToken();
+                              else { // 카카오 회원가입
 								alert("가입되지 않은 이메일, 회원가입 페이지로 이동합니다.");
 
-								fetch('/auth/kakao/session', {
+								fetch('/joinkakao/session', {
 								  method: 'POST',
 								  headers: {
 								    'Content-Type': 'application/json',
-								    // CSRF를 쓰면 메타에서 읽어 같이 전송
-								    // 'X-CSRF-TOKEN': document.querySelector('meta[name="_csrf"]').content
 								  },
-								  body: JSON.stringify({ accessToken: kakaoAccessToken })
+								  body: JSON.stringify({ id: id, email: kakao_account.email })
 								})
-								  .then(response => {
-								    if (!response.ok) throw new Error('세션 설정 실패');
-								    window.location.assign('/join');
-								  })
-								  .catch(error => console.error(error));
-                              }
+								window.location.href = '/joinkakao';
+								  
+                              } 
                           });
 
                   }
