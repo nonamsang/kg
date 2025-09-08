@@ -102,11 +102,12 @@
 
   <!-- 프로필 -->
   <a th:href="@{/mypage}" class="lf-sidebar__profile">
-	  <img class="profile-img"
-       th:src="${session.profilePhotoPath != null}
-                ? @{'/image/' + ${session.profilePhotoPath}}
-                : @{/image/profile/profile1.png}"
-       alt="프로필">   
+	<div th:if="${userInfo.profile_Photo!=null}">
+					<img class="profile-img" th:src="@{${userInfo.profile_Photo}}">
+				</div>
+				<div th:unless="${userInfo.profile_Photo!=null}">
+					<img class="profile-img" th:src="@{/image/profile.png}">
+				</div>
        <div class="profile-meta">
       <strong th:text="${userInfo != null} ? ${userInfo.nickname} : '사용자'">사용자</strong>
       <span> 님 &gt;</span>

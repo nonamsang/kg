@@ -93,7 +93,10 @@ document.addEventListener("DOMContentLoaded", () => {
 			document.getElementById("pointHtml3").innerHTML =
 				`<h3 align='center'>보유 포인트 : ${point2}P</h3>
 				 <h3 align='center'>가격 : ${price2}P</h3>`;
-
+			
+			document.getElementById("sucbtn3").onclick=()=>{
+				location.href="/pay";
+			}
 			document.getElementById("sucbtn4").onclick = () => {
 				lespop.style.display = "none";
 			};

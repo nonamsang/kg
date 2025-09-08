@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
-	const ranLevel = document.getElementById("tree_Level");
-	const parseLevel = parseInt(ranLevel.textContent);
-	if (parseLevel == 7) {
+	const ranLevel=document.getElementById("tree_Level");
+	const parseLevel=parseInt(ranLevel.textContent);
+	if(parseLevel==7){
 		return;
 	}
 	const ranpop = document.getElementById("randomeventpopup");
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				body: formData20
 			}).then(response => response.text()).then(() => {
 				completepopup.style.display = "flex";
-				document.getElementById("pointHtml").innerHTML = `<h3>결제 포인트 : 100P</h3>` + `<h3>남은 보유 포인트 : ${pointContent - 100}P</h3>`;
+				document.getElementById("pointHtml").innerHTML=`<h3>결제 포인트 : 100P</h3>`+`<h3>남은 보유 포인트 : ${pointContent-100}P</h3>`;
 				sucbtn.onclick = () => {
 					completepopup.style.display = "none";
 					ranpop.style.display = "none";

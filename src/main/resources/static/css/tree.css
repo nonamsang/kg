@@ -100,7 +100,47 @@ body {
 }
 
 
+.image_wrap {
+  position: relative; 
+  display: block; 
+}
+.meadow {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 35%;
+  pointer-events: none;
+  overflow: hidden;
+z-index: 100;
+}
 
+.weed {
+  position: absolute;
+  bottom: 50px;
+  width: 4px;
+  left: var(--x, 0);     /* JS에서 넣은 --x 사용 */
+  height: var(--h, 100px); /* JS에서 넣은 --h 사용 */
+  background: linear-gradient(to top, #2e7d32, #66bb6a);
+  border-radius: 2px;
+  transform-origin: bottom center;
+  animation: grow 2s ease-out forwards, sway 3s ease-in-out infinite;
+  animation-delay: var(--delay, 0s); /* JS에서 넣은 --delay 사용 */
+}
+
+
+.weed::before, .weed::after {
+  content: '';
+  position: absolute;
+  bottom: 50%;
+  width: 20px; height: 10px;
+  background: #66bb6a;
+  border-radius: 50%;
+}
+
+.weed::before { left: -20px; transform: rotate(-30deg); }
+.weed::after  { right: -20px; transform: rotate(30deg); }
+
+@keyframes grow { 0% { transform: scaleY(0); } 100% { transform: scaleY(1); } }
+@keyframes sway { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(3deg); } }
 /* ☀️ 햇살 */
 .sun {
 	position: fixed;

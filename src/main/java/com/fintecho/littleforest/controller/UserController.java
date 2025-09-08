@@ -115,6 +115,7 @@ public class UserController {
 		UserVO uvo = userService.getInfo(id);
 		String dbPassword = uvo.getPassword();
 		if (passwordEncoder.matches(password, dbPassword)) {
+			System.out.println(dbPassword);
 			// if(dbPassword.equals(password)) { /* 암호화가 안된 비밀번호라면 주석을 해제하고 쓸것 */
 			System.out.println("일치");
 			return ResponseEntity.ok("success");

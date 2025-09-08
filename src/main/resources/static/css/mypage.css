@@ -178,6 +178,18 @@ header,
 	position: relative;
 	/* 모달창안에 x표시(닫기버튼) */
 }
+#userPopup2 .modal-content {
+	background-color: #fff;
+	margin: 15% auto;
+	padding: 30px;
+	border-radius: 10px;
+	width: 800px;
+	height: 1000px;
+	text-align: center;
+	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+	position: relative;
+	/* 모달창안에 x표시(닫기버튼) */
+}
 
 #userPassPopup .modal-content {
 	background-color: #fff;

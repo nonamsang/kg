@@ -186,7 +186,10 @@ timereload();
 
 biyrobtn.onclick = () => {
 	let stocka = parseInt(biyroStocka.textContent);
-
+	
+	if(stocka!=0){
+		biyrobtn.disabled=false;
+	}
 	// 재고 부족 처리
 	if (stocka === 0) {
 		stock0popup.style.display = "flex";

@@ -36,7 +36,7 @@
 		if (remain > 0) {
 			btn.disabled = true;
 			timerEl.textContent = fmt(remain);
-			giverEl.textContent = "대기중";
+			giverEl.textContent = "대기";
 		} else {
 			btn.disabled = false;
 			timerEl.textContent = "받을 수 있음";
