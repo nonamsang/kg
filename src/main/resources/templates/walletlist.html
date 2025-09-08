@@ -11,6 +11,8 @@
 	<link rel="stylesheet" href="/css/donate.css">
 
 	<link rel="stylesheet" href="/css/sidebar.css?v=7">
+	
+	<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 </head>
 
 <body>
@@ -45,6 +47,7 @@
 					<div class="wallet-tabs wallet-tabs--over">
 						<button class="tab" th:each="bank : ${bankNames}" th:attr="data-bank=${bank}"
 							th:text="${bank}">은행</button>
+						<button class="tab" id="addBank">⊕ 계좌 추가하기</button>
 						<span class="tabs-help"> 탭을 눌러 통장 상세를 확인하세요.</span>
 					</div>
 
@@ -63,6 +66,8 @@
 								<span th:text="${#strings.listJoin(bankNames, ', ')}">-</span>
 							</p>
 						</div>
+						
+						<button id = "addBalance">잔액 추가하기</button>
 					</div>
 					<!-- 기부하기버튼 -->
 					<div class="passbook-cta">
@@ -186,6 +191,7 @@
 										</div>
 									</div>
 								</div>
+								
 
 								<!-- =========================정기기부 pane==================== -->
 								<div class="donate-pane" data-pane="recurring">
@@ -259,6 +265,56 @@
 			</div>
 		</div>
 	</div>
+	
+	<!-- Add Bank Modal -->
+	<div class="lf-modal" id="addBankModal" hidden>
+	  <div class="lf-modal__overlay" data-dismiss></div>
+	  <div class="lf-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="addBankTitle">
+	    <button class="lf-modal__close" type="button" data-dismiss aria-label="닫기">×</button>
+	    <h2 class="lf-modal__title" id="addBankTitle">계좌 추가</h2>
+	
+	    <form id="addBankForm" class="lf-form">
+	      <label class="lf-field">
+	        <span class="lf-label">은행명</span>
+	        <input id="bankName" name="bankName" type="text" required placeholder="예: 카카오뱅크" />
+	      </label>
+	
+	      <label class="lf-field">
+	        <span class="lf-label">계좌번호</span>
+	        <input id="accountNumber" name="accountNumber" type="text" required inputmode="numeric" placeholder="숫자만 입력" />
+	      </label>
+	
+	      <div class="lf-actions">
+	        <button class="lf-btn lf-btn--primary" type="submit">추가</button>
+	        <button class="lf-btn" type="button" data-dismiss>취소</button>
+	      </div>
+	    </form>
+	  </div>
+	</div>
+	
+	<!-- Add Balance Modal -->
+	<div class="lf-modal" id="addBalanceModal" hidden>
+	  <div class="lf-modal__overlay" data-dismiss></div>
+	  <div class="lf-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="addBalanceTitle">
+	    <button class="lf-modal__close" type="button" data-dismiss aria-label="닫기">×</button>
+	    <h2 class="lf-modal__title" id="addBalanceTitle">잔액 추가</h2>
+	
+	    <form id="addBalanceForm" class="lf-form">
+	      <p class="lf-help">선택된 은행 통장에 금액을 추가합니다.</p>
+	      <label class="lf-field">
+	        <span class="lf-label">추가할 금액</span>
+	        <input id="addAmount" name="amount" type="number" inputmode="numeric"
+	               min="1" step="1" required placeholder="예: 50000" />
+	      </label>
+	
+	      <div class="lf-actions">
+	        <button class="lf-btn lf-btn--primary" type="submit">추가</button>
+	        <button class="lf-btn" type="button" data-dismiss>취소</button>
+	      </div>
+	    </form>
+	  </div>
+	</div>
+
 
 	<!-- 공통 footer 삽입 -->
 	<div th:replace="fragments/footer :: footer"></div>
@@ -304,14 +360,18 @@
 			}
 
 
-			const tabs = document.querySelectorAll('.wallet-tabs .tab');
+			const tabs = document.querySelectorAll('.wallet-tabs .tab[data-bank]');
+			const addBankBtn = document.getElementById('addBank');
+			
 			const panels = document.querySelectorAll('.bank-panel');
 			const bg = document.getElementById('passbookBg');
 			const infoBox = document.querySelector('.passbook-top .info-section');
 			let opened = false;
+			let currentBank = null;
 
 			function showPanel(bank) {
 				// 기존 탭/패널 로직 유지
+				currentBank = bank;
 				tabs.forEach(t => t.classList.toggle('selected', t.dataset.bank === bank));
 				panels.forEach(p => {
 					const on = p.dataset.bank === bank;
@@ -338,6 +398,9 @@
 				};
 				flip.addEventListener('animationend', done);
 			}
+			
+			addBank.addEventListener('click', () => {
+			});
 
 			tabs.forEach(tab => tab.addEventListener('click', () => showPanel(tab.dataset.bank)));
 
@@ -346,9 +409,13 @@
 			const modal = document.getElementById('donateModal');
 			const openBtn = document.getElementById('openDonateModal');
 			const closeBtn = document.getElementById('closeDonateModal');
+			const addBalanceBtn = document.getElementById('addBalance');
 			const donateBtn = document.getElementById('btnDonate');
 			const balEl = document.querySelector('.point-balance');
 			const currentBalance = Number(balEl?.dataset.balance || 0); // 서버 값
+			
+			const selectedBank = document.querySelector('.tab[data-bank]');
+			const selectedBankName = selectedBank.dataset.bank;
 
 			// 금액 입력 시 보유 초과 방지(선제적 캡)
 			const amountInput = document.getElementById('donationAmount');
@@ -373,6 +440,12 @@
 				if (e.key === 'Escape' && modal.style.display === 'block') closeBtn.click();
 			});
 
+			
+			addBalanceBtn.addEventListener('click', async () => {
+				alert(currentBank);
+				
+				
+			})
 			// 기부하기 클릭
 			donateBtn.addEventListener('click', async () => {
 				const amt = Number(amountInput.value || 0);
@@ -413,10 +486,57 @@
 				} catch (e) {alert(e.message);}
 			});
 
+			//============ 계좌 추가 모달 ================
+			const addModal = document.getElementById('addBankModal');
+			const form = document.getElementById('addBankForm');
 
+			function openModal() {
+			    addModal.hidden = false;
+			    document.body.style.overflow = 'hidden';
+			    // 첫 입력 포커스
+			    setTimeout(() => document.getElementById('bankName')?.focus(), 0);
+			  }
+			  function closeModal() {
+			    addModal.hidden = true;
+			    document.body.style.overflow = '';
+			    form.reset();
+			  }
 
+			  addBankBtn?.addEventListener('click', (e) => {
+			    e.preventDefault();
+			    openModal();
+			  });
 
+			  // 닫기 (오버레이, 취소, X 버튼)
+			  addModal?.addEventListener('click', (e) => {
+			    if (e.target.matches('[data-dismiss]')) closeModal();
+			  });
+			  document.addEventListener('keydown', (e) => {
+			    if (!modal.hidden && e.key === 'Escape') closeModal();
+			  });
 
+			  // 제출
+			  form?.addEventListener('submit', (e) => {
+			    e.preventDefault();
+			    const fd = new FormData(form);
+			    const bankName = fd.get('bankName');
+			    const account_Number = fd.get('accountNumber');
+				
+			    fetch('/wallet/addBank', {
+		    		  method: 'POST',
+		    		  headers: {
+		    		    'Content-Type': 'application/json'
+		    		  },
+		    		  body: JSON.stringify({
+		    			  bankName,
+		    			  account_Number
+		    		  })
+		    		});
+
+			    closeModal();
+			    
+			    window.location.reload()
+			  });
 
 
 
@@ -557,6 +677,97 @@
 
 
 	</script>
+	
+	<script>
+(function () {
+  const addBalanceBtn = document.getElementById('addBalance');          // 페이지 상단 버튼
+  const modal = document.getElementById('addBalanceModal');
+  const form  = document.getElementById('addBalanceForm');
+  const input = document.getElementById('addAmount');
+
+  // 현재 선택된 은행 탭의 data-bank 읽기 (없으면 첫 탭)
+  function getCurrentBank() {
+    const selected = document.querySelector('.wallet-tabs .tab.selected[data-bank]');
+    if (selected) return selected.dataset.bank;
+    const first = document.querySelector('.wallet-tabs .tab[data-bank]');
+    return first ? first.dataset.bank : null;
+  }
+
+  function openModal() {
+    modal.hidden = false;
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => input?.focus(), 0);
+  }
+  function closeModal() {
+    modal.hidden = true;
+    document.body.style.overflow = '';
+    form.reset();
+  }
+
+  // 열기
+  addBalanceBtn?.addEventListener('click', (e) => {
+    e.preventDefault();
+    const bank = getCurrentBank();
+    if (!bank) return alert('은행 탭을 먼저 선택하세요.');
+    openModal();
+  });
+
+  // 닫기 (오버레이/취소/X)
+  modal?.addEventListener('click', (e) => {
+    if (e.target.matches('[data-dismiss]')) closeModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (!modal.hidden && e.key === 'Escape') closeModal();
+  });
+
+  // 제출
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const bankName = getCurrentBank();
+    if (!bankName) return alert('은행 탭을 먼저 선택하세요.');
+
+    const amount = Number((new FormData(form)).get('amount') || 0);
+    if (!Number.isFinite(amount) || amount <= 0) {
+      input.focus(); return alert('1원 이상 입력해 주세요.');
+    }
+    const merchantUid = 'littleForest_wallet_addBalance' + Date.now();
+	
+	// 카카오페이 결제창 호출
+	const IMP = window.IMP;
+	try {IMP?.init?.('imp76384566');} catch (_) { }
+	IMP.request_pay({
+		pg: 'kakaopay',
+		pay_method: 'card',
+		merchant_uid: merchantUid,
+		name: '결제하기',
+		amount: amount
+	}, async (rsp) => {
+		if (!rsp.success) {
+
+			alert('결제가 취소되었거나 실패했습니다.\n' + (rsp.error_msg || ''));
+			return;
+		}
+    try {
+      const res = await fetch('/wallet/addBalance', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ bankName, amount })
+      });
+      if (!res.ok) {
+        const msg = await res.text();
+        throw new Error(msg || '잔액 추가 중 오류가 발생했습니다.');
+      }
+      closeModal();
+      // 필요하면 confetti 등 효과 가능
+      // shootConfetti?.();
+      window.location.reload();
+    } catch (err) {
+      alert(err.message);
+    }
+  });
+  });
+})();
+</script>
 
 
 </body>

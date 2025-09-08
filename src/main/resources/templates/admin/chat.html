@@ -63,7 +63,7 @@
 
 				connect();
 
-				const res = await fetch(`/admin/chat/data?roomId=${roomId}`/*컨트롤러에서 json으로 값 받아오기*/, {
+				const res = await fetch(`/chat/data?roomId=${roomId}`/*컨트롤러에서 json으로 값 받아오기*/, {
 					headers: {'Accept': 'application/json'} // json으로 값을 받아오겟다는 약속
 				});
 

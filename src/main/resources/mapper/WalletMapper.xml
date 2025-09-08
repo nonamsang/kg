@@ -16,6 +16,17 @@
     WHERE w.user_id = #{userId}
 </select>
 
+<insert id="insertWallet">
+	INSERT INTO wallet_table VALUES (
+	wallet_seq.NEXTVAL, #{user_Id}, #{bankName}, 0, SYSDATE , #{account_Number})
+	
+	
+</insert>
+
+<update id="addBalance">
+	UPDATE wallet_table SET account_balance = account_balance + #{amount} WHERE bank_name = #{bankName}
+</update>
+
 </mapper>
 
 

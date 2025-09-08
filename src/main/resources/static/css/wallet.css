@@ -1268,3 +1268,103 @@
 		position: relative;
 		left: calc(-1 * var(--nudge));
 	}
+	
+	
+	 /* ----- Modal base ----- */
+  .lf-modal[hidden] { display: none; }
+  .lf-modal {
+    position: fixed; inset: 0; z-index: 1000;
+    display: grid; place-items: center;
+  }
+  .lf-modal__overlay {
+    position: absolute; inset: 0;
+    background: rgba(0,0,0,.45);
+    backdrop-filter: blur(2px);
+  }
+  .lf-modal__dialog {
+    position: relative;
+    width: min(420px, 92vw);
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 10px 30px rgba(0,0,0,.15);
+    padding: 22px 22px 18px;
+    animation: lf-in .16s ease-out;
+  }
+  @keyframes lf-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .lf-modal__title {
+    margin: 0 0 12px;
+    font-size: 18px; font-weight: 700;
+  }
+  .lf-modal__close {
+    position: absolute; top: 8px; right: 10px;
+    border: 0; background: transparent; font-size: 22px; line-height: 1;
+    cursor: pointer; color: #888;
+  }
+
+  /* ----- Form ----- */
+  .lf-form { display: grid; gap: 14px; margin-top: 6px; }
+  .lf-field { display: grid; gap: 6px; }
+  .lf-label { font-size: 13px; color: #444; }
+  .lf-field input {
+    width: 100%;
+    border: 1px solid #dcdfe5;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .lf-field input:focus {
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 3px rgba(13,110,253,.15);
+  }
+
+  .lf-actions {
+    display: flex; gap: 10px; justify-content: flex-end; margin-top: 6px;
+  }
+  .lf-btn {
+    border: 1px solid #dcdfe5; background: #f8f9fb;
+    padding: 9px 14px; border-radius: 10px; cursor: pointer; font-size: 14px;
+  }
+  .lf-btn--primary {
+    background: #2a7a2a; color: #fff; border-color: #2a7a2a;
+  }
+  .lf-btn--primary:hover { filter: brightness(0.98); }
+  
+  /* ===== Add Balance Modal (scoped) ===== */
+  #addBalanceModal.lf-modal[hidden] { display: none; }
+  #addBalanceModal.lf-modal { position: fixed; inset: 0; z-index: 1000; }
+  #addBalanceModal .lf-modal__overlay {
+    position: absolute; inset: 0; background: rgba(0,0,0,.45);
+  }
+  #addBalanceModal .lf-modal__dialog {
+    position: relative; margin: 8vh auto 0; width: min(520px, 92vw);
+    background: var(--panel, #fff); color: var(--text, #111);
+    border-radius: 14px; padding: 20px 20px 16px; box-shadow: 0 10px 40px rgba(0,0,0,.2);
+  }
+  html.theme-dark #addBalanceModal .lf-modal__dialog { --panel:#111; --text:#f5f5f5; }
+  #addBalanceModal .lf-modal__close {
+    position: absolute; right: 10px; top: 8px; font-size: 22px; line-height: 1;
+    background: transparent; border: 0; cursor: pointer; color: inherit;
+  }
+  #addBalanceModal .lf-modal__title { margin: 0 0 12px; font-size: 20px; font-weight: 700; }
+
+  #addBalanceModal .lf-form { display: grid; gap: 14px; }
+  #addBalanceModal .lf-help { margin: 0 0 4px; font-size: 13px; opacity: .8; }
+  #addBalanceModal .lf-field { display: grid; gap: 6px; }
+  #addBalanceModal .lf-label { font-weight: 600; }
+  #addBalanceModal input[type="number"] {
+    padding: 12px 12px; border: 1px solid rgba(0,0,0,.15);
+    border-radius: 10px; font-size: 16px; outline: none; background: inherit; color: inherit;
+  }
+  html.theme-dark #addBalanceModal input[type="number"] { border-color: rgba(255,255,255,.2); }
+  #addBalanceModal .lf-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 4px; }
+  #addBalanceModal .lf-btn {
+    appearance: none; border: 0; border-radius: 10px; padding: 10px 14px; cursor: pointer;
+    background: #e9ecef; color: #111; font-weight: 600;
+  }
+  #addBalanceModal .lf-btn--primary { background: #2f7cff; color: #fff; }
+  #addBalanceModal .lf-btn:disabled { opacity: .6; cursor: not-allowed; }

@@ -43,7 +43,6 @@ function payment() {
 			}
 			
 			try {
-				alert(rsp.imp_uid);
 				// 서버 검증 + DB 적립
 				const res = await fetch('/product/payment/complete', {
 					method: 'POST',
@@ -73,24 +72,24 @@ function payment() {
 			}
 							
 						
-		fetch('/api/payment', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({ accountNumber: accountNumber })
-		})
-		.then(response => response.json())
-		.then(result => {
-			alert('결제가 완료되었습니다!');
-			console.log(result);
-		})
-		.catch(error => {
-			console.error('결제 중 오류 발생:', error);
-			alert('결제에 실패했습니다.');
+			fetch('/api/payment', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ accountNumber: accountNumber })
+			})
+			.then(response => response.json())
+			.then(result => {
+				alert('결제가 완료되었습니다!');
+				console.log(result);
+			})
+			.catch(error => {
+				console.error('결제 중 오류 발생:', error);
+				alert('결제에 실패했습니다.');
+			});
+			
 		});
-		
-	});
 		// 또는 페이지 이동 예시:
 		// window.location.href = `/payment/confirm?account=${accountNumber}`;
 }

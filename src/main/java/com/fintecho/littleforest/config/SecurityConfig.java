@@ -20,6 +20,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import com.fintecho.littleforest.service.admin.AdminUserService;
 
+import jakarta.servlet.http.HttpSession;
+
 @Configuration
 public class SecurityConfig {
 
@@ -41,7 +43,7 @@ public class SecurityConfig {
 	@Bean
 	@Order(1)
 	@Profile("prod")
-	public SecurityFilterChain adminChain(HttpSecurity http, AdminUserService adminUserService) throws Exception {
+	public SecurityFilterChain adminChain(HttpSession session, HttpSecurity http, AdminUserService adminUserService) throws Exception {
 		http.securityMatcher("/admin/**")
 				.authorizeHttpRequests(auth -> auth
 						.requestMatchers("/admin/admin-login", "/admin/css/**", "/admin/js/**", "/admin/img/**")
@@ -49,6 +51,7 @@ public class SecurityConfig {
 				.formLogin(form -> form.loginPage("/admin/admin-login").loginProcessingUrl("/admin/admin-login")
 						.usernameParameter("username").passwordParameter("password")
 						.successHandler((req, res, auth) -> {
+							session.setAttribute("user_Id", 2);
 							var cache = new HttpSessionRequestCache();
 							SavedRequest saved = cache.getRequest(req, res);
 							String target = (saved != null) ? saved.getRedirectUrl() : "/admin/members";

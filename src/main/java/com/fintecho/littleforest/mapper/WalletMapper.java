@@ -23,4 +23,9 @@ public interface WalletMapper {
 
     // 지갑 삭제
     int deleteWallet(int id);
+    
+    void insertWallet(int user_Id, String bankName, String account_Number);
+    
+    void addBalance(int user_Id, String bankName, int amount);
+
 }

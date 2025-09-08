@@ -2,14 +2,18 @@ package com.fintecho.littleforest.controller;
 
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.fintecho.littleforest.mapper.WalletMapper;
 import com.fintecho.littleforest.service.PaymentService;
 import com.fintecho.littleforest.service.UserService;
 import com.fintecho.littleforest.service.WalletService;
@@ -26,6 +30,9 @@ public class WalletController {
 
 	@Autowired
 	WalletService walletService;
+	
+	@Autowired
+	WalletMapper walletmapper;
 
 	@Autowired
 	UserService userService;
@@ -68,7 +75,42 @@ public class WalletController {
 
 		return "walletlist";
 	}
-
+	
+	@RequestMapping("/wallet/addBank")
+	public ResponseEntity<Void> addBank(@RequestBody Map<String, Object> body, HttpSession session, Model model) {
+		
+		int id = (int) session.getAttribute("user_Id");
+		
+		String bankName = (String) body.get("bankName");
+		String account_Number = (String) body.get("account_Number");
+		
+		System.out.println(id + " " + bankName + " " + account_Number);
+		System.out.println(id + " " + bankName + " " + account_Number);
+		System.out.println(id + " " + bankName + " " + account_Number);
+		System.out.println(id + " " + bankName + " " + account_Number);
+		
+		walletmapper.insertWallet(id, bankName, account_Number);
+		
+		return ResponseEntity.noContent().build(); // 204
+	}
+	
+	@RequestMapping("/wallet/addBalance")
+	public ResponseEntity<Void> addBalance(@RequestBody Map<String, Object> body, HttpSession session, Model model) {
+		
+		int id = (int) session.getAttribute("user_Id");
+		
+		String bankName = (String) body.get("bankName");
+		int amount = (int) body.get("amount");
+		
+		System.out.println(id + " " + bankName + " " + amount);
+		System.out.println(id + " " + bankName + " " + amount);
+		System.out.println(id + " " + bankName + " " + amount);
+		System.out.println(id + " " + bankName + " " + amount);
+		
+		walletmapper.addBalance(id, bankName, amount);
+		
+		return ResponseEntity.noContent().build(); // 204
+	}
 	@RequestMapping("/payment")
 	public String paymentlist(HttpSession session, Model model) {
 		// int testUserId = 5;
