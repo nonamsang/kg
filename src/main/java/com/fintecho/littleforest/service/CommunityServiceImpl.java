@@ -81,7 +81,7 @@ public class CommunityServiceImpl implements CommunityService {
 		cvo.setCommunity_Id(vo.getId());
 		if(vo.getTitle() != null &&!vo.getTitle().isEmpty()) {
 			lvo.setTable_Type("community");
-			lvo.setTable_Id(vo.getId());
+			lvo.setCommunity_Id(vo.getId());
 		}
 		likesMapper.likesDeleteAll(lvo);
 		commentMapper.deleteCommentAll(cvo);
@@ -92,10 +92,11 @@ public class CommunityServiceImpl implements CommunityService {
 	@Transactional
 	public int updatelikesplus(CommunityVO vo) {
 		LikesVO lvo=new LikesVO();
-		lvo.setTable_Id(vo.getId());
 		lvo.setUser_Id(vo.getUser_Id());
+		
 		if(!vo.getTitle().isEmpty()) {
 			lvo.setTable_Type("community");
+			lvo.setCommunity_Id(vo.getId());
 		}else {
 			lvo.setTable_Type("comment");
 		}
@@ -124,7 +125,7 @@ public class CommunityServiceImpl implements CommunityService {
 		cvo.setCommunity_Id(vo.getId());
 		if(vo.getTitle() != null &&!vo.getTitle().isEmpty()) {
 			lvo.setTable_Type("community");
-			lvo.setTable_Id(vo.getId());
+			lvo.setCommunity_Id(vo.getId());
 		}
 		likesMapper.likesDeleteAll(lvo);
 		commentMapper.deleteCommentAll(cvo);

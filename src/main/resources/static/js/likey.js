@@ -8,7 +8,7 @@ document.querySelectorAll(".like-btn").forEach(btn=>{
 		const luserId=document.querySelector(".user_Id").value;
 		const lformData=new FormData();
 		lformData.append("community_Id",lcommunityId);
-		lformData.append("user_Id",luserId);
+		//lformData.append("user_Id",luserId);
 		fetch('/community/like',{
 			method:'POST',
 			body:lformData
@@ -20,3 +20,4 @@ document.querySelectorAll(".like-btn").forEach(btn=>{
 			
 	})
 })
+

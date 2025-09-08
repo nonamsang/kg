@@ -60,10 +60,10 @@ public class CommentServiceImpl implements CommentService{
 	@Override
 	public int updatelikesplus2(CommentVO vo) {
 		LikesVO lvo=new LikesVO();
-		lvo.setTable_Id(vo.getId());
 		lvo.setUser_Id(vo.getUser_Id());
 		if(!vo.getComment_Id().isEmpty()) {
 			lvo.setTable_Type("comment");
+			lvo.setComment_Id(vo.getId());
 		}
 		else {
 			lvo.setTable_Type("community");

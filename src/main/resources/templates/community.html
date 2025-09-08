@@ -5,12 +5,13 @@
 	<meta charset="UTF-8" />
 	<title>커뮤니티</title>
 	<!--<link rel="stylesheet" th:href="@{/css/community.css}" />-->
-	<link rel="stylesheet" th:href="@{/css/mainpagestyle.css}" />
+	<link rel="stylesheet" th:href="@{/css/style.css}" />
 	<link rel="stylesheet" th:href="@{/css/community.css(v=${#dates.createNow().time})}" / </head>
 
 <body>
+	<div th:replace="fragments/header :: header"></div>
 	<img src="/image/로고.png" width="200" height="200" style="display:block; margin:0 auto;">
-	<div class="logo">리틀커뮤니티</div>
+	<h1 align="center" style="color:yellowgreen;">리틀커뮤니티</h1>
 
 	<!-- 글 작성 버튼 -->
 	<div class="button-container">
@@ -188,6 +189,7 @@
 	<!--<script src="/js/my.js"></script>-->
 	<script src="/js/likey.js"></script>
 	<script src="/js/usebutton.js"></script>
+	<div th:replace="fragments/footer :: footer"></div>
 </body>
 
 </html>

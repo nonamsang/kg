@@ -49,8 +49,9 @@ public class GrowingTreeServiceImpl implements GrowingTreeService {
 		int user_Id = treevo.getUser_Id();
 		if (!ifTree(treevo.getUser_Id())) {
 			StockVO svo = stockMapper.getOneSaveStock(user_Id);
-			System.out.println(svo.getBiyro_Stock());
-			System.out.println(svo.getBiyro_Used_At());
+			if(svo==null) {
+				return growingTreeMapper.insertTree(treevo);
+			}
 			int biyro = svo.getBiyro_Stock();
 			int water = svo.getWater_Stock();
 			Date used = svo.getBiyro_Used_At();

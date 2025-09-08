@@ -4,14 +4,14 @@
 <head>
 	<meta charset="UTF-8">
 	<title>커뮤니티 자세히보기</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}" />
 	<link rel="stylesheet" th:href="@{/css/community.css}">
 </head>
 
 <body>
-	<a href="/community" class="return-link">리턴</a>
+	<div th:replace="fragments/header :: header"></div>
 
 	<div class="community-container">
-		원글
 		<div class="community-post">
 			<div class="post-image">
 				<img th:if="${voo.photo != null and voo.photo != ''}" th:src="@{${voo.photo}}">
@@ -47,7 +47,6 @@
 
 		<hr>
 
-		댓글 목록
 		<div class="comment-section">
 			<h3>댓글 <span th:text="${#lists.size(vo)}">0</span>개</h3>
 			<button id="ccbtn" class="comment-btn">댓글등록</button>
@@ -86,7 +85,7 @@
 			</div>
 		</div>
 	</div>
-	글 수정 팝업
+	<!--글 수정 팝업-->
 	<div id="updatepopupy" class="popup">
 		<div class="post-popup">
 			<span class="close">&times;</span>
@@ -107,7 +106,7 @@
 			<button type="reset" id="cupdbtnrey">초기화</button>
 		</div>
 	</div>
-	글 등록 팝업
+	<!--글 등록 팝업-->
 	<div id="cinsertpopup" class="popup">
 		<div class="post-popup">
 			<span class="close">&times;</span>
@@ -118,7 +117,7 @@
 		</div>
 	</div>
 
-	글 수정 팝업
+	<!--글 수정 팝업-->
 	<div id="cupdatepopup" class="popup">
 		<div class="post-popup">
 			<span class="close">&times;</span>
@@ -134,6 +133,7 @@
 	<script src="/js/likey2.js"></script>
 	<script src="/js/likey3.js"></script>
 	<script src="js/updatey.js"></script>
+	<div th:replace="fragments/footer :: footer"></div>
 </body>
 
 </html>

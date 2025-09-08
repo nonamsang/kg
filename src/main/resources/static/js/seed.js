@@ -43,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				.then(data => {
 					alert("등록 성공했습니다.");
 					if (seedmodal) seedmodal.style.display = "none";
+					console.log(data)
 					location.reload(); // 새로고침
 				})
 				.catch(err => {

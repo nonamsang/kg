@@ -114,7 +114,7 @@ public class PointController {
 	@ResponseBody
 	public ResponseEntity<String> chargeComplete(@RequestParam("imp_uid") String impUid,
 			@RequestParam("merchant_uid") String merchantUid, @RequestParam("amount") int amount, HttpSession session) {
-
+		
 		UserVO loginUser = (UserVO) session.getAttribute("loginUser");
 		if (loginUser == null)
 			return ResponseEntity.status(401).body("UNAUTHORIZED");

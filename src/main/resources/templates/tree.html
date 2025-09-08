@@ -122,7 +122,7 @@
 				<div class="btn-text">
 					<input type="hidden" id="biyro_Used_At" name="biyro_Used_At"
 						th:value="${#dates.format(stock.biyro_Used_At,'yyyy-MM-dd HH:mm:ss')}">
-					<span id="biyrotimer">타이머</span><br>
+					<div id="biyrotimer">타이머</div>
 					보유 비료 : <span id="biyro_Stock" th:text="${stock.biyro_Stock}">0</span><br> 비료 주기
 				</div>
 			</button>

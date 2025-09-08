@@ -9,6 +9,7 @@ public class LikesVO {
 private int id;
 private int user_Id;
 private String table_Type;
-private int table_Id;
-private Date press_At;
+private int community_Id;
+private int comment_Id;
+Date press_At;
 }

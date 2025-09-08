@@ -5,16 +5,19 @@
 	<meta charset="UTF-8">
 	<title>공지사항</title>
 	<link rel="stylesheet" th:href="@{/css/notice.css}">
+	<link rel="stylesheet" th:href="@{/css/mainpagestyle.css}">
 </head>
 
 <body>
+	<div th:replace="fragments/header :: header"></div>
+	
 	<!-- 상단 헤더 -->
-	<div class="notice-header">
+	<!--<div class="notice-header">
 		<h2>📢 공지사항</h2>
 		<div class="notice-actions">
 			<a href="/" class="btn-home">🏠 홈으로 가기</a>
 		</div>
-	</div>
+	</div>-->
 
 	<!-- 본문 -->
 	<div class="notice-container">
@@ -97,6 +100,7 @@
 			<p>💬 카카오톡 채널: @LittleForest</p>
 		</div>
 	</div>
+	<div th:replace="fragments/footer :: footer"></div>
 </body>
 
 </html>

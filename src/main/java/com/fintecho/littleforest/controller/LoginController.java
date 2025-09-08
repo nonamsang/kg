@@ -54,8 +54,8 @@ public class LoginController {
 		UserVO user = userService.findByOauthID(oauth_id);
 		
 
-		if (user != null && user.getPassword().equals(password)) {
-			// if (user != null && passwordEncoder.matches(password, user.getPassword())) {
+		//if (user != null && user.getPassword().equals(password)) {
+			if (user != null && passwordEncoder.matches(password, user.getPassword())) {
 			session.setAttribute("loginUser", user);
 			session.setAttribute("user_Id", user.getId());
 			session.setAttribute("user_No", user.getId());

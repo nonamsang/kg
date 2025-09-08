@@ -246,7 +246,6 @@ biyrobtn.onclick = () => {
 				timereload();
 
 				// 성공 메시지 (모달로 바꾸고 싶으면 여기도 가능)
-				alert("비료 사용 성공!");
 
 			} else {
 				alert("서버 응답: " + data);

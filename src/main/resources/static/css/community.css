@@ -1,23 +1,23 @@
 @charset "UTF-8";
 
 /* ----------------- 전체 배경 ----------------- */
-body {
+/*body {
     background: linear-gradient(to right, #d4f0c2, #ffffff);
     font-family: 'Helvetica', 'Arial', sans-serif;
     margin: 0;
     padding: 20px;
     color: #2e7d32;
-}
+}*/
 
-.logo {
-    width: 100%;
+/*.logo {
+    width: 50%;
     font-size: 30px;
     text-align: center;
     color: white;
     font-weight: bold;
-    -webkit-text-stroke: 2px yellowgreen;
+    -webkit-text-stroke: 0 yellowgreen;
     margin-bottom: 2px; 
-}
+}*/
 
 /* ----------------- 글 목록 컨테이너 ----------------- */
 .post-list {
