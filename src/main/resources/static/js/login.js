@@ -27,7 +27,6 @@
                           .then(text => {
                               const intValue = parseInt(text, 10);
                               if (intValue == 1) { // 카카오로 로그인
-								alert("asdf");
 								fetch('/loginkakao', {
 									method: 'POST', 
 									headers: {
