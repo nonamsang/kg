@@ -134,6 +134,10 @@ const email22 = document.getElementById("email2");
 const nickBtn = document.getElementById("nickBtn");
 const nickComplete = document.getElementById("nickComplete");
 const NormailImage = document.getElementById("NormailImage");
+const customerCenter=document.getElementById("customerCenter");
+customerCenter.addEventListener("click",()=>{
+	location.href=`/contact`;
+})
 let phone22 = phone2.value;
 
 let ook1 = 0;
