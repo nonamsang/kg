@@ -134,9 +134,9 @@ const email22 = document.getElementById("email2");
 const nickBtn = document.getElementById("nickBtn");
 const nickComplete = document.getElementById("nickComplete");
 const NormailImage = document.getElementById("NormailImage");
-const customerCenter=document.getElementById("customerCenter");
-customerCenter.addEventListener("click",()=>{
-	location.href=`/contact`;
+const customerCenter = document.getElementById("customerCenter");
+customerCenter.addEventListener("click", () => {
+	location.href = `/contact`;
 })
 let phone22 = phone2.value;
 
@@ -400,6 +400,7 @@ checkPassword.onclick = () => {
 		document.getElementById("okPassword").innerHTML = `<p align='center' style='color:red;'>비밀번호를 입력해주세요.</p>`;
 		return;
 	}
+
 	const searchData = new FormData();
 	searchData.append("id", hiddenId);
 	searchData.append("password", nowPassword.value.trim());
@@ -426,6 +427,11 @@ const newPassword = document.getElementById("newPassword")
 const newPassword2 = document.getElementById("newPassword2")
 let op = 0;
 newPasswordCheck.onclick = () => {
+	if (!(newPassword.value) || !(newPassword2.value)) {
+		newInfo2.innerHTML = `<p align='center' style='color:red;'>비밀번호를 입력해주세요.</p>`;
+		op = 0;
+		return;
+	}
 	if (nowPassword.value.trim() === newPassword.value.trim()) {
 		newInfo2.innerHTML = `<p align='center' style='color:red'>기존비밀번호와 일치합니다.</p>`;
 		op = 0;
