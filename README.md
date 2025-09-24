@@ -40,5 +40,5 @@
 
 ---
 1차 프로젝트 : <b>project1</b> 참고 <br>
-2차 프로젝트 : <storng>project2</storng> 참고 <br>
-3차 프로젝트 : <storng>project3</storng> 참고 <br>
+2차 프로젝트 : <b>project2</b> 참고 <br>
+3차 프로젝트 : <b>project3</b> 참고 <br>
