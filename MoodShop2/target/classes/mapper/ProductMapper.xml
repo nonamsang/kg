@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moodshop.kokone.dao.ProductDAO">
+
+	<select id="getAllProductList" resultType="ProductVO">
+        SELECT PRODUCT_ID AS product_id,
+               PRODUCT_NAME AS product_name,
+               PRODUCT_PRICE AS product_price,
+               PRODUCT_MOOD AS product_mood,
+               PRODUCT_CATEGORY AS product_category,
+               PRODUCT_IMAGE AS product_image,
+               PRODUCT_DESCRIPTION AS product_description
+        FROM PRODUCT
+    </select>
+
+
+	<select id="getAllLastProduct" resultType="ProductVO">
+		select * from product
+		order by 1 desc
+	</select>
+
+	<select id="SelectedProduct" resultType="ProductVO">
+		select * from product
+		where product_id=#{product_id}
+	</select>
+	<!-- 김동주가 추가한 것 -->
+	<select id="getProductsByCompanyName" resultType="ProductVO">
+		SELECT
+		PRODUCT_ID, PRODUCT_NAME
+		FROM PRODUCT
+		WHERE COMPANY_NAME =
+		#{companyName, jdbcType=VARCHAR}
+
+
+	</select>
+
+	<select id="selectProductListByCompanyName"
+		parameterType="String" resultType="map">
+		SELECT PRODUCT_ID, PRODUCT_NAME
+		FROM
+		PRODUCT
+		WHERE COMPANY_NAME
+		= #{companyName}
+	</select>
+
+	<select id="RatingSelect" resultType="ProductVO">
+		select p.product_id,
+		p.product_name,p.product_price,p.product_mood,p.product_category,p.product_image,p.company_name,p.wish_id,round(avg(r.rating),
+		1) as avg_rating
+		from product p
+		inner join order_detail od on
+		p.product_id=od.product_id
+		inner join order_tbl o on
+		od.order_id=o.order_id
+		inner join review r on o.order_id=r.order_id
+		where p.product_id=#{product_id}
+		group by
+		p.product_id,
+		p.product_name,
+		p.product_price,
+		p.product_mood,
+		p.product_category,
+		p.product_image,
+		p.company_name,
+		p.wish_id
+	</select>
+	
+	
+<select id="getStock" parameterType="map" resultType="java.lang.Integer">
+	SELECT OPTION_STOCK
+	FROM PRODUCT_OPTION
+	WHERE PRODUCT_ID = #{productId, jdbcType=VARCHAR}
+	AND OPTION_ID = #{productColor, jdbcType=VARCHAR}
+</select>
+
+
+<select id="getOptionColorById" parameterType="String" resultType="String">
+    SELECT OPTION_COLOR
+    FROM PRODUCT_OPTION
+    WHERE OPTION_ID = #{optionId}
+</select>
+
+	<!-- 지금부터 관리자 백업 -->
+	<select id="MSelectProduct" resultType="ProductVO">
+		select * from product
+		WHERE COMPANY_NAME = #{company_name, jdbcType=VARCHAR}
+		order by 1 asc
+	</select>
+
+	<select id="MselectProDetail" resultType="ProductVO">
+		select * from product
+		where company_name=#{company_name} and
+		product_id=#{product_id}
+	</select>
+	<select id="MSelectProducts" resultType="ProductVO">
+		SELECT * FROM product
+		WHERE company_name = #{company_name}
+		AND
+		product_id IN
+		<foreach collection="product_id_list" item="id" open="("
+			separator="," close=")">
+			#{id}
+		</foreach>
+	</select>
+
+	<insert id="MInsertProduct" parameterType="ProductVO">
+		<selectKey keyProperty="product_id" resultType="string"
+			order="BEFORE">
+			SELECT 'product_' ||
+			to_char(NVL(MAX(TO_NUMBER(SUBSTR(product_id, 9))), 0)
+			+ 1,'FM00')
+			FROM
+			product
+			WHERE REGEXP_LIKE(product_id, 'product_[0-9]+')
+		</selectKey>
+		insert into product(product_id,product_name, product_price,
+		product_mood, product_category, product_image,company_name) values
+
+		(#{product_id},#{product_name},#{product_price},#{product_mood},#{product_category},#{product_image},'키링월드')
+	</insert>
+
+
+	<update id="MUpdateImage" parameterType="ProductVO"
+		useGeneratedKeys="true" keyProperty="product_id">
+		update product set
+		product_image=#{product_image} where
+		product_id=#{product_id}
+	</update>
+
+	<update id="MUpdateProduct" parameterType="ProductVO">
+		update product
+		set
+		product_name = #{product_name},
+		product_price = #{product_price},
+		product_mood = #{product_mood},
+		product_category = #{product_category},
+		product_image = #{product_image}
+		where product_id = #{product_id} and
+		company_name = #{company_name, jdbcType=VARCHAR}
+	</update>
+
+	<!-- 1. 자식 테이블 먼저 삭제 -->
+	<delete id="MDeleteWishlist" parameterType="List">
+		delete from wishlist
+		where product_id in
+		<foreach item="id" collection="list" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+	<!-- 2. 부모 테이블 삭제 -->
+	<delete id="MDeleteProduct" parameterType="map">
+		delete from product
+		where company_name = #{company_name,
+		jdbcType=VARCHAR}
+		and product_id in
+		<foreach item="id" collection="product_id_list" open="("
+			separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+	<select id="MAlinProductM" resultType="ProductVO">
+		select * from product
+		where company_name=#{company_name} order by product_mood
+		desc
+	</select>
+
+	<select id="MAlinProductC" resultType="ProductVO">
+		select * from product
+		where company_name=#{company_name} order by
+		product_category desc
+	</select>
+</mapper>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moodshop.kokone.dao.Order_DetailDAO">
+
+
+  <select id="getOrder_DetailVO" resultType="Order_DetailVO">
+  select order_id,detail_id,product_id,option_id,detail_count, detail_price
+  from order_detail
+  where order_id=#{order_id}
+ </select>
+
+<delete id="deleteOrderDetail" parameterType="Order_DetailVO">
+delete from order_detail where order_id=#{order_id}</delete>
+
+<!-- 아래 김동주가 추가한 것 -->
+
+<select id="getOrderDetailsByProductId" resultType="Order_DetailVO">
+SELECT ORDER_ID, DETAIL_COUNT
+FROM ORDER_DETAIL
+WHERE PRODUCT_ID=#{product_id}
+</select>
+<update id="updateDeliveryStatusBatch">
+  UPDATE ORDER_DETAIL
+  SET DELIVERSTATUS = #{newStatus}
+  WHERE ORDER_ID IN
+    <foreach collection="orderIds" item="orderId" open="(" separator="," close=")">
+      #{orderId}
+    </foreach>
+   <!-- 여기까지 김동주가 만듬 -->
+</update>
+</mapper>

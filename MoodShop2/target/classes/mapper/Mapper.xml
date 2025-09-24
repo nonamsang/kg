@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mapper interface란 java의 DAO인터페이스를 말함 해당 인터페이스(Java의 DAO 인터페이스를 말함 xml 
+	매퍼 파일의 namespace가 일치해야 mybatis가 자동으로 매핑 가능 -->
+
+
+<!-- 맵핑될 DAO 인터페이스의 Full Name을 줌. (mapper interface) -->
+<mapper namespace="com.moodshop.kokone.dao.ProductDAO">
+
+
+	<!-- 그리고 자바 interface에 선언된 ArrayList <SawonVO> getAllSawon(); 의 getAllsawon()을 
+		아래 id에 써야함 -->
+
+	<!-- <select id="getAllDetail" resultType="EventDetailVO"> -->
+	<!-- resultType이나 parameterType으로 결과가 자동으로 매핑 -->
+	<!-- SELECT id, name, tel -->
+	<!-- FROM TELTABLE55 -->
+	<!-- where id=3 where id=#{id} -->
+
+	<!-- </select> -->
+	<select id="selectByCategoryAndMood" resultType="ProductVO">
+		SELECT * FROM
+		PRODUCT
+		WHERE product_category = #{product_category} AND product_mood=
+		#{product_mood}
+	</select>
+
+	<select id="selectByCategory" resultType="ProductVO">
+		SELECT * FROM PRODUCT
+		WHERE product_category = #{product_category}
+	</select>
+
+	<select id="selectAll" resultType="ProductVO">
+		SELECT * FROM PRODUCT
+	</select>
+
+	<select id="selectByCategory2" resultType="ProductVO">
+		SELECT * FROM PRODUCT
+		WHERE product_category = #{product_category}
+	</select>
+	<select id="selectByCategoryMood" resultType="ProductVO">
+		SELECT * FROM
+		PRODUCT
+		WHERE product_category = #{product_category} AND product_mood=
+		#{product_mood}
+	</select>
+	<select id="getProductById" resultType="ProductVO">
+		SELECT * FROM PRODUCT
+		where product_id = #{product_id}
+	</select>
+	<select id="getProductOptionById" resultType="ProductOptionVO">
+		SELECT * FROM
+		PRODUCT_OPTION
+		where product_id = #{product_id}
+	</select>
+	<select id="getProductBySearched" parameterType="String"
+		resultType="ProductVO">
+		SELECT * FROM PRODUCT
+		WHERE PRODUCT_NAME LIKE '%' ||
+		#{search} || '%'
+	</select>
+
+
+
+	<update id="decreaseStock">
+		UPDATE PRODUCT_OPTION
+		SET OPTION_STOCK = OPTION_STOCK
+		- #{productCount}
+		WHERE PRODUCT_ID = #{productId}
+		AND OPTION_COLOR =
+		#{productColor}
+	</update>
+
+</mapper>
+
+

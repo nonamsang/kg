@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.moodshop.kokone.dao.ProductOptionDAO">
+	<select id="getProductOptionByIdOption"
+		resultType="ProductOptionVO">
+		SELECT * FROM PRODUCT_OPTION
+		WHERE PRODUCT_ID =
+		#{product_id} and OPTION_ID = #{option_color, jdbcType=VARCHAR}
+	</select>
+	<select id="getProductionOptionByIdAllOption"
+		resultType="ProductOptionVO">
+		SELECT * FROM PRODUCT_OPTION
+		WHERE PRODUCT_ID = #{product_id} and
+		OPTION_COLOR = #{option_color} and option_size = #{option_size}
+	</select>
+
+	<select id="getProductOptionByIdOptionSize"
+		resultType="ProductOptionVO">
+		SELECT * FROM PRODUCT_OPTION
+		WHERE PRODUCT_ID =
+		#{product_id} and option_size = #{option_size}
+	</select>
+
+<select id="getProductOptionByIdBasket" resultType="ProductOptionVO">
+    SELECT * FROM PRODUCT_OPTION 
+    WHERE product_id = #{product_id} AND option_id = #{option_color, jdbcType=VARCHAR}
+</select>
+
+	<select id="MSelectProductD" resultType="ProductOptionVO"
+		parameterType="list">
+		SELECT *
+		FROM product_option
+		WHERE product_id IN
+		<foreach item="id" collection="list" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+	</select>
+	<delete id="MDeleteProductDAll" parameterType="list">
+		delete from product_option
+		where product_id in
+		<foreach item="id" collection="list" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+	<insert id="MInsertProductD" parameterType="ProductOptionVO">
+		<selectKey keyProperty="option_id" resultType="string"
+			order="BEFORE">
+			SELECT 'OPTION_' || to_char(NVL(MAX(TO_NUMBER(SUBSTR(option_id, 8))), 0) +
+			1, 'FM00')
+			FROM product_option
+			WHERE REGEXP_LIKE(option_id, 'OPTION_[0-9]+')
+		</selectKey>
+		insert into
+		product_option(option_id,product_id,option_color,option_size,option_stock,option_picture)
+		values(#{option_id},#{product_id},#{option_color},#{option_size},#{option_stock},#{option_picture})
+	</insert>
+
+	<update id="MUpdateProductD" parameterType="ProductOptionVO">
+		update product_option set option_color=#{option_color},
+		option_size=#{option_size},
+		option_stock=#{option_stock},option_picture=#{option_picture} where
+		option_id=#{option_id}
+	</update>
+	<delete id="MDeleteProductD" parameterType="ProductOptionVO">
+		delete from product_option where option_id=#{option_id}
+	</delete>
+	<select id="MSelectProductDAll" resultType="ProductOptionVO">
+		select * from product_option where product_id=#{product_id}
+	</select>
+	<select id="MSelectProductDOne" resultType="ProductOptionVO">
+		select * from product_option where option_id=#{option_id} and
+		product_id=#{product_id}
+	</select>
+</mapper>

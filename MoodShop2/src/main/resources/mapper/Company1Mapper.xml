@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 김동주가 추가함 -->
+<mapper namespace="com.moodshop.kokone.dao.Company1DAO">
+	<select id="getCompanyByManagerId" resultType="Company1VO">
+	SELECT COMPANY_NAME
+	FROM COMPANY1
+	WHERE MANAGER_ID = #{managerId}
+	</select>
+		<!-- 김동주가 하나 더 추가 -->
+	<select id="selectCompanyListByManagerId" resultType="map">
+		SELECT 
+        	COMPANY_ID,
+       		COMPANY_NAME,
+			MANAGER_ID
+    	FROM COMPANY1
+    	WHERE Manager_Id = #{managerId}
+	</select>
+	
+	<select id="get_companyid_by_managerid" parameterType="String" resultType="String">
+	SELECT 
+	COMPANY_NAME
+	FROM COMPANY1
+	WHERE Manager_Id = #{managerId}
+	</select>
+</mapper>

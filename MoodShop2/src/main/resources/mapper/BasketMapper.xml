@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.moodshop.kokone.dao.BasketDAO">
+
+	<select id="getOrCreateBasketIdByUser" parameterType="string"
+		resultType="string">
+		SELECT BASKET_ID
+		FROM BASKET
+		WHERE USER_ID = #{user_id}
+
+	</select>
+
+<insert id="insertBasketDetail" parameterType="BasketDetailVO">
+    INSERT INTO
+    BASKET_DETAIL (
+    BASKET_ID, BASKET_DETAIL_ID, PRODUCT_ID, OPTION_ID,
+    BASKET_DETAIL_COUNT, BASKET_DETAIL_PRICE
+    ) VALUES (
+    #{basket_id, jdbcType=VARCHAR},
+    'detail_' || BASKET_DETAIL_SEQ.NEXTVAL, 
+    #{product_id, jdbcType=VARCHAR}, 
+    #{option_id, jdbcType=VARCHAR},
+    #{basket_detail_count, jdbcType=NUMERIC}, 
+    #{basket_detail_price, jdbcType=NUMERIC}
+    )
+</insert>
+
+
+
+
+	<update id="updateBasketTotalPrice" parameterType="string">
+		UPDATE BASKET
+		SET TOTAL_PRICE = (
+		SELECT NVL(SUM(BASKET_DETAIL_PRICE *
+		BASKET_DETAIL_COUNT), 0)
+		FROM BASKET_DETAIL
+		WHERE BASKET_ID =
+		#{basket_id}
+		),
+		BASKET_DATE = SYSDATE
+		WHERE BASKET_ID = #{basket_id}
+
+	</update>
+
+	<select id="getBasketListByUserId" resultType="BasketJoinVO">
+		SELECT
+		bd.basket_detail_id,
+		b.basket_id,
+		bd.product_id,
+		p.product_name,
+		p.product_image,
+		p.product_price,
+		bd.basket_detail_count,
+		bd.basket_detail_price,
+		bd.option_id,
+		o.option_color,
+		o.option_size,
+		b.basket_date
+		FROM BASKET b
+		JOIN BASKET_DETAIL bd ON b.basket_id = bd.basket_id
+		JOIN PRODUCT p ON bd.product_id = p.product_id
+		JOIN PRODUCT_OPTION o ON bd.option_id = o.option_id
+		WHERE b.user_id = #{user_id}
+		ORDER BY b.basket_id ASC
+	</select>
+	<!-- 메인화면 장바구니 삭제입니다. -->
+	<!-- 장바구니 추가 -->
+	<!-- 장바구니 ID 조회 -->
+	<select id="findBasketIdByUserId" resultType="String">
+		SELECT BASKET_ID FROM BASKET WHERE USER_ID = #{userId}
+	</select>
+
+	<!-- 장바구니 생성 -->
+	<insert id="createBasket" parameterType="String">
+		INSERT INTO BASKET (BASKET_ID, USER_ID, BASKET_DATE, TOTAL_PRICE)
+		VALUES ('basket_' || BASKET_SEQ.NEXTVAL, #{userId}, SYSDATE, 0)
+	</insert>
+
+	<!-- 2. 장바구니 생성 -->
+	<insert id="createBasket2" parameterType="int">
+		INSERT INTO basket (basket_id, user_id, basket_date, total_price)
+		VALUES ('basket_' || BASKET_SEQ.NEXTVAL, #{userId}, SYSDATE, 0)
+	</insert>
+	<!-- 3. 옵션 가격 조회 -->
+	<select id="getOptionPrice" resultType="int">
+		SELECT option_detail_price
+		FROM product_option
+		WHERE option_id = #{optionId}
+	</select>
+
+	<!-- 4. 장바구니 상세 추가 -->
+	<insert id="addBasketDetail"
+		parameterType="com.moodshop.kokone.vo.BasketJoinVO">
+		INSERT INTO basket_detail (basket_detail_id, basket_id, product_id,
+		option_id, basket_detail_count, basket_detail_price)
+		VALUES ('detail_' || BASKET_DETAIL_SEQ.NEXTVAL, #{basket_id}, #{product_id},
+		#{option_id}, 1, #{basket_detail_price})
+	</insert>
+
+	<!-- 5. 장바구니 총 가격 증가 -->
+	<update id="increaseBasketTotalPrice">
+		UPDATE basket
+		SET total_price = total_price + #{price}
+		WHERE basket_id = #{basketId}
+	</update>
+
+	<!-- 이미 담긴 상품 확인 -->
+	<select id="checkProductInBasket" resultType="int">
+		SELECT COUNT(*) FROM BASKET_DETAIL WHERE BASKET_ID = #{basketId} AND
+		PRODUCT_ID = #{productId}
+	</select>
+
+<select id="getProductOptions2" resultType="BasketOptionVO">
+    SELECT option_id, option_color
+    FROM PRODUCT_OPTION
+    WHERE product_id = #{product_id}
+</select>
+
+	<!-- 이미 담긴 상품 수량 증가 -->
+	<update id="increaseBasketDetailCount">
+		UPDATE BASKET_DETAIL
+		SET BASKET_DETAIL_COUNT = BASKET_DETAIL_COUNT + 1
+		WHERE BASKET_ID = #{basketId} AND PRODUCT_ID = #{productId}
+	</update>
+
+	<!-- 장바구니 상세 삭제 -->
+	<delete id="removeBasketDetail">
+		DELETE FROM BASKET_DETAIL WHERE BASKET_ID = #{basketId} AND PRODUCT_ID =
+		#{productId}
+	</delete>
+
+
+
+	<!-- 🗑️ 장바구니 항목 삭제 -->
+	<delete id="deleteItems" parameterType="list">
+		DELETE FROM BASKET_DETAIL
+		WHERE BASKET_DETAIL_ID IN
+		<foreach item="id" collection="list" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+	<!-- 🧺 장바구니 수량 및 총금액 수정 -->
+	<update id="updateQuantity">
+		UPDATE BASKET_DETAIL
+		SET BASKET_DETAIL_COUNT = #{basket_detail_count}
+		WHERE BASKET_DETAIL_ID = #{basket_detail_id}
+	</update>
+
+
+
+	<!-- 💳 장바구니 선택 항목 주문용 조회 -->
+	<select id="processPayment" parameterType="list"
+		resultType="BasketDetailVO">
+		SELECT bd.*, p.PRODUCT_NAME, p.PRODUCT_IMAGE, p.PRODUCT_PRICE
+		FROM BASKET_DETAIL bd
+		JOIN PRODUCT p ON bd.PRODUCT_ID = p.PRODUCT_ID
+		WHERE bd.BASKET_DETAIL_ID IN
+		<foreach item="id" collection="list" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+	</select>
+	<select id="getItemTotalPrice" parameterType="String"
+		resultType="int">
+		SELECT bd.BASKET_DETAIL_COUNT * p.PRODUCT_PRICE
+		FROM BASKET_DETAIL bd
+		JOIN PRODUCT p ON bd.PRODUCT_ID = p.PRODUCT_ID
+		WHERE bd.BASKET_DETAIL_ID = #{basket_detail_id}
+	</select>
+
+	<select id="getSelectedItems" resultType="BasketDetailVO">
+		SELECT * FROM BASKET_DETAIL WHERE BASKET_DETAIL_ID IN
+		<foreach collection="list" item="id" separator="," open="("
+			close=")">
+			#{id}
+		</foreach>
+	</select>
+</mapper> 

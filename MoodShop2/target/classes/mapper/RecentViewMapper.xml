@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moodshop.kokone.dao.RecentViewDAO">
+
+	<!-- 최근 본 상품 저장 -->
+	<insert id="insertRecentView">
+    	INSERT INTO RECENT_VIEW_TBL (RECENT_ID, USER_ID, PRODUCT_ID, VIEW_DATE)
+    	VALUES (#{recent_id}, #{user_id}, #{product_id}, SYSDATE)
+	</insert>
+
+	<!-- 회원별 최근 본 상품 조회 (최근 5개) -->
+	<select id="selectRecentViewByUser" resultType="RecentViewVO">
+    	SELECT R.RECENT_ID,
+           R.USER_ID,
+           R.PRODUCT_ID,
+           P.PRODUCT_NAME,
+           P.PRODUCT_PRICE,
+           P.PRODUCT_IMAGE,
+           R.VIEW_DATE
+    	FROM RECENT_VIEW_TBL R
+    	JOIN PRODUCT P ON R.PRODUCT_ID = P.PRODUCT_ID
+    	WHERE R.USER_ID = #{user_id} 
+    	ORDER BY R.VIEW_DATE DESC
+	</select>
+
+
+	<!-- 회원별 최근 본 상품 전체 삭제 -->
+	<delete id="deleteRecentViewByUser">
+		DELETE FROM RECENT_VIEW_TBL WHERE USER_ID = #{user_id}
+	</delete>
+	
+	<!-- 회원별 최근 본 상품 각각 삭제 -->
+	<delete id="deleteRecentViewById">
+    	DELETE FROM RECENT_VIEW_TBL WHERE RECENT_ID = #{recentId}
+	</delete>
+	
+	<delete id="deleteRecentViewByUserAndProduct">
+  		DELETE FROM RECENT_VIEW_TBL WHERE USER_ID = #{userId} AND PRODUCT_ID = #{productId}
+	</delete>
+	
+	
+	<select id="getRecentViewCount" resultType="int">
+    	SELECT COUNT(*) FROM RECENT_VIEW_TBL WHERE USER_ID = #{userId}
+	</select>
+	
+	<delete id="deleteOldestRecentView">
+    DELETE FROM RECENT_VIEW_TBL
+    	WHERE RECENT_ID = (
+        	SELECT RECENT_ID FROM (
+            	SELECT RECENT_ID FROM RECENT_VIEW_TBL
+            	WHERE USER_ID = #{userId}
+            	ORDER BY VIEW_DATE ASC
+        		) WHERE ROWNUM = 1
+   	 	)
+	</delete>
+	
+	
+</mapper>

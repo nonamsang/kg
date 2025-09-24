@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" " http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+	<typeAliases>
+		<typeAlias alias="EventVO"
+			type="com.moodshop.kokone.vo.EventVO" />
+		<typeAlias alias="NoticeVO"
+			type="com.moodshop.kokone.vo.NoticeVO" />
+		<typeAlias alias="RecentViewVO"
+			type="com.moodshop.kokone.vo.RecentViewVO" />
+		<typeAlias alias="ProductVO"
+			type="com.moodshop.kokone.vo.ProductVO" />
+		<typeAlias alias="UserVO"
+			type="com.moodshop.kokone.vo.UserVO" />
+		<typeAlias alias="ManagerVO"
+			type="com.moodshop.kokone.vo.ManagerVO" />
+		<typeAlias alias="ProductOptionVO"
+			type="com.moodshop.kokone.vo.ProductOptionVO" />
+		<typeAlias alias="QnABoardVO"
+			type="com.moodshop.kokone.vo.QnABoardVO" />
+		<typeAlias alias="BasketVO"
+			type="com.moodshop.kokone.vo.BasketVO" />
+		<typeAlias alias="BasketDetailVO"
+			type="com.moodshop.kokone.vo.BasketDetailVO" />
+		<typeAlias alias="OrderVO"
+			type="com.moodshop.kokone.vo.OrderVO" />
+		<typeAlias alias="Order_DetailVO"
+			type="com.moodshop.kokone.vo.Order_DetailVO" />
+		<typeAlias alias="WishListVO"
+			type="com.moodshop.kokone.vo.WishListVO" />
+		<typeAlias alias="ReviewVO"
+			type="com.moodshop.kokone.vo.ReviewVO" />
+		<typeAlias alias="Review_SubVO"
+			type="com.moodshop.kokone.vo.Review_SubVO" />
+		<typeAlias alias="BasketJoinVO"
+			type="com.moodshop.kokone.vo.BasketJoinVO" />
+		<typeAlias alias="AnswerVO"
+			type="com.moodshop.kokone.vo.AnswerVO" />
+		<typeAlias alias="Company1VO"
+			type="com.moodshop.kokone.vo.Company1VO" />
+			<typeAlias alias="BasketOptionVO"
+			type="com.moodshop.kokone.vo.BasketOptionVO" />
+	</typeAliases>
+</configuration>
+
+<!-- 이클립스 + spring mybatipse -->

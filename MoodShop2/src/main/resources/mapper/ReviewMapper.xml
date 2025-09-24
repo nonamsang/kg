@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moodshop.kokone.dao.ReviewDAO">
+
+	<!-- 상품 페이지 리뷰 -->
+	<select id="getProductReviews" resultType="reviewVO">
+		SELECT R.REVIEW_ID,
+		R.REVIEW_DATE,
+		R.REVIEW_CONTENT,
+		R.REVIEW_IMAGE,
+		R.USER_ID,
+		R.ORDER_ID,
+		R.RATING
+		FROM REVIEW R
+		JOIN ORDER_DETAIL OD ON R.ORDER_ID = OD.ORDER_ID
+		WHERE OD.PRODUCT_ID = #{product_id}
+		ORDER BY R.REVIEW_DATE DESC
+	</select>
+
+
+	<select id="getAllReviewAsc" resultType="ReviewVO">
+		select *
+		from review
+		where user_id=#{user_id}
+		order by review_date asc
+	</select>
+
+	<select id="getAllReviewDesc" resultType="ReviewVO">
+		select *
+		from review
+		where user_id=#{user_id}
+		order by review_date desc
+	</select>
+
+	<select id="getAllMyReview" resultType="ReviewVO">
+		select *
+		from review
+		where
+		user_id=#{user_id}
+		order by review_date desc
+	</select>
+
+	<select id="getReviewByID" resultType="ReviewVO"> <!-- 리뷰 하나를 조회 -->
+		select *
+		from review
+		where review_id=#{review_id}
+	</select>
+
+	<insert id="insertReview" parameterType="ReviewVO">
+		insert into review (
+		review_id, review_date, review_content,
+		review_image, user_id, order_id, rating
+		)
+		values (
+		review_seq.nextval,
+		SYSDATE,
+		#{review_content},
+		#{review_image, jdbcType=VARCHAR},
+		#{user_id},
+		#{order_id},
+		#{rating}
+		)
+	</insert>
+
+
+
+	<insert id="insertReviewNoImage" parameterType="ReviewVO">
+		insert into review (
+		review_id, review_date, review_content,
+		review_image, user_id, order_id, rating
+		)
+		values (
+		review_seq.nextval,
+		SYSDATE,
+		#{review_content},
+		null,
+		#{user_id},
+		#{order_id},
+		#{rating}
+		)
+	</insert>
+
+	<select id="productToReview" resultType="ReviewVO">
+select r.review_id, r.review_date,r.review_content,r.review_image,r.user_id,r.order_id,r.rating,p.product_id
+from review r
+inner join order_tbl o on r.order_id=o.order_id
+inner join order_detail od on o.order_id=od.order_id
+inner join product p on p.product_id=od.product_id
+where p.product_id=#{product_id}
+</select>
+
+
+
+
+<update id="updateReview" parameterType="ReviewVO">
+    update review
+    <set>
+        <!-- 파일이 있을 때만 업데이트 -->
+        <if test="review_image != null">
+            review_image = #{review_image},
+        </if>
+        review_date = SYSDATE,
+        review_content = #{review_content}
+    </set>
+    where review_id = #{review_id}
+    and user_id = #{user_id}
+</update>
+
+
+
+	<delete id="deleteReview" parameterType="ReviewVO">
+		DELETE FROM review
+		WHERE
+		review_id = #{review_id}
+		AND user_id = #{user_id, jdbcType=VARCHAR}
+	</delete>
+
+</mapper>

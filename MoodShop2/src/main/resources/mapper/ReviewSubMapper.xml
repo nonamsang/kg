@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moodshop.kokone.dao.Review_SubDAO">
+
+
+  <select id="getAllReviewSub" resultType="Review_SubVO">
+  select sub_id, sub_date, sub_content, user_id, review_id
+  from review_sub
+  where review_id=#{review_id}
+  order by 1 ASC
+ </select>
+  
+  <select id="getReviewSubOne" resultType="Review_SubVO">
+  select sub_id, sub_date, sub_content,user_id, review_id
+  from review_sub
+  where sub_id=#{sub_id}
+  </select>
+  
+  <insert id="getReviewSubInsert" parameterType="Review_SubVO">
+  INSERT INTO REVIEW_SUB (SUB_DATE, SUB_CONTENT, USER_ID, REVIEW_ID) VALUES(
+    SYSDATE,
+    #{sub_content},
+    #{user_id},
+    #{review_id})
+     </insert>
+    
+    <update id="getReviewSubUpdate" parameterType="Review_SubVO">
+    update review_sub set sub_content=#{sub_coorg.apache.ibatis.binding.BindingEntent} where sub_id=#{sub_id} and user_id=#{user_id}
+    </update>
+    
+    <delete id="getReviewSubDelete" parameterType="Review_SubVO">
+    delete from review_sub where sub_id=#{sub_id} and user_id=#{user_id}
+    </delete>
+    <delete id="deleteReview2" parameterType="String">
+    delete from review_sub where review_id=#{review_id}</delete>
+</mapper>

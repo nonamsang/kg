@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moodshop.kokone.dao.OrderDAO">
+
+
+  <select id="getAllOrder" resultType="OrderVO">
+  select order_id, order_date, total_price, user_id
+  from order_tbl
+  order by order_date
+ </select>
+
+<select id="getOrderById" resultType="OrderVO">
+select * 
+from order_tbl
+where order_id=#{order_id}
+</select>
+
+<select id="selectOrdersByDateRange" resultType="map">
+    SELECT *
+    FROM order_tbl
+    WHERE user_id = #{user_id}
+      AND order_date BETWEEN #{startDate} AND #{endDate}
+    ORDER BY order_date DESC
+  </select>
+  
+  <delete id="deleteOrder" parameterType="OrderVO">
+  delete from order_tbl where order_id=#{order_id} and user_id=#{user_id}
+  </delete>
+      <!-- 김동주가 여기서부터 만들었음 -->
+  
+  <select id="getOrderByOrderId" resultType="OrderVO">
+  SELECT ORDER_DATE, TOTAL_PRICE, User_ID
+  FROM ORDER_TBL
+  WHERE ORDER_ID = #{order_id}
+  </select>
+  
+
+<!-- 주문 테이블 Insert -->
+<insert id="insertOrder" parameterType="map">
+    INSERT INTO ORDER_TBL (ORDER_ID, USER_ID, TOTAL_PRICE, ORDER_DATE)
+    VALUES (#{orderId}, #{userId}, #{paidAmount}, SYSDATE)
+</insert>
+
+<insert id="insertOrderDetail" parameterType="Order_DetailVO">
+    INSERT INTO ORDER_DETAIL (DETAIL_ID, ORDER_ID, PRODUCT_ID, OPTION_ID, DETAIL_COUNT, DETAIL_PRICE)
+    VALUES (ORDER_DETAIL_SEQ.NEXTVAL, #{order_id}, #{product_id}, #{option_id}, #{detail_count}, #{detail_price})
+</insert>
+<select id="getOrderDetailsByOrderId" parameterType="string" resultType="Order_DetailVO">
+    SELECT * FROM ORDER_DETAIL WHERE ORDER_ID = #{orderId}
+</select>
+
+<!-- OrderMapper.xml -->
+<select id="getPastOrdersByUserId" parameterType="String" resultType="OrderVO">
+    SELECT order_id, order_date, total_price, user_id
+    FROM order_tbl
+    WHERE user_id = #{user_id}
+    ORDER BY order_date DESC
+</select>
+
+
+
+</mapper>

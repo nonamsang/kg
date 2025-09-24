@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.moodshop.kokone.dao.NoticeDAO">
+
+	<select id="selectAllNotices" resultType="NoticeVO">
+		SELECT * FROM
+		NOTICE_TBL
+		ORDER BY NOTICE_START_DATE DESC
+	</select>
+
+	<!-- 관리자 전용 -->
+	<insert id="insertNotice"
+		parameterType="com.moodshop.kokone.vo.NoticeVO">
+		INSERT INTO NOTICE_TBL (
+		NOTICE_ID, NOTICE_NAME, NOTICE_TITLE, NOTICE_DESCRIPTION,
+		NOTICE_START_DATE, NOTICE_END_DATE, NOTICE_CATEGORY,
+		NOTICE_IMAGE_SOURCE, NOTICE_SUB_IMAGE_SOURCE
+		)
+		VALUES (
+		#{notice_id, jdbcType=VARCHAR},
+		#{notice_name, jdbcType=VARCHAR},
+		#{notice_title, jdbcType=VARCHAR},
+		#{notice_description, jdbcType=CLOB},
+		#{notice_start_date, jdbcType=DATE},
+		#{notice_end_date, jdbcType=DATE},
+		#{notice_category, jdbcType=VARCHAR},
+		#{notice_image_source, jdbcType=VARCHAR},
+		#{notice_sub_image_source, jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<delete id="deleteNotice" parameterType="String">
+		DELETE FROM NOTICE_TBL WHERE NOTICE_ID = #{noticeId}
+	</delete>
+
+	<select id="getNoticeList"
+		resultType="com.moodshop.kokone.vo.NoticeVO">
+		SELECT * FROM NOTICE_TBL ORDER BY NOTICE_START_DATE DESC
+	</select>
+
+	<update id="updateNoticeColumn" parameterType="map">
+		UPDATE NOTICE_TBL
+		SET ${column} =
+		<choose>
+			<when
+				test="column == 'notice_start_date' or column == 'notice_end_date'">
+				TO_DATE(#{newValue}, 'YYYY-MM-DD')
+			</when>
+			<otherwise>
+				#{newValue}
+			</otherwise>
+		</choose>
+		WHERE NOTICE_ID = #{noticeId}
+	</update>
+
+</mapper>

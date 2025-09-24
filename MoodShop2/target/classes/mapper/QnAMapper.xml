@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moodshop.kokone.dao.QnABoardDAO">
+
+	<select id="getQnaAllList" resultType="QnABoardVO">
+		SELECT
+			q.Q_id AS qId,
+			q.Q_title AS qTitle,
+			u.NICKNAME AS nickname,
+			q.Q_content As qContent,
+			q.user_id AS userId,
+			q.Q_date AS qDate,
+			q.disable AS disable
+		FROM QUESTION q
+		JOIN USER_TBL u ON q.user_id = u.user_id
+	</select>
+
+	<select id="getQnaListByUserId" resultType="QnABoardVO">
+		SELECT
+			q.Q_id AS qId,
+			q.Q_date AS qDate,
+			q.user_id AS userId,
+			q.Q_title AS qTitle,
+			u.NICKNAME AS nickname,
+			(SELECT COUNT(*) FROM ANSWER a WHERE a.Q_ID = q.Q_ID) AS answerCount
+		FROM QUESTION q
+		JOIN USER_TBL u ON q.user_id = u.user_id
+		WHERE q.user_id = #{userId}
+		ORDER BY q.Q_ID DESC
+	</select>
+
+	<select id="getQnaCountByUserId" resultType="int">
+		SELECT COUNT(*)
+		FROM
+		QUESTION
+		WHERE USER_ID = #{userId}
+	</select>
+
+
+	<!-- 필요한 경우 관리자용도 동일하게 -->
+	<select id="getQnaListByManagerId" resultType="QnABoardVO">
+		SELECT 
+			q.Q_ID AS qId,
+			q.Q_DATE AS qDate,
+			q.USER_ID AS userId,
+			q.Q_TITLE AS qTitle,
+			q.Q_CONTENT AS qContent,
+			u.NICKNAME AS nickname
+		FROM QUESTION q
+		JOIN ANSWER a ON q.Q_ID = a.Q_ID
+		JOIN USER_TBL u ON q.USER_ID = u.USER_ID
+		WHERE a.MANAGER_ID = #{managerId}
+		ORDER BY q.Q_ID DESC
+	</select>
+
+
+	<select id="getQnaCountByManagerId" resultType="int">
+		SELECT COUNT(*)
+		FROM QUESTION q
+		JOIN ANSWER a ON q.Q_ID = a.Q_ID
+		WHERE a.MANAGER_ID =
+		#{managerId}
+	</select>
+	<select id="getQnaById" resultType="QnABoardVO">
+		SELECT
+			Q_id AS qId,
+			Q_date AS
+			qDate,
+			user_id AS userId,
+			Q_title AS qTitle,
+			Q_content AS qContent
+		FROM
+		QUESTION
+		WHERE Q_id = #{qId}
+	</select>
+
+	<update id="updateQna"
+		parameterType="com.moodshop.kokone.vo.QnABoardVO">
+		UPDATE QUESTION
+		SET
+			q_title = #{qTitle},
+			q_content = #{qContent}
+		WHERE Q_id = #{qId}
+	</update>
+
+	<select id="hasAnswer" parameterType="string" resultType="int">
+		SELECT COUNT(*)
+		FROM ANSWER
+		WHERE Q_ID = #{qId}
+	</select>
+	
+	
+	<insert id="insertQna" parameterType="QnABoardVO">
+        INSERT INTO QUESTION (
+			USER_ID,
+			Q_TITLE,
+			Q_CONTENT,
+			Q_DATE
+		)
+		VALUES (
+			#{userId},
+			#{qTitle},
+			#{qContent},
+			SYSDATE
+		)
+	</insert>
+</mapper>

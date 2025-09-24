@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.moodshop.kokone.dao.ManagerDAO">
+	<select id="getManagerVO" parameterType="ManagerVO" resultType="ManagerVO">
+		SELECT manager_id, password, name, nickname, tel
+		From MANAGER
+		WHERE manager_id = #{manager_id}
+	</select>
+	<select id="checkManagerId" parameterType="String" resultType="int">
+		SELECT COUNT(*)
+		FROM MANAGER
+		WHERE manager_id = #{manager_id} 
+	</select>
+	<select id="checkManagerNick" parameterType="String" resultType="int">
+		SELECT COUNT(*)
+		FROM MANAGER
+		WHERE nickname = #{nickname} 
+	</select>
+	<select id="insertAdmin" parameterType="ManagerVO">
+		INSERT INTO MANAGER
+		(manager_id, password, name, nickname, tel)
+		VALUES (#{manager_id}, #{password}, #{name}, #{nickname}, #{tel})
+	</select>
+	<select id="findManagerId" resultType="ManagerVO">
+		SELECT *
+		FROM MANAGER
+		WHERE name=#{name} AND tel=#{tel}
+	</select>
+	<select id="findManagerPw" resultType="ManagerVO">
+		SELECT *
+		FROM MANAGER
+		WHERE name=#{name} AND tel=#{tel} AND manager_id=#{manager_id}
+	</select>
+	<update id="updateManagerPw">
+		UPDATE MANAGER
+		SET password = #{newPassword}
+		WHERE manager_id = #{manager_id}
+	</update>
+</mapper> 

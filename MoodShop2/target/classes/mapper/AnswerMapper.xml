@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moodshop.kokone.dao.AnswerDAO">
+	<select id="getAnswersByQnaId" parameterType="string"
+		resultType="com.moodshop.kokone.vo.AnswerVO">
+		SELECT A_ID, A_DATE, MANAGER_ID, A_TITLE, A_CONTENT, Q_ID
+		FROM ANSWER
+		WHERE Q_ID = #{qId}
+	</select>
+	<select id="selectAnswersByQnaId" parameterType="string"
+		resultType="com.moodshop.kokone.vo.AnswerVO">
+		SELECT
+		A_ID AS aId,
+		A_DATE AS aDate,
+		MANAGER_ID AS managerId,
+		A_TITLE AS aTitle,
+		A_CONTENT AS aContent,
+		Q_ID AS qId
+		FROM
+		ANSWER
+		WHERE
+		Q_ID = #{qId}
+		ORDER BY A_DATE ASC
+	</select>
+	<update id="updateAnswer" parameterType="AnswerVO">
+		UPDATE ANSWER a
+		SET
+		a.A_CONTENT = #{aContent},
+		a.A_DATE = SYSDATE
+		WHERE
+		a.Q_ID IN (
+		SELECT q.Q_ID
+		FROM QUESTION q
+		WHERE q.Q_ID = #{qId})
+	</update>
+
+	<select id="getAnswerById" parameterType="String"
+		resultType="AnswerVO">
+		SELECT
+		A_ID AS aId,
+		Q_ID AS qId,
+		A_CONTENT AS aContent,
+		MANAGER_ID AS managerId,
+		A_DATE AS aDate
+		FROM ANSWER
+		WHERE A_ID = #{aId}
+	</select>
+	<insert id="insertAnswer" parameterType="AnswerVO">
+		INSERT INTO ANSWER (Q_ID, A_TITLE, A_CONTENT, A_DATE, MANAGER_ID)
+		VALUES (#{qId}, #{aTitle}, #{aContent}, SYSDATE, #{managerId})
+	</insert>
+
+</mapper>
+ 
