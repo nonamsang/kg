@@ -5,9 +5,9 @@
 
 ---
 
-## 사용 기술 및 경험
+## 사용가능한 언어 및 기술능력
 
-| 기술 | 경험 |
+| 언어 | 기술능력 |
 |------|------|
 | ![Java](https://img.shields.io/badge/Java-007396?style=flat-square&logo=openjdk&logoColor=white) | 콘솔/GUI 프로그램 및 JDBC 연동 CRUD 구현<br>제어문, 배열, 컬렉션, 사용자 정의 클래스/메소드 활용 |
 | ![Oracle](https://img.shields.io/badge/Oracle-F80000?style=flat-square&logo=oracle&logoColor=white) | DDL/DML/DCL 활용, 시퀀스/뷰/인덱스 사용<br>JOIN, 서브쿼리, GROUP BY 및 ERD 설계 경험 |
