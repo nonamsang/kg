@@ -25,3 +25,16 @@
 | ![JSTL](https://img.shields.io/badge/JSTL-007396?style=flat-square&logo=java&logoColor=white) | `c:if`, `c:forEach` Core 태그 및 EL 활용<br>`fmt` 태그를 이용한 데이터 처리 |
 | ![AOP](https://img.shields.io/badge/AOP-6DB33F?style=flat-square&logo=spring&logoColor=white) | Bean 기반 보안 처리 및 예외 관리<br>Annotation 기반 JoinPoint, Pointcut 활용 |
 | ![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white) | 조건문, 반복문 및 회귀 알고리즘 구현<br>pandas, matplotlib 데이터 분석 및 시각화 |
+
+
+---
+
+
+## 프로젝트 진행 기간
+| 기간 | 조이름 | 주제 |
+|------|------|
+| 2025.04.14 ~ 2025.04.28 | 내일 뭐먹지 |  식당 예약 프로그램 |
+| 2025.06.09 ~ 2025.07.01 | 무드샵 |  감정기반 상품 쇼핑몰 |
+| 2025.07.24 ~ 2025.09.09 | 리틀포레스트 |  친환경 탄소 감축을 위한 금융 프로그램 |
+
+---
