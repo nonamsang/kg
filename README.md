@@ -11,3 +11,11 @@
 - **프로젝트 제목:** 내일 뭐 먹지?
 
 - 
+
+<details>
+  <summary>사진 더보기</summary>
+
+  ![메인 화면](screen1.png)  
+  ![결과 화면](screen2.png)  
+
+</details>
