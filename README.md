@@ -162,9 +162,14 @@
 <p>[ERD]</p>
 <p align='center'><img width="858" height="715" alt="image" src="https://github.com/user-attachments/assets/887381fb-3fc4-4aa6-8b16-69314db7aa7a" />
 </p>
+
+
 ---
+
+
 자기소개 화면으로 가기 : https://github.com/nonamsang/kg/
 
+---
 <b>다른 프로젝트 보기</b>
 <br>2번째 프로젝트 : https://github.com/nonamsang/kg/tree/project2
 <br>3번째 프로젝트 : https://github.com/nonamsang/kg/tree/project3
