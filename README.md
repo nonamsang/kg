@@ -11,7 +11,7 @@
 | **담당업무** | DB 테이블 및 ERD 설계 (25%)<br>예약 시스템 구현 (50%)<br>발표 자료 제작 (25%) |
 | **개발환경** | Eclipse 22.09, Oracle 18c |
 | **사용기술** | Java GUI (Swing), JDBC |
-| **관련 링크** | (https://blog.naver.com/pr1010327/224026719927) |
+| **관련 링크** |(https://blog.naver.com/pr1010327/224025617664)  |
 
 ---
 
@@ -108,8 +108,10 @@
 
 ---
 
-### 🗂️ 설계 자료 (예시)
-- **ERD / 설계도:**  
+### 🗂️ 설계 자료
+- **ERD / 설계도:**
+  <p align='center'><img width="858" height="715" alt="image" src="https://github.com/user-attachments/assets/887381fb-3fc4-4aa6-8b16-69314db7aa7a" />
+</p>
   - 예약 테이블(`reservation`)  
   - 메뉴 테이블(`menu`)  
   - 사용자 테이블(`user`)  
