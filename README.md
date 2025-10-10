@@ -156,6 +156,10 @@
 
 
 ---
+자기소개 화면으로 가기 : https://github.com/nonamsang/kg/
 
+<b>다른 프로젝트 보기</b>
+<br>2번째 프로젝트 : https://github.com/nonamsang/kg/tree/project2
+<br>3번째 프로젝트 : https://github.com/nonamsang/kg/tree/project3
 
 
