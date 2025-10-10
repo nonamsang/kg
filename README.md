@@ -122,6 +122,38 @@
 <center><img width="1080" height="1920" alt="4조_erd_1" src="https://github.com/user-attachments/assets/e3ed1c14-ce13-42e7-b080-e50c65be89d7" />
 </center>
 
+# 🗂 주요 테이블 설명
+
+---
+
+## 1️⃣ 사용자 관련 테이블
+- **user_table**: 회원 기본 정보 관리 (ID, 이름, 전화, 이메일, 포인트, 프로필 등)  
+- **wallet_table**: 사용자의 지갑 정보 관리 (계좌, 잔액, 은행, 마지막 업데이트)  
+- **point_table**: 사용자의 포인트 적립/사용 내역 기록  
+- **point_event_table**: 특정 이벤트에 따른 포인트 지급 내역  
+- **point_rule_table**: 포인트 지급 규칙 및 CO₂ 절감 단위 정의  
+
+---
+
+## 2️⃣ 상품 및 거래 관련 테이블
+- **product_table**: 판매 상품 정보 관리 (이름, 카테고리, 가격, 탄소 배출량 등)  
+- **payment_table**: 사용자의 결제 내역 기록  
+- **donation_table**: 사용자 기부 내역 기록  
+- **merchant_table**: 판매자 정보 관리 (상점 이름, 주소, 카테고리 등)  
+
+---
+
+## 3️⃣ 나무/환경 관련 테이블
+- **growing_tree_table**: 사용자가 키우는 나무 정보 관리 (레벨, 이름, 물/비료 상태 등)  
+- **grown_tree_table**: 완료된 나무 정보 기록 (완성된 나무, 저장된 물/비료 등)  
+- **emission_table**: 사용자별 탄소 배출량 기록 (결제, 활동 기반)  
+- **stock_table**: 나무 성장에 필요한 물/비료 재고 관리  
+
+---
+
+## 4️⃣ 커뮤니티 및 소셜 기능 테이블
+- **communi**
+
 ---
 
 # 🌟 프로젝트 경험 및 성장
