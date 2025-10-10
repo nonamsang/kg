@@ -159,8 +159,9 @@
 
 <p>[시연 영상 보기](https://github.com/nonamsang/kg/blob/project1/Naeil/내일뭐먹지시연영상.mp4?raw=true)</p>
 <p>[PPT보기](https://github.com/username/repo/blob/main/Naeil/1조-발표.pptx?raw=true)</p>
-<p>[ERD](<img width="858" height="715" alt="image" src="https://github.com/user-attachments/assets/887381fb-3fc4-4aa6-8b16-69314db7aa7a" />
-)</p>
+<p>[ERD]</p>
+<p align='center'><img width="858" height="715" alt="image" src="https://github.com/user-attachments/assets/887381fb-3fc4-4aa6-8b16-69314db7aa7a" />
+</p>
 ---
 자기소개 화면으로 가기 : https://github.com/nonamsang/kg/
 
