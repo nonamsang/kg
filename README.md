@@ -36,7 +36,7 @@
   <summary>📸 사진 더보기</summary>
   <p align='center'><img width="417" height="244" alt="image" src="https://github.com/user-attachments/assets/c6d706cd-8407-42c0-984c-812ca2fd0fea" />
 </p>
-  ---
+---
   <br><br><br>
   <b>사용자 페이지</b>
   <p align='center'><img width="873" height="466" alt="image" src="https://github.com/user-attachments/assets/c1570c28-c09f-4dab-a455-0426d651ccbf" />
@@ -63,8 +63,8 @@
 </p>
 
     
-    ---
-    <br><br>
+---
+<br><br>
     <b>관리자 페이지</b>
     <p align='center'><img width="718" height="398" alt="image" src="https://github.com/user-attachments/assets/e7a88244-1c55-4c9e-b5e3-cfac6a88fb7e" />
 </p>
