@@ -53,7 +53,7 @@
 <p align='center'><img width="1123" height="525" alt="image" src="https://github.com/user-attachments/assets/6caaa6e9-30fc-46d5-bc03-b7a3967db748" /></p>
 
 ---
-
+<br><br><br>
 
 <p align='center'><b>관리자 페이지</b></p>
 <p align='center'><img width="736" height="772" alt="image" src="https://github.com/user-attachments/assets/865b25f0-c646-418f-bba4-c77dfe25866e" /></p>
