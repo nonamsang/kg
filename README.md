@@ -1,4 +1,4 @@
-<img width="1541" height="925" alt="image" src="https://github.com/user-attachments/assets/1acab242-b68d-4d4f-a03b-7a9dc2d98a50" /># 🍽 감정기반 굿즈 쇼핑몰 프로그램 (Emotion-Based Merchandise Shopping Mall Program)
+# 🍽 감정기반 굿즈 쇼핑몰 프로그램 (Emotion-Based Merchandise Shopping Mall Program)
 
 | 구분 | 내용 |
 |------|------|
@@ -161,9 +161,7 @@
 ### 🗂️ 설계 자료
 - **ERD / 설계도:**
   <p align='left'>[ERD]</p>
-  <p align='center'><img width="1541" height="925" alt="image" src="https://github.com/user-attachments/assets/e444db19-0da3-42b7-b91a-9100708391c1" />
-</p>
-| 테이블명 | 설명 |
+  | 테이블명 | 설명 |
 |----------|------|
 | USER_TBL | 회원 정보 테이블 |
 | MANAGER | 관리자 계정 정보 테이블 |
@@ -182,6 +180,8 @@
 | ANSWER | 문의 답변 테이블 |
 | NOTICE_TBL | 공지사항 테이블 |
 | EVENT_TBL | 이벤트/프로모션 테이블 |
+  <p align='center'><img width="1541" height="925" alt="image" src="https://github.com/user-attachments/assets/e444db19-0da3-42b7-b91a-9100708391c1" />
+</p>
 <br>
 <p align='left'>[프로그램 구조도]</p>
 <p aling='center'><img width="1747" height="764" alt="image" src="https://github.com/user-attachments/assets/b0d3840f-e36c-40ab-865f-f1b2e9220aa5" />
