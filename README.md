@@ -11,4 +11,5 @@
 | **담당업무** | 사용자 리뷰 및 리뷰 댓글 시스템 구현 (100%)<br>사용자 주문 관리 시스템 구현 (50%)<br>관리자 상품 관리 시스템 구현 (100%) |
 | **개발환경** | SPRING REGUCY, Oracle 18c |
 | **사용기술** | HTML, CSS, JAVASCRIPT, AJAX, SPRING(MVC모델 활용), MY BATIS, JSON |
+| **사용 API** | KAKAO PAY 결제 API |
 | **관련 링크** | https://blog.naver.com/pr1010327/224025617664 |
