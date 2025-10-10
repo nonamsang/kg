@@ -36,33 +36,33 @@
   <summary>📸 사진 더보기</summary>
 
   
-  <img width="754" height="838" alt="image" src="https://github.com/user-attachments/assets/9908a3b0-5201-403d-b7b8-b45296a8b37e" />
+ <p align='center'> <img width="754" height="838" alt="image" src="https://github.com/user-attachments/assets/9908a3b0-5201-403d-b7b8-b45296a8b37e" /></p>
 
 
   <b>사용자 페이지</b>
-  <img width="589" height="621" alt="KakaoTalk_20250425_194835592_01" src="https://github.com/user-attachments/assets/c8ff8daf-6e10-46bd-9777-aaa4a5dcbe57" />
+  <p align='center'><img width="589" height="621" alt="KakaoTalk_20250425_194835592_01" src="https://github.com/user-attachments/assets/c8ff8daf-6e10-46bd-9777-aaa4a5dcbe57" /></p>
 
-<img width="954" height="860" alt="image" src="https://github.com/user-attachments/assets/307fdba9-2194-4cf5-b610-b0efbbeaccf5" />
+<p align='center'><img width="954" height="860" alt="image" src="https://github.com/user-attachments/assets/307fdba9-2194-4cf5-b610-b0efbbeaccf5" /></p>
 
-<img width="492" height="480" alt="image" src="https://github.com/user-attachments/assets/9f7d1e21-1fd6-4013-aee1-5b6347eab2ef" />
+<p align='center'><img width="492" height="480" alt="image" src="https://github.com/user-attachments/assets/9f7d1e21-1fd6-4013-aee1-5b6347eab2ef" /></p>
 
-<img width="493" height="512" alt="image" src="https://github.com/user-attachments/assets/fef7f7b1-9f05-4552-841d-58fa363a7536" />
+<p align='center'><img width="493" height="512" alt="image" src="https://github.com/user-attachments/assets/fef7f7b1-9f05-4552-841d-58fa363a7536" /></p>
 
-<img width="495" height="531" alt="image" src="https://github.com/user-attachments/assets/058e082d-a7a4-4083-b893-fe8eeeb11cb5" />
+<p align='center'><img width="495" height="531" alt="image" src="https://github.com/user-attachments/assets/058e082d-a7a4-4083-b893-fe8eeeb11cb5" /></p>
 
-<img width="1123" height="525" alt="image" src="https://github.com/user-attachments/assets/6caaa6e9-30fc-46d5-bc03-b7a3967db748" />
+<p align='center'><img width="1123" height="525" alt="image" src="https://github.com/user-attachments/assets/6caaa6e9-30fc-46d5-bc03-b7a3967db748" /></p>
 
 
 
 
 <b>관리자 페이지</b>
-<img width="736" height="772" alt="image" src="https://github.com/user-attachments/assets/865b25f0-c646-418f-bba4-c77dfe25866e" />
+<p align='center'><img width="736" height="772" alt="image" src="https://github.com/user-attachments/assets/865b25f0-c646-418f-bba4-c77dfe25866e" /></p>
 
-<img width="800" height="854" alt="image" src="https://github.com/user-attachments/assets/a7b27228-8ffd-43d1-8611-7cc928bde06a" />
+<p align='center'><img width="800" height="854" alt="image" src="https://github.com/user-attachments/assets/a7b27228-8ffd-43d1-8611-7cc928bde06a" /></p>
 
-<img width="1150" height="508" alt="image" src="https://github.com/user-attachments/assets/0480f89c-feb8-440d-a5e8-dd6fb35b93f7" />
+<p align='center'><img width="1150" height="508" alt="image" src="https://github.com/user-attachments/assets/0480f89c-feb8-440d-a5e8-dd6fb35b93f7" /></p>
 
-<img width="1125" height="504" alt="image" src="https://github.com/user-attachments/assets/fbef50d9-dc3f-49ab-b10b-3f83e4d84701" />
+<p align='center'><img width="1125" height="504" alt="image" src="https://github.com/user-attachments/assets/fbef50d9-dc3f-49ab-b10b-3f83e4d84701" /></p>
 
 
 
