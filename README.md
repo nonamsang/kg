@@ -230,8 +230,8 @@
 
 
 ## 📂 프로젝트 자료
-[2조 발표 PPT 보기](2조 발표 PPT.pptx)
-<p>[PPT보기](https://github.com/nonamsang/kg/blob/project2/MoodShop2/2조 발표 PPT.pptx?raw=true)</p>
+<p>[시연 영상](https://github.com/nonamsang/kg/blob/project2/MoodShop2/무드샵.mp4?raw=true)</p>
+<p>[PPT보기](https://github.com/nonamsang/kg/blob/project2/MoodShop2/PPT.pptx?raw=true)</p>
 
 
 ---
