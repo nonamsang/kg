@@ -163,6 +163,18 @@
 ## 5️⃣ 문의 관련 테이블
 - **inquiry_table**: 사용자 문의 관리 (카테고리, 제목, 내용, 상태 등)  
 ---
+<br>
+<center>프로그램 설계도</center>
+<center><img width="595" height="841" alt="4조_UML_2" src="https://github.com/user-attachments/assets/09d812ee-8247-4b3a-9686-378d417dcfef" />
+</center>
+<center><img width="595" height="841" alt="4조_UML_3" src="https://github.com/user-attachments/assets/1c9a677a-d1e4-480e-ba03-9bfb361ab7c2" />
+</center>
+<center><img width="595" height="841" alt="4조_UML_4" src="https://github.com/user-attachments/assets/554064e7-164e-4d07-b09a-4f0803b675a7" /></center>
+<center><img width="595" height="841" alt="4조_UML_5" src="https://github.com/user-attachments/assets/17ef3a2d-5f45-4604-8119-415c685246bf" />
+</center>
+<center><img width="595" height="841" alt="4조_UML_6" src="https://github.com/user-attachments/assets/1df29ec2-56f6-4990-a76f-2b2af1484dd6" />
+</center>
+
 
 # 🌟 프로젝트 경험 및 성장
 
