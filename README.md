@@ -115,6 +115,15 @@
 
 ---
 
+### 🗂️ 설계 자료
+
+#### ERD / 설계도
+<center>[ERD]</center>
+<center><img width="1080" height="1920" alt="4조_erd_1" src="https://github.com/user-attachments/assets/e3ed1c14-ce13-42e7-b080-e50c65be89d7" />
+</center>
+
+---
+
 # 🌟 프로젝트 경험 및 성장
 
 ## 1️⃣ 기술적 측면
