@@ -39,7 +39,7 @@
  <p align='center'> <img width="754" height="838" alt="image" src="https://github.com/user-attachments/assets/9908a3b0-5201-403d-b7b8-b45296a8b37e" /></p>
 
 
-  <b align='center'>사용자 페이지</b>
+   <p align='center'><b>사용자 페이지</b></p>
   <p align='center'><img width="589" height="621" alt="KakaoTalk_20250425_194835592_01" src="https://github.com/user-attachments/assets/c8ff8daf-6e10-46bd-9777-aaa4a5dcbe57" /></p>
 
 <p align='center'><img width="954" height="860" alt="image" src="https://github.com/user-attachments/assets/307fdba9-2194-4cf5-b610-b0efbbeaccf5" /></p>
@@ -52,10 +52,10 @@
 
 <p align='center'><img width="1123" height="525" alt="image" src="https://github.com/user-attachments/assets/6caaa6e9-30fc-46d5-bc03-b7a3967db748" /></p>
 
+---
 
 
-
-<b>관리자 페이지</b>
+<p align='center'><b>관리자 페이지</b></p>
 <p align='center'><img width="736" height="772" alt="image" src="https://github.com/user-attachments/assets/865b25f0-c646-418f-bba4-c77dfe25866e" /></p>
 
 <p align='center'><img width="800" height="854" alt="image" src="https://github.com/user-attachments/assets/a7b27228-8ffd-43d1-8611-7cc928bde06a" /></p>
