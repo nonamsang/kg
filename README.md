@@ -184,5 +184,5 @@
 </p>
 <br>
 <p align='left'>[프로그램 구조도]</p>
-<p aling='center'><img width="1747" height="764" alt="image" src="https://github.com/user-attachments/assets/b0d3840f-e36c-40ab-865f-f1b2e9220aa5" />
+<p align='center'><img width="1747" height="764" alt="image" src="https://github.com/user-attachments/assets/b0d3840f-e36c-40ab-865f-f1b2e9220aa5" />
 </p>
