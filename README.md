@@ -6,7 +6,7 @@
 | **과정명** | 핀테크 개발을 위한 풀스택 개발자 양성과정 |
 | **교육기간** | 2025.03.10 ~ 2025.09.09 |
 | **프로젝트명** | 감정기반 굿즈 쇼핑몰 프로그램 (Emotion-Based Merchandise Shopping Mall Program) |
-| **개발기간** | 2025.06.09 ~ 2025.07.01 (총 15일) |
+| **개발기간** | 2025.06.09 ~ 2025.07.01 (총 22일) |
 | **참여인원** | 5명 |
 | **담당업무** | 사용자 리뷰 및 리뷰 댓글 시스템 구현 (100%)<br>사용자 주문 관리 시스템 구현 (50%)<br>관리자 상품 관리 시스템 구현 (100%) |
 | **개발환경** | SPRING REGACY, Oracle 18c |
@@ -230,7 +230,8 @@
 
 
 ## 📂 프로젝트 자료
-
+<p>[시연 영상 보기](https://github.com/nonamsang/kg/blob/project2/MoodShop2/무드샵 시연영.mp4?raw=true)</p>
+<p>[PPT보기](https://github.com/nonamsang/kg/blob/project2/MoodShop2/2조 발표 PPT.pptx?raw=true)</p>
 
 
 ---
