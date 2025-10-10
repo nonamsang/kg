@@ -230,7 +230,7 @@
 
 
 ## 📂 프로젝트 자료
-<p>[시연 영상 보기](https://github.com/nonamsang/kg/blob/project2/MoodShop2/무드샵 시연영.mp4?raw=true)</p>
+[2조 발표 PPT 보기](2조 발표 PPT.pptx)
 <p>[PPT보기](https://github.com/nonamsang/kg/blob/project2/MoodShop2/2조 발표 PPT.pptx?raw=true)</p>
 
 
