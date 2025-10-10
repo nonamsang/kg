@@ -207,7 +207,7 @@
 
 ---
 
-### 🛠️ 프로젝트 회고
+### 🛠️ 프로젝트 후기
 
 #### <기술적 측면>
 - 첫 번째 프로젝트보다 난이도가 높았음. 감정 기반 쇼핑몰 '무드샵'에서는 최근 본 상품 기능 구현이 어려움.  
@@ -228,3 +228,16 @@
 
 ---
 
+
+## 📂 프로젝트 자료
+
+
+
+---
+
+자기소개 화면으로 가기 : https://github.com/nonamsang/kg/
+
+---
+<b>다른 프로젝트 보기</b>
+<br>1번째 프로젝트 : https://github.com/nonamsang/kg/tree/project1
+<br>3번째 프로젝트 : https://github.com/nonamsang/kg/tree/project3
