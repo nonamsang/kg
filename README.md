@@ -53,9 +53,9 @@
 | 🗓 2025.07.24 ~ 2025.09.09 | 👥 리틀포레스트 | 🌱 친환경 탄소 감축을 위한 금융 프로그램 |
 
 ---
-1차 프로젝트 : <b>project1</b> 참고 <br>
-2차 프로젝트 : <b>project2</b> 참고 <br>
-3차 프로젝트 : <b>project3</b> 참고 <br>
+1차 프로젝트 : <b>project1(https://github.com/nonamsang/kg/tree/project1)</b> 참고 <br>
+2차 프로젝트 : <b>project2(https://github.com/nonamsang/kg/tree/project2)</b> 참고 <br>
+3차 프로젝트 : <b>project3(https://github.com/nonamsang/kg/tree/project3)</b> 참고 <br>
 
 ---
 
