@@ -1,4 +1,4 @@
-# 🍽 감정기반 굿즈 쇼핑몰 프로그램 (Emotion-Based Merchandise Shopping Mall Program)
+<img width="1541" height="925" alt="image" src="https://github.com/user-attachments/assets/1acab242-b68d-4d4f-a03b-7a9dc2d98a50" /># 🍽 감정기반 굿즈 쇼핑몰 프로그램 (Emotion-Based Merchandise Shopping Mall Program)
 
 | 구분 | 내용 |
 |------|------|
@@ -157,3 +157,9 @@
   - 옵션 하나 선택 시만 수정 & 삭제 기능 활성화
 
 ---
+
+### 🗂️ 설계 자료
+- **ERD / 설계도:**
+  <p align='left'>[ERD]</p>
+  <p align='center'><img width="1541" height="925" alt="image" src="https://github.com/user-attachments/assets/e444db19-0da3-42b7-b91a-9100708391c1" />
+</p>
