@@ -39,7 +39,7 @@
  <p align='center'> <img width="754" height="838" alt="image" src="https://github.com/user-attachments/assets/9908a3b0-5201-403d-b7b8-b45296a8b37e" /></p>
 
 
-  <b>사용자 페이지</b>
+  <b align='center'>사용자 페이지</b>
   <p align='center'><img width="589" height="621" alt="KakaoTalk_20250425_194835592_01" src="https://github.com/user-attachments/assets/c8ff8daf-6e10-46bd-9777-aaa4a5dcbe57" /></p>
 
 <p align='center'><img width="954" height="860" alt="image" src="https://github.com/user-attachments/assets/307fdba9-2194-4cf5-b610-b0efbbeaccf5" /></p>
