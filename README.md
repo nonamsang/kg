@@ -157,7 +157,7 @@
 ---
 ## 📂 프로젝트 자료
 
-- 🎞 [시연 영상 보기 (MP4)](./내일뭐먹지시연영상.mp4)
+[시연 영상 보기](https://github.com/nonamsang/kg/blob/project1/Naeil/내일뭐먹지시연영상.mp4)
 - 📊 [1조 발표자료 (PPTX)](./1조-발표.pptx%20(1).pptx)
 ---
 자기소개 화면으로 가기 : https://github.com/nonamsang/kg/
