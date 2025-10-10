@@ -221,10 +221,10 @@
 ---
 
 ## 📂 프로젝트 자료
-<p>[시연 영상](https://github.com/nonamsang/kg/blob/project2/MoodShop2/무드샵.mp4?raw=true)</p>
-<p>[PPT보기](https://github.com/nonamsang/kg/blob/project2/MoodShop2/PPT.pptx?raw=true)</p>
+<p>[PPT보기](https://github.com/nonamsang/kg/blob/project3/4조_발표.pdf?raw=true)</p>
+<p>[시연영상은 용량 문제로 인해 해당 블로그에 가셔서 보시길 바랍니다...</p>
 
-오류가 날시 https://blog.naver.com/pr1010327/224025617664로 들어가셔서 ppt랑 영상 확인부탁드립니다!<br>
+오류가 날시 https://blog.naver.com/pr1010327/224026090660로 들어가셔서 ppt랑 영상 확인부탁드립니다!<br>
 죄송합니다 ㅜㅜ
 
 ---
