@@ -33,8 +33,9 @@
 ---
 
 <details>
-  <summary>📸 사진 더보기</summary>
+  <summary>📸 사진 더보기</summary><img width="589" height="621" alt="KakaoTalk_20250425_194835592_01" src="https://github.com/user-attachments/assets/c8ff8daf-6e10-46bd-9777-aaa4a5dcbe57" />
 
-  *(여기에 스크린샷 이미지 추가)*
+
+  
 
 </details>
