@@ -160,8 +160,7 @@
 
 ### 🗂️ 설계 자료
 - **ERD / 설계도:**
-  <p align='left'>[ERD]</p>
-  | 테이블명 | 설명 |
+-   | 테이블명 | 설명 |
 |----------|------|
 | USER_TBL | 회원 정보 테이블 |
 | MANAGER | 관리자 계정 정보 테이블 |
@@ -180,6 +179,7 @@
 | ANSWER | 문의 답변 테이블 |
 | NOTICE_TBL | 공지사항 테이블 |
 | EVENT_TBL | 이벤트/프로모션 테이블 |
+  <p align='left'>[ERD]</p>
   <p align='center'><img width="1541" height="925" alt="image" src="https://github.com/user-attachments/assets/e444db19-0da3-42b7-b91a-9100708391c1" />
 </p>
 <br>
