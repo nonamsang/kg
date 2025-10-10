@@ -233,6 +233,8 @@
 <p>[시연 영상](https://github.com/nonamsang/kg/blob/project2/MoodShop2/무드샵.mp4?raw=true)</p>
 <p>[PPT보기](https://github.com/nonamsang/kg/blob/project2/MoodShop2/PPT.pptx?raw=true)</p>
 
+오류가 날시 https://blog.naver.com/pr1010327/224025617664로 들어가셔서 ppt랑 영상 확인부탁드립니다!<br>
+죄송합니다 ㅜㅜ
 
 ---
 
