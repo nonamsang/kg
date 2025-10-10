@@ -163,3 +163,26 @@
   <p align='left'>[ERD]</p>
   <p align='center'><img width="1541" height="925" alt="image" src="https://github.com/user-attachments/assets/e444db19-0da3-42b7-b91a-9100708391c1" />
 </p>
+| 테이블명 | 설명 |
+|----------|------|
+| USER_TBL | 회원 정보 테이블 |
+| MANAGER | 관리자 계정 정보 테이블 |
+| COMPANY1 | 입점 업체 정보 테이블 |
+| PRODUCT | 상품 정보 테이블 |
+| PRODUCT_OPTION | 상품 옵션 정보 테이블 |
+| ORDER_TBL | 주문 기본 정보 테이블 |
+| ORDER_DETAIL | 주문 상세 정보 테이블 |
+| BASKET | 장바구니 정보 테이블 |
+| BASKET_DETAIL | 장바구니 상세 정보 테이블 |
+| WISHLIST | 관심 상품(위시리스트) 테이블 |
+| RECENT_VIEW_TBL | 최근 본 상품 기록 테이블 |
+| REVIEW | 상품 리뷰 테이블 |
+| REVIEW_SUB | 리뷰 댓글(대댓글) 테이블 |
+| QUESTION | 상품 문의 테이블 |
+| ANSWER | 문의 답변 테이블 |
+| NOTICE_TBL | 공지사항 테이블 |
+| EVENT_TBL | 이벤트/프로모션 테이블 |
+<br>
+<p align='left'>[프로그램 구조도]</p>
+<p aling='center'><img width="1747" height="764" alt="image" src="https://github.com/user-attachments/assets/b0d3840f-e36c-40ab-865f-f1b2e9220aa5" />
+</p>
